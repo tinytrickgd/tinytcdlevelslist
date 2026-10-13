@@ -12,402 +12,64 @@
             --border-color: #262626;
             --accent: #ff6600;
             --accent-hover: #ff8533;
+            --discord: #5865F2;
+            --discord-hover: #4752C4;
             --text-main: #f0f0f0;
             --text-muted: #888888;
             --danger: #cc3333;
-            --success: #339933;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { font-size: 0.8rem; color: var(--text-muted); }
+        nav { display: flex; gap: 1rem; align-items: center; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        button, .btn { background-color: var(--panel-alt); color: var(--text-main); border: 1px solid var(--border-color); padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 4px; transition: 0.15s; }
+        button:hover, .btn:hover { border-color: var(--accent); }
+        button.primary, .btn.primary { background-color: var(--accent); color: #fff; border-color: var(--accent); }
+        button.discord-btn { background-color: var(--discord); color: #fff; border-color: var(--discord); display: flex; align-items: center; gap: 0.5rem; }
+        button.discord-btn:hover { background-color: var(--discord-hover); }
 
-        header {
-            background-color: var(--panel-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; width: 100%; flex: 1; display: grid; grid-template-columns: 320px 1fr; gap: 2rem; }
+        @media(max-width: 900px) { .container { grid-template-columns: 1fr; } }
 
-        .brand-container {
-            display: flex;
-            flex-direction: column;
-        }
+        .sidebar { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; display: flex; flex-direction: column; max-height: 80vh; overflow: hidden; }
+        .list-tabs { display: grid; grid-template-columns: repeat(3, 1fr); background-color: var(--panel-alt); border-bottom: 1px solid var(--border-color); }
+        .list-tab-btn { background: transparent; border: none; padding: 0.75rem 0.25rem; font-size: 0.75rem; color: var(--text-muted); }
+        .list-tab-btn.active { color: var(--accent); border-bottom: 2px solid var(--accent); background-color: var(--panel-bg); }
+        .level-search { padding: 0.75rem; border-bottom: 1px solid var(--border-color); }
+        .level-search input { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.5rem; color: var(--text-main); border-radius: 4px; }
+        
+        .level-items { overflow-y: auto; flex: 1; display: flex; flex-direction: column; }
+        .level-item { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
+        .level-item:hover, .level-item.active { background-color: var(--panel-alt); }
+        .level-item.active { border-left: 3px solid var(--accent); }
+        .level-thumb-mini { width: 50px; height: 35px; border-radius: 3px; object-fit: cover; background: #000; }
 
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.2;
-        }
+        .main-panel { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2rem; overflow-y: auto; }
+        .level-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .meta-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 4px; }
+        .meta-card label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block; }
+        .section-title { font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin: 1.5rem 0 1rem 0; }
+        
+        .completions-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        .completion-item { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
 
-        .subtitle {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
+        .modal { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 2rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+        .form-group input, .form-group select { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.75rem; color: var(--text-main); border-radius: 4px; }
 
-        nav {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        button, .btn {
-            background-color: var(--panel-alt);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background 0.15s, border-color 0.15s;
-        }
-
-        button:hover, .btn:hover {
-            border-color: var(--accent);
-        }
-
-        button.primary, .btn.primary {
-            background-color: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-
-        button.primary:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            width: 100%;
-            flex: 1;
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 2rem;
-        }
-
-        @media(max-width: 900px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Sidebar / List Navigation */
-        .sidebar {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            max-height: 80vh;
-            overflow: hidden;
-        }
-
-        .list-tabs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            background-color: var(--panel-alt);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .list-tab-btn {
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            padding: 0.75rem 0.25rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        .list-tab-btn.active {
-            color: var(--accent);
-            border-bottom: 2px solid var(--accent);
-            background-color: var(--panel-bg);
-        }
-
-        .level-search {
-            padding: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .level-search input {
-            width: 100%;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem;
-            color: var(--text-main);
-            border-radius: 4px;
-        }
-
-        .level-items {
-            overflow-y: auto;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .level-item {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.1s;
-        }
-
-        .level-item:hover {
-            background-color: var(--panel-alt);
-        }
-
-        .level-item.active {
-            background-color: var(--panel-alt);
-            border-left: 3px solid var(--accent);
-        }
-
-        .level-item-info span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            display: block;
-        }
-
-        /* Main Content View */
-        .main-panel {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 2rem;
-            overflow-y: auto;
-        }
-
-        h1, h2, h3 {
-            margin-bottom: 1rem;
-        }
-
-        .level-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #000;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .meta-card {
-            background: var(--panel-alt);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 4px;
-        }
-
-        .meta-card label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .meta-card value {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin: 1.5rem 0 1rem 0;
-        }
-
-        .completions-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .completion-item {
-            background: var(--panel-alt);
-            border: 1px solid var(--border-color);
-            padding: 0.75rem 1rem;
-            border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Modals */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 1rem;
-        }
-
-        .modal {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            width: 100%;
-            max-width: 600px;
-            padding: 2rem;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.35rem;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 0.75rem;
-            color: var(--text-main);
-            border-radius: 4px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .checkbox-group input {
-            width: auto;
-        }
-
-        /* Leaderboards Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        th, td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background: var(--panel-alt);
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
-
-        .user-pill {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .empty-panel {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-muted);
-        }
-
-        .empty-panel h2 {
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Dedicated Mod Page View */
-        #mod-page-view {
-            display: none;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .mod-editor-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .mod-controls {
-            display: flex;
-            gap: 0.5rem;
-        }
+        #mod-page-view { display: none; width: 100%; max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .mod-editor-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .mod-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .mod-user-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; display: flex; align-items: center; gap: 0.75rem; }
     </style>
 </head>
 <body>
@@ -427,9 +89,7 @@
         </nav>
     </header>
 
-    <!-- Normal Site View Container -->
     <div class="container" id="main-container">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar-container">
             <div class="list-tabs">
                 <button class="list-tab-btn active" onclick="switchListCategory('main')" id="tab-main">Main (#1-75)</button>
@@ -439,49 +99,39 @@
             <div class="level-search">
                 <input type="text" id="level-search-input" placeholder="Search level..." oninput="filterLevels()">
             </div>
-            <div class="level-items" id="level-items-list">
-                <!-- Populated via JS -->
-            </div>
+            <div class="level-items" id="level-items-list"></div>
         </aside>
 
-        <!-- Main Display Panel -->
-        <main class="main-panel" id="main-panel-content">
-            <!-- Populated via JS -->
-        </main>
+        <main class="main-panel" id="main-panel-content"></main>
     </div>
 
-    <!-- Dedicated Full Page Mod Dashboard View -->
+    <!-- Mod Dashboard View -->
     <div id="mod-page-view">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
             <div>
                 <h1>🛠️ Moderator Dashboard</h1>
-                <p style="color: var(--text-muted)">Manage list rankings, pending submissions, and level ordering in real-time.</p>
+                <p style="color: var(--text-muted)">Manage list rankings, approve entries, and view active list moderators.</p>
             </div>
-            <button class="primary" onclick="exitModPage()">Exit Mod Panel</button>
+            <button class="primary" onclick="exitModPage()">Exit Dashboard</button>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-            <!-- Pending Queue Column -->
             <div>
                 <h2 class="section-title">📥 Pending Queue</h2>
-                <div id="mod-page-pending-list" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <!-- Populated via JS -->
-                </div>
+                <div id="mod-page-pending-list" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;"></div>
+
+                <h2 class="section-title">🛡️ Active List Moderators</h2>
+                <div id="mod-staff-directory" class="mod-list-grid"></div>
             </div>
 
-            <!-- List Re-Order & Ranking Editor Column -->
             <div>
                 <h2 class="section-title">📊 Re-Order Levels & Ranks</h2>
-                <div id="mod-page-level-list" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <!-- Populated via JS -->
-                </div>
+                <div id="mod-page-level-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
             </div>
         </div>
     </div>
 
-    <!-- Modals -->
-
-    <!-- Auth Modal -->
+    <!-- Auth Modal with Discord Integration -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal">
             <h2>User Account</h2>
@@ -494,24 +144,27 @@
                     <label>Password</label>
                     <input type="password" id="auth-password" placeholder="Password">
                 </div>
-                <div class="form-group" id="country-group">
+                <div class="form-group">
                     <label>Country</label>
                     <select id="auth-country">
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="United States">United States</option>
                         <option value="Canada">Canada</option>
                         <option value="Australia">Australia</option>
-                        <option value="Germany">Germany</option>
-                        <option value="France">France</option>
-                        <option value="Brazil">Brazil</option>
-                        <option value="Japan">Japan</option>
-                        <option value="South Korea">South Korea</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                
+                <div style="margin: 1.5rem 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <button class="discord-btn" onclick="loginWithDiscord()" style="width: 100%; justify-content: center;">
+                        <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a74.57,74.57,0,0,0,64.3,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77.5,77.5,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-18.91-72.13ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74C48.81,40.23,53.9,45.92,53.8,53,53.8,60,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74C91,40.23,96.12,45.92,96,53,96,60,90.93,65.69,84.69,65.69Z"/></svg>
+                        Sign in with Discord
+                    </button>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
                     <button class="primary" onclick="handleLogin()">Login</button>
-                    <button onclick="handleRegister()">Register Account</button>
+                    <button onclick="handleRegister()">Register</button>
                     <button onclick="closeModal('auth-modal')" style="margin-left: auto;">Cancel</button>
                 </div>
             </div>
@@ -530,27 +183,14 @@
                 </select>
             </div>
 
-            <!-- Level Submission Fields -->
             <div id="sub-level-fields">
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Level Name</label>
-                        <input type="text" id="sl-name" placeholder="Level name">
-                    </div>
-                    <div class="form-group">
-                        <label>Level ID</label>
-                        <input type="text" id="sl-id" placeholder="Level ID">
-                    </div>
+                    <div class="form-group"><label>Level Name</label><input type="text" id="sl-name"></div>
+                    <div class="form-group"><label>Level ID</label><input type="text" id="sl-id"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Creator</label>
-                        <input type="text" id="sl-creator" placeholder="Creator name">
-                    </div>
-                    <div class="form-group">
-                        <label>Verifier</label>
-                        <input type="text" id="sl-verifier" placeholder="Verifier name">
-                    </div>
+                    <div class="form-group"><label>Creator</label><input type="text" id="sl-creator"></div>
+                    <div class="form-group"><label>Verifier</label><input type="text" id="sl-verifier"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -561,91 +201,62 @@
                             <option value="Extreme Demon">Extreme Demon</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>GD Update Version</label>
-                        <input type="text" id="sl-update" placeholder="e.g. 2.2">
-                    </div>
+                    <div class="form-group"><label>GD Update</label><input type="text" id="sl-update" placeholder="e.g. 2.2"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Song Name</label>
-                        <input type="text" id="sl-song" placeholder="Song title & artist">
-                    </div>
-                    <div class="form-group">
-                        <label>Level Length</label>
-                        <input type="text" id="sl-length" placeholder="e.g. Long, XL">
-                    </div>
+                    <div class="form-group"><label>Song</label><input type="text" id="sl-song"></div>
+                    <div class="form-group"><label>Length</label><input type="text" id="sl-length"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Object Count</label>
-                        <input type="text" id="sl-objects" placeholder="e.g. 85,000">
-                    </div>
-                    <div class="form-group">
-                        <label>Level Password (Copy)</label>
-                        <input type="text" id="sl-pass" placeholder="e.g. 1234 or Free Copy">
-                    </div>
+                    <div class="form-group"><label>Objects</label><input type="text" id="sl-objects"></div>
+                    <div class="form-group"><label>Password</label><input type="text" id="sl-pass"></div>
                 </div>
-                <div class="form-group">
-                    <label>List Requirement Percentage (%)</label>
-                    <input type="number" id="sl-req" placeholder="e.g. 70" min="1" max="100" value="70">
-                    <small style="color:var(--text-muted)">Lower percentages (50-60%) for backloaded levels; 70-75% for uniform difficulty.</small>
-                </div>
-                <div class="form-group">
-                    <label>YouTube Video Link (Proof/Verification)</label>
-                    <input type="text" id="sl-video" placeholder="https://youtube.com/watch?v=...">
-                </div>
+                <div class="form-group"><label>List Req %</label><input type="number" id="sl-req" value="70"></div>
+                <div class="form-group"><label>YouTube Link</label><input type="text" id="sl-video"></div>
             </div>
 
-            <!-- Record Submission Fields -->
             <div id="sub-record-fields" style="display: none;">
-                <div class="form-group">
-                    <label>Select Level</label>
-                    <select id="sr-level-select"></select>
-                </div>
-                <div class="form-group">
-                    <label>Achieved Percentage (%)</label>
-                    <input type="number" id="sr-percent" value="100" min="1" max="100">
-                </div>
-                <div class="form-group">
-                    <label>YouTube Video Link (Raw Click Proof)</label>
-                    <input type="text" id="sr-video" placeholder="https://youtube.com/watch?v=...">
-                </div>
+                <div class="form-group"><label>Select Level</label><select id="sr-level-select"></select></div>
+                <div class="form-group"><label>Achieved %</label><input type="number" id="sr-percent" value="100"></div>
+                <div class="form-group"><label>YouTube Video Link</label><input type="text" id="sr-video"></div>
             </div>
 
-            <div class="form-group checkbox-group" style="margin-top: 1rem;">
+            <div class="form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top:1rem;">
                 <input type="checkbox" id="sub-clicks" required>
-                <label for="sub-clicks" style="margin-bottom:0">Includes real-time audio click sounds (No Click Sounds mod used)</label>
+                <label for="sub-clicks" style="margin-bottom:0">Includes real-time audio clicks (No click mods)</label>
             </div>
 
             <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                <button class="primary" onclick="submitEntry()">Submit to Moderators</button>
+                <button class="primary" onclick="submitEntry()">Submit</button>
                 <button onclick="closeModal('submit-modal')">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- Mod Verification Modal -->
-    <div class="modal-overlay" id="mod-modal">
-        <div class="modal" style="max-width: 500px;">
-            <h2>Moderator Verification</h2>
-            <div id="mod-login-area">
-                <div class="form-group">
-                    <label>Moderator Passcode</label>
-                    <input type="password" id="mod-pass-input" placeholder="Enter secret mod code" onkeydown="if(event.key==='Enter') verifyModPasscode()">
-                </div>
-                <div style="display:flex; gap:1rem; margin-top:1.5rem;">
-                    <button class="primary" onclick="verifyModPasscode()">Access Mod Panel</button>
-                    <button onclick="closeModal('mod-modal')">Cancel</button>
-                </div>
+    <!-- Mod Request Modal -->
+    <div class="modal-overlay" id="mod-request-modal">
+        <div class="modal">
+            <h2>Request List Moderator Status</h2>
+            <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:1.5rem;">
+                To become a moderator, connect your Discord account and submit a request in the server.<br><br>
+                <strong>Requirements:</strong><br>
+                1. Hold the <strong>List Mod Potential</strong> role on Discord.<br>
+                2. Run <code>/requestmod username:${currentUser ? currentUser.username : 'your_username'}</code> in the Discord server.<br>
+                3. Existing List Mods will review and approve your application directly in Discord DMs!
+            </p>
+            <div style="display:flex; justify-content:flex-end;">
+                <button class="primary" onclick="closeModal('mod-request-modal')">Got It</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- JSONBin.io Global Cloud Sync Configuration ---
-        const JSONBIN_BIN_ID = "6ace74bcac6210605a2e9954"; // Paste Bin ID here when ready
-        const JSONBIN_API_KEY = "$2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le"; // Paste Master Key here when ready
+        const JSONBIN_BIN_ID = "6ace74bcac6210605a2e9954"; 
+        const JSONBIN_API_KEY = "$2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le"; 
+        
+        // Discord OAuth Settings (Replace CLIENT_ID with your Discord App Client ID)
+        const DISCORD_CLIENT_ID = "1559649196272001064"; 
+        const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 
         let currentUser = JSON.parse(localStorage.getItem('tcd_user')) || null;
         let levels = [];
@@ -655,29 +266,17 @@
         let currentCategory = 'main';
         let selectedLevelId = null;
         let currentMainTab = 'list';
-        let isModLoggedIn = false;
-
-        // Passcode for Moderator Panel
-        const MOD_PASSCODE = "47664373874558ee";
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // Purge local storage remnants
-            localStorage.removeItem('tcd_levels');
-            localStorage.removeItem('tcd_submissions');
-            localStorage.removeItem('tcd_usersdb');
-
             await fetchGlobalData();
+            handleDiscordCallback();
             updateAuthUI();
             renderSidebar();
-            if (levels.length > 0) {
-                selectLevel(levels[0].id);
-            } else {
-                renderEmptyState();
-            }
+            if (levels.length > 0) selectLevel(levels[0].id);
+            else renderEmptyState();
         });
 
         async function fetchGlobalData() {
-            if (!JSONBIN_BIN_ID) return;
             try {
                 const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
                     headers: { 'X-Master-Key': JSONBIN_API_KEY }
@@ -688,49 +287,93 @@
                     submissions = data.record.submissions || [];
                     usersDB = data.record.usersDB || [];
                 }
-            } catch(e) {
-                console.error("Cloud sync load error:", e);
-            }
+            } catch(e) { console.error("Cloud sync load error:", e); }
         }
 
         async function saveData() {
-            if(currentUser) localStorage.setItem('tcd_user', JSON.stringify(currentUser));
-            if (!JSONBIN_BIN_ID) return;
+            if(currentUser) {
+                localStorage.setItem('tcd_user', JSON.stringify(currentUser));
+                const idx = usersDB.findIndex(u => u.username === currentUser.username);
+                if(idx !== -1) usersDB[idx] = currentUser;
+            }
             try {
                 await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
-                    },
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
                     body: JSON.stringify({ levels, submissions, usersDB })
                 });
-            } catch(e) {
-                console.error("Cloud sync save error:", e);
+            } catch(e) { console.error("Cloud sync save error:", e); }
+        }
+
+        // Discord OAuth Login Flow
+        function loginWithDiscord() {
+            const scope = encodeURIComponent('identify');
+            const redirect = encodeURIComponent(DISCORD_REDIRECT_URI);
+            window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=token&scope=${scope}`;
+        }
+
+        async function handleDiscordCallback() {
+            const fragment = new URLSearchParams(window.location.hash.slice(1));
+            const accessToken = fragment.get('access_token');
+            if (accessToken) {
+                try {
+                    const res = await fetch('https://discord.com/api/users/@me', {
+                        headers: { authorization: `Bearer ${accessToken}` }
+                    });
+                    const discordUser = await res.json();
+                    if (discordUser.id) {
+                        let matchedUser = usersDB.find(u => u.discordId === discordUser.id || u.username.toLowerCase() === discordUser.username.toLowerCase());
+                        if(!matchedUser) {
+                            matchedUser = {
+                                username: discordUser.username,
+                                discordId: discordUser.id,
+                                isMod: false,
+                                country: "Other"
+                            };
+                            usersDB.push(matchedUser);
+                        } else {
+                            matchedUser.discordId = discordUser.id;
+                        }
+                        currentUser = matchedUser;
+                        await saveData();
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        updateAuthUI();
+                        alert(`Signed in as Discord User: ${discordUser.username}`);
+                    }
+                } catch(e) { console.error("Discord auth error:", e); }
             }
         }
 
-        // Point calculation formula (Rank 1 = 1000 points, scaling down to 0 at rank 151+)
+        function getYouTubeVideoId(url) {
+            if (!url) return null;
+            let match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return match ? match[1] : null;
+        }
+
+        function getYouTubeEmbedUrl(url) {
+            const id = getYouTubeVideoId(url);
+            return id ? `https://www.youtube.com/embed/${id}` : url;
+        }
+
+        function getYouTubeThumbnailUrl(url) {
+            const id = getYouTubeVideoId(url);
+            return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : 'https://via.placeholder.com/120x90?text=No+Thumb';
+        }
+
         function calculatePoints(rank) {
             if (rank > 150) return 0;
             return Math.round(1000 * Math.pow((151 - rank) / 150, 2.2));
         }
 
-        // Navigation & Views
         function switchMainTab(tab) {
             currentMainTab = tab;
             document.getElementById('nav-list-btn').classList.toggle('primary', tab === 'list');
             document.getElementById('nav-lb-btn').classList.toggle('primary', tab === 'leaderboard');
-            
             const container = document.getElementById('main-container');
             if (tab === 'list') {
                 container.style.gridTemplateColumns = '320px 1fr';
                 document.getElementById('sidebar-container').style.display = 'flex';
-                if (levels.length > 0) {
-                    if (!selectedLevelId) selectLevel(levels[0].id);
-                } else {
-                    renderEmptyState();
-                }
+                if (levels.length > 0 && !selectedLevelId) selectLevel(levels[0].id);
             } else {
                 container.style.gridTemplateColumns = '1fr';
                 document.getElementById('sidebar-container').style.display = 'none';
@@ -740,9 +383,7 @@
 
         function switchListCategory(cat) {
             currentCategory = cat;
-            ['main', 'ext', 'leg'].forEach(c => {
-                document.getElementById(`tab-${c}`).classList.remove('active');
-            });
+            ['main', 'ext', 'leg'].forEach(c => document.getElementById(`tab-${c}`).classList.remove('active'));
             document.getElementById(`tab-${cat === 'main' ? 'main' : cat === 'extended' ? 'ext' : 'leg'}`).classList.add('active');
             renderSidebar();
         }
@@ -763,28 +404,22 @@
 
             listEl.innerHTML = filtered.length ? filtered.map(l => `
                 <div class="level-item ${selectedLevelId === l.id ? 'active' : ''}" onclick="selectLevel(${l.id})">
-                    <div class="level-item-info">
+                    <img src="${getYouTubeThumbnailUrl(l.video)}" class="level-thumb-mini" alt="thumb">
+                    <div>
                         <strong>#${l.rank} - ${l.name}</strong>
-                        <span>${l.creator}</span>
+                        <span style="font-size:0.8rem; color:var(--text-muted); display:block;">${l.creator}</span>
                     </div>
                 </div>
-            `).join('') : '<div style="padding: 1rem; color: var(--text-muted); text-align:center;">No levels on this list yet</div>';
+            `).join('') : '<div style="padding: 1rem; color: var(--text-muted); text-align:center;">No levels on this list</div>';
         }
 
-        function filterLevels() {
-            renderSidebar();
-        }
+        function filterLevels() { renderSidebar(); }
 
         function renderEmptyState() {
-            const panel = document.getElementById('main-panel-content');
-            panel.innerHTML = `
+            document.getElementById('main-panel-content').innerHTML = `
                 <div class="empty-panel">
                     <h2>No Levels Added Yet</h2>
-                    <p>The list is currently empty. Submit a level using the "Submit / Record" button above or open the Moderator Panel to approve pending entries.</p>
-                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
-                        <button class="primary" onclick="openModal('submit-modal')">Submit First Level</button>
-                        <button onclick="openModModal()">Moderator Login</button>
-                    </div>
+                    <p>Submit a level or log in as a moderator to manage entries.</p>
                 </div>
             `;
         }
@@ -796,117 +431,57 @@
             if (!level) return renderEmptyState();
 
             const panel = document.getElementById('main-panel-content');
-            const points = calculatePoints(level.rank);
-
             panel.innerHTML = `
                 <div class="level-header">
                     <div>
                         <h1>#${level.rank} - ${level.name}</h1>
                         <p style="color: var(--text-muted)">Created by ${level.creator} | Verified by ${level.verifier}</p>
                     </div>
-                    <div>
-                        <button onclick="openModModal()">Mod Panel</button>
-                    </div>
+                    <div><button onclick="openModModal()">Mod Panel</button></div>
                 </div>
 
-                ${level.video ? `
-                    <div class="video-wrapper">
-                        <iframe src="${level.video.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>
-                    </div>
-                ` : ''}
+                ${level.video ? `<div class="video-wrapper"><iframe src="${getYouTubeEmbedUrl(level.video)}" allowfullscreen></iframe></div>` : ''}
 
                 <div class="meta-grid">
-                    <div class="meta-card">
-                        <label>List Points</label>
-                        <value style="color: var(--accent);">${points} pts</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>Level ID</label>
-                        <value>${level.levelId}</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>In-Game Difficulty</label>
-                        <value>${level.difficulty}</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>GD Update</label>
-                        <value>Version ${level.update}</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>Song</label>
-                        <value>${level.song}</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>Length & Objects</label>
-                        <value>${level.length} (${level.objects} obj)</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>Copy Password</label>
-                        <value>${level.password}</value>
-                    </div>
-                    <div class="meta-card">
-                        <label>List Requirement %</label>
-                        <value>${level.reqPercent}%</value>
-                    </div>
+                    <div class="meta-card"><label>List Points</label><value style="color: var(--accent);">${calculatePoints(level.rank)} pts</value></div>
+                    <div class="meta-card"><label>Level ID</label><value>${level.levelId}</value></div>
+                    <div class="meta-card"><label>Difficulty</label><value>${level.difficulty}</value></div>
+                    <div class="meta-card"><label>GD Update</label><value>${level.update}</value></div>
+                    <div class="meta-card"><label>Song</label><value>${level.song}</value></div>
+                    <div class="meta-card"><label>Req %</label><value>${level.reqPercent}%</value></div>
                 </div>
-
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem;">
-                    <em>Note on List Requirement:</em> Backloaded levels with punishing second halves feature lower requirements (e.g. 50-60%), while levels with uniform difficulty require 70-75%+.
-                </p>
 
                 <h3 class="section-title">Completions (${level.completions.length})</h3>
                 <ul class="completions-list">
                     ${level.completions.length ? level.completions.map(c => `
                         <li class="completion-item">
                             <div><strong>${c.player}</strong> (${c.country}) - <strong>${c.percent}%</strong></div>
-                            <a href="${c.video}" target="_blank" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;">Proof Video</a>
+                            <a href="${c.video}" target="_blank" class="btn">Proof Video</a>
                         </li>
-                    `).join('') : '<li style="color: var(--text-muted);">No recorded completions yet.</li>'}
+                    `).join('') : '<li style="color: var(--text-muted);">No completions recorded yet.</li>'}
                 </ul>
             `;
         }
 
-        // Leaderboards View
         function renderLeaderboardView() {
             const panel = document.getElementById('main-panel-content');
-            
             let playerScores = {};
-            let countryScores = {};
-
             levels.forEach(l => {
                 const pts = calculatePoints(l.rank);
                 l.completions.forEach(c => {
                     if (c.percent >= l.reqPercent) {
-                        if (!playerScores[c.player]) {
-                            playerScores[c.player] = { name: c.player, country: c.country, points: 0, hardest: l.rank, completions: 0 };
-                        }
+                        if (!playerScores[c.player]) playerScores[c.player] = { name: c.player, country: c.country, points: 0, completions: 0 };
                         playerScores[c.player].points += pts;
                         playerScores[c.player].completions++;
-                        if (l.rank < playerScores[c.player].hardest) playerScores[c.player].hardest = l.rank;
-
-                        if (!countryScores[c.country]) countryScores[c.country] = 0;
-                        countryScores[c.country] += pts;
                     }
                 });
             });
 
-            let sortedPlayers = Object.values(playerScores).filter(p => p.points > 0).sort((a,b) => b.points - a.points);
-            let sortedCountries = Object.entries(countryScores).filter(c => c[1] > 0).sort((a,b) => b[1] - a[1]);
-
+            let sortedPlayers = Object.values(playerScores).sort((a,b) => b.points - a.points);
             panel.innerHTML = `
-                <h2>Player & Country Leaderboards</h2>
-                
-                <h3 class="section-title">Top Players</h3>
+                <h2>Player Leaderboards</h2>
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Player</th>
-                            <th>Country</th>
-                            <th>Completions</th>
-                            <th>Total Points</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Rank</th><th>Player</th><th>Country</th><th>Completions</th><th>Total Points</th></tr></thead>
                     <tbody>
                         ${sortedPlayers.length ? sortedPlayers.map((p, idx) => `
                             <tr>
@@ -916,42 +491,26 @@
                                 <td>${p.completions}</td>
                                 <td style="color: var(--accent); font-weight: bold;">${p.points} pts</td>
                             </tr>
-                        `).join('') : '<tr><td colspan="5" style="color: var(--text-muted);">No player scores recorded yet.</td></tr>'}
-                    </tbody>
-                </table>
-
-                <h3 class="section-title" style="margin-top: 3rem;">Top Countries</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Country</th>
-                            <th>Total Accumulated Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${sortedCountries.length ? sortedCountries.map((c, idx) => `
-                            <tr>
-                                <td>#${idx + 1}</td>
-                                <td><strong>${c[0]}</strong></td>
-                                <td style="color: var(--accent); font-weight: bold;">${c[1]} pts</td>
-                            </tr>
-                        `).join('') : '<tr><td colspan="3" style="color: var(--text-muted);">No country scores recorded yet.</td></tr>'}
+                        `).join('') : '<tr><td colspan="5" style="color: var(--text-muted);">No records available.</td></tr>'}
                     </tbody>
                 </table>
             `;
         }
 
-        // Account / Auth Logic
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function updateAuthUI() {
             const area = document.getElementById('user-auth-area');
             if (currentUser) {
-                area.innerHTML = `<div class="user-pill"><span>👤 ${currentUser.username} (${currentUser.country})</span> <button onclick="logout()">Logout</button></div>`;
+                area.innerHTML = `
+                    <div class="user-pill">
+                        <span>👤 ${currentUser.username} ${currentUser.isMod ? '🛡️ [List Mod]' : ''}</span> 
+                        <button onclick="logout()">Logout</button>
+                    </div>
+                `;
             } else {
-                area.innerHTML = `<button onclick="openModal('auth-modal')" id="login-register-btn">Login / Register</button>`;
+                area.innerHTML = `<button onclick="openModal('auth-modal')">Login / Register</button>`;
             }
         }
 
@@ -959,60 +518,44 @@
             const u = document.getElementById('auth-username').value.trim();
             const p = document.getElementById('auth-password').value;
             const c = document.getElementById('auth-country').value;
-            if(!u || !p) return alert("Fill in username and password.");
+            if(!u || !p) return alert("Fill out fields.");
+            if(usersDB.some(x => x.username.toLowerCase() === u.toLowerCase())) return alert("Username exists!");
             
-            if(usersDB.some(x => x.username === u)) return alert("Username already exists!");
-            
-            const newUser = { username: u, password: p, country: c };
-            usersDB.push(newUser);
-            currentUser = newUser;
+            currentUser = { username: u, password: p, country: c, isMod: false };
+            usersDB.push(currentUser);
             saveData();
             updateAuthUI();
             closeModal('auth-modal');
-            alert("Account created and logged in!");
         }
 
         function handleLogin() {
             const u = document.getElementById('auth-username').value.trim();
             const p = document.getElementById('auth-password').value;
-            const found = usersDB.find(x => x.username === u && x.password === p);
-            if(!found) return alert("Invalid username or password.");
+            const found = usersDB.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
+            if(!found) return alert("Invalid credentials.");
             currentUser = found;
             saveData();
             updateAuthUI();
             closeModal('auth-modal');
-            alert("Logged in successfully!");
         }
 
         function logout() {
             currentUser = null;
             localStorage.removeItem('tcd_user');
             updateAuthUI();
-            alert("Logged out.");
         }
 
-        // Submissions
         function toggleSubmissionType() {
             const type = document.getElementById('sub-type').value;
             document.getElementById('sub-level-fields').style.display = type === 'level' ? 'block' : 'none';
             document.getElementById('sub-record-fields').style.display = type === 'record' ? 'block' : 'none';
             if(type === 'record') {
-                const sel = document.getElementById('sr-level-select');
-                sel.innerHTML = levels.length 
-                    ? levels.map(l => `<option value="${l.id}">#${l.rank} - ${l.name}</option>`).join('')
-                    : '<option value="">No levels on list to submit records for</option>';
+                document.getElementById('sr-level-select').innerHTML = levels.map(l => `<option value="${l.id}">#${l.rank} - ${l.name}</option>`).join('');
             }
         }
 
         async function submitEntry() {
             const type = document.getElementById('sub-type').value;
-            const hasClicks = document.getElementById('sub-clicks').checked;
-            if(!hasClicks) return alert("You must confirm real-time click sounds are present with no click-mod.");
-
-            if(!currentUser) {
-                if(!confirm("You are not logged in. Submit anonymously?")) return;
-            }
-
             let subData = { type, user: currentUser ? currentUser.username : "Anonymous", country: currentUser ? currentUser.country : "Other" };
 
             if(type === 'level') {
@@ -1028,41 +571,22 @@
                 subData.password = document.getElementById('sl-pass').value;
                 subData.reqPercent = parseInt(document.getElementById('sl-req').value) || 70;
                 subData.video = document.getElementById('sl-video').value;
-                if(!subData.name || !subData.levelId || !subData.video) return alert("Fill out mandatory fields.");
             } else {
-                const targetVal = document.getElementById('sr-level-select').value;
-                if(!targetVal) return alert("There are no levels available to submit a record for.");
-                subData.levelIdTarget = parseInt(targetVal);
+                subData.levelIdTarget = parseInt(document.getElementById('sr-level-select').value);
                 subData.percent = parseInt(document.getElementById('sr-percent').value);
                 subData.video = document.getElementById('sr-video').value;
-                if(!subData.video) return alert("Provide a proof video link.");
             }
 
             submissions.push(subData);
             await saveData();
             closeModal('submit-modal');
-            alert("Submission successfully sent to list moderators!");
+            alert("Submitted to moderators!");
         }
 
-        // Moderator Controls & Full Page Dashboard
         function openModModal() {
-            if (isModLoggedIn) {
-                showModPage();
-            } else {
-                openModal('mod-modal');
-            }
-        }
-
-        function verifyModPasscode() {
-            const val = document.getElementById('mod-pass-input').value.trim();
-
-            if(val === MOD_PASSCODE) {
-                isModLoggedIn = true;
-                closeModal('mod-modal');
-                showModPage();
-            } else {
-                alert("Incorrect moderator passcode.");
-            }
+            if (!currentUser) return openModal('auth-modal');
+            if (!currentUser.isMod) return openModal('mod-request-modal');
+            showModPage();
         }
 
         function showModPage() {
@@ -1076,68 +600,59 @@
             document.getElementById('main-container').style.display = 'grid';
             renderSidebar();
             if(levels.length > 0) selectLevel(levels[0].id);
-            else renderEmptyState();
         }
 
         function renderModPageContent() {
-            // Render pending queue
-            const pendingEl = document.getElementById('mod-page-pending-list');
-            pendingEl.innerHTML = submissions.length ? submissions.map((s, idx) => `
+            document.getElementById('mod-page-pending-list').innerHTML = submissions.length ? submissions.map((s, idx) => `
                 <div style="background:var(--panel-bg); padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
-                    <p><strong>Type:</strong> ${s.type.toUpperCase()} | <strong>By:</strong> ${s.user} (${s.country})</p>
-                    ${s.type === 'level' ? `
-                        <p><strong>Level:</strong> ${s.name} (ID: ${s.levelId}) \vert{} Diff:${s.difficulty}</p>
-                        <p><a href="${s.video}" target="_blank">Video Proof</a></p>
-                    ` : `
-                        <p><strong>Record Completion:</strong> Target Level ID #${s.levelIdTarget} -${s.percent}%</p>
-                        <p><a href="${s.video}" target="_blank">Video Proof</a></p>
-                    `}
+                    <p><strong>Type:</strong> ${s.type.toUpperCase()} | <strong>By:</strong> ${s.user}</p>
+                    ${s.type === 'level' ? `<p><strong>Level:</strong> ${s.name} (ID:${s.levelId})</p>` : `<p><strong>Record:</strong> #${s.levelIdTarget} -${s.percent}%</p>`}
                     <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
                         <button class="primary" onclick="approveSubmission(${idx})">Accept</button>
                         <button onclick="rejectSubmission(${idx})" style="background:var(--danger); border-color:var(--danger)">Reject</button>
                     </div>
                 </div>
-            `).join('') : '<p style="color:var(--text-muted)">No pending submissions in queue.</p>';
+            `).join('') : '<p style="color:var(--text-muted)">No pending submissions.</p>';
 
-            // Render Level Ordering Manager
-            const levelEditorEl = document.getElementById('mod-page-level-list');
-            const sortedLevels = [...levels].sort((a,b) => a.rank - b.rank);
-
-            levelEditorEl.innerHTML = sortedLevels.length ? sortedLevels.map((l, idx) => `
-                <div class="mod-editor-card">
+            const mods = usersDB.filter(u => u.isMod === true);
+            document.getElementById('mod-staff-directory').innerHTML = mods.length ? mods.map(m => `
+                <div class="mod-user-card">
+                    <span style="font-size:1.5rem;">🛡️</span>
                     <div>
-                        <strong>#${l.rank} - ${l.name}</strong>
-                        <div style="font-size:0.8rem; color:var(--text-muted)">ID: ${l.levelId} | Creator: ${l.creator}</div>
-                    </div>
-                    <div class="mod-controls">
-                        <button onclick="moveLevel(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>⬆ Move Up</button>
-                        <button onclick="moveLevel(${idx}, 1)" ${idx === sortedLevels.length - 1 ? 'disabled style="opacity:0.3"' : ''}>⬇ Move Down</button>
-                        <button onclick="deleteLevel(${l.id})" style="background:var(--danger); border-color:var(--danger)">🗑️ Delete</button>
+                        <strong>${m.username}</strong>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">${m.discordId ? 'Discord Linked' : 'Standard Account'}</div>
                     </div>
                 </div>
-            `).join('') : '<p style="color:var(--text-muted)">No levels published to re-order.</p>';
+            `).join('') : '<p style="color:var(--text-muted)">No active moderators found.</p>';
+
+            const sortedLevels = [...levels].sort((a,b) => a.rank - b.rank);
+            document.getElementById('mod-page-level-list').innerHTML = sortedLevels.length ? sortedLevels.map((l, idx) => `
+                <div class="mod-editor-card">
+                    <div><strong>#${l.rank} - ${l.name}</strong><div style="font-size:0.8rem; color:var(--text-muted)">ID: ${l.levelId}</div></div>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button onclick="moveLevel(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>⬆</button>
+                        <button onclick="moveLevel(${idx}, 1)" ${idx === sortedLevels.length - 1 ? 'disabled style="opacity:0.3"' : ''}>⬇</button>
+                        <button onclick="deleteLevel(${l.id})" style="background:var(--danger); border-color:var(--danger)">🗑️</button>
+                    </div>
+                </div>
+            `).join('') : '<p style="color:var(--text-muted)">No levels published.</p>';
         }
 
         async function moveLevel(index, direction) {
             let sortedLevels = [...levels].sort((a,b) => a.rank - b.rank);
             let targetIndex = index + direction;
             if(targetIndex < 0 || targetIndex >= sortedLevels.length) return;
-
-            // Swap positions
             let temp = sortedLevels[index];
             sortedLevels[index] = sortedLevels[targetIndex];
             sortedLevels[targetIndex] = temp;
-
-            // Recalculate rank numbers
             sortedLevels.forEach((l, i) => l.rank = i + 1);
             levels = sortedLevels;
-
             await saveData();
             renderModPageContent();
         }
 
         async function deleteLevel(id) {
-            if(!confirm("Are you sure you want to delete this level from the list?")) return;
+            if(!confirm("Delete this level?")) return;
             levels = levels.filter(l => l.id !== id);
             levels.sort((a,b) => a.rank - b.rank).forEach((l, i) => l.rank = i + 1);
             await saveData();
@@ -1150,45 +665,25 @@
                 const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
                 const newRank = levels.length + 1;
                 levels.push({
-                    id: newId,
-                    name: sub.name,
-                    levelId: sub.levelId,
-                    creator: sub.creator,
-                    verifier: sub.verifier,
-                    difficulty: sub.difficulty,
-                    update: sub.update,
-                    song: sub.song,
-                    length: sub.length,
-                    objects: sub.objects,
-                    password: sub.password,
-                    reqPercent: sub.reqPercent,
-                    video: sub.video,
-                    rank: newRank,
-                    completions: []
+                    id: newId, name: sub.name, levelId: sub.levelId, creator: sub.creator,
+                    verifier: sub.verifier, difficulty: sub.difficulty, update: sub.update,
+                    song: sub.song, length: sub.length, objects: sub.objects, password: sub.password,
+                    reqPercent: sub.reqPercent, video: sub.video, rank: newRank, completions: []
                 });
                 selectedLevelId = newId;
             } else {
                 const targetL = levels.find(l => l.id === sub.levelIdTarget);
-                if(targetL) {
-                    targetL.completions.push({
-                        player: sub.user,
-                        country: sub.country,
-                        percent: sub.percent,
-                        video: sub.video
-                    });
-                }
+                if(targetL) targetL.completions.push({ player: sub.user, country: sub.country, percent: sub.percent, video: sub.video });
             }
             submissions.splice(idx, 1);
             await saveData();
             renderModPageContent();
-            alert("Submission approved successfully!");
         }
 
         async function rejectSubmission(idx) {
             submissions.splice(idx, 1);
             await saveData();
             renderModPageContent();
-            alert("Submission rejected.");
         }
     </script>
 </body>
