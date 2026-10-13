@@ -595,10 +595,8 @@
 
     <script>
         // --- JSONBin.io Global Cloud Sync Configuration ---
-        // To make this fully global across all users, create a free bin at https://jsonbin.io
-        // and paste your Bin ID and Master Key below:
-        const JSONBIN_BIN_ID = ""; // e.g., "6ace74bcac6210605a2e9954"
-        const JSONBIN_API_KEY = ""; // e.g., "$2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le"
+        const JSONBIN_BIN_ID = ""; // Paste your Bin ID here when ready
+        const JSONBIN_API_KEY = ""; // Paste your Master Key here when ready
 
         let currentUser = JSON.parse(localStorage.getItem('tcd_user')) || null;
         let levels = [];
@@ -609,8 +607,8 @@
         let selectedLevelId = null;
         let currentMainTab = 'list';
 
-        // Secret Mod Passcode SHA-256 Hash for 'TCD_Mod_2026!'
-        const MOD_HASH = "962198eb53755018f3a3e81119b93e3d2cdfaae3017f7b311394b8e622b7dc05";
+        // Plaintext Passcode for Moderator Panel
+        const MOD_PASSCODE = "47664373874558ee";
 
         document.addEventListener('DOMContentLoaded', async () => {
             // Purge any old local storage mock remnants
@@ -1002,15 +1000,10 @@
             openModal('mod-modal');
         }
 
-        async function verifyModPasscode() {
+        function verifyModPasscode() {
             const val = document.getElementById('mod-pass-input').value;
-            const encoder = new TextEncoder();
-            const data = encoder.encode(val);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-            if(hashHex === MOD_HASH) {
+            if(val === MOD_PASSCODE) {
                 document.getElementById('mod-login-area').style.display = 'none';
                 document.getElementById('mod-content-area').style.display = 'block';
                 renderPendingQueue();
