@@ -254,7 +254,6 @@
         const JSONBIN_BIN_ID = "6ace74bcac6210605a2e9954"; 
         const JSONBIN_API_KEY = "$2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le"; 
         
-        // Discord OAuth Settings (Replace CLIENT_ID with your Discord App Client ID)
         const DISCORD_CLIENT_ID = "1559649196272001064"; 
         const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 
@@ -305,7 +304,6 @@
             } catch(e) { console.error("Cloud sync save error:", e); }
         }
 
-        // Discord OAuth Login Flow
         function loginWithDiscord() {
             const scope = encodeURIComponent('identify');
             const redirect = encodeURIComponent(DISCORD_REDIRECT_URI);
@@ -437,7 +435,9 @@
                         <h1>#${level.rank} - ${level.name}</h1>
                         <p style="color: var(--text-muted)">Created by ${level.creator} | Verified by ${level.verifier}</p>
                     </div>
-                    <div><button onclick="openModModal()">Mod Panel</button></div>
+                    <div>
+                        ${currentUser && currentUser.isMod ? '<button class="primary" onclick="openModModal()">Mod Panel</button>' : ''}
+                    </div>
                 </div>
 
                 ${level.video ? `<div class="video-wrapper"><iframe src="${getYouTubeEmbedUrl(level.video)}" allowfullscreen></iframe></div>` : ''}
