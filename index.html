@@ -60,11 +60,33 @@
         .completions-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
         .completion-item { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
-        .modal { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 2rem; }
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000; 
+            padding: 1rem; 
+        }
+        .modal { 
+            background: var(--panel-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            width: 100%; 
+            max-width: 600px; 
+            padding: 2rem; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+        }
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
         .form-group input, .form-group select { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.75rem; color: var(--text-main); border-radius: 4px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
         #mod-page-view { display: none; width: 100%; max-width: 1400px; margin: 0 auto; padding: 2rem; }
         .mod-editor-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
