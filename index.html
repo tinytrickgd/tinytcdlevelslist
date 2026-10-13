@@ -383,6 +383,31 @@
             color: var(--text-main);
             margin-bottom: 0.5rem;
         }
+
+        /* Dedicated Mod Page View */
+        #mod-page-view {
+            display: none;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .mod-editor-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mod-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -402,6 +427,7 @@
         </nav>
     </header>
 
+    <!-- Normal Site View Container -->
     <div class="container" id="main-container">
         <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar-container">
@@ -422,6 +448,35 @@
         <main class="main-panel" id="main-panel-content">
             <!-- Populated via JS -->
         </main>
+    </div>
+
+    <!-- Dedicated Full Page Mod Dashboard View -->
+    <div id="mod-page-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
+            <div>
+                <h1>🛠️ Moderator Dashboard</h1>
+                <p style="color: var(--text-muted)">Manage list rankings, pending submissions, and level ordering in real-time.</p>
+            </div>
+            <button class="primary" onclick="exitModPage()">Exit Mod Panel</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <!-- Pending Queue Column -->
+            <div>
+                <h2 class="section-title">📥 Pending Queue</h2>
+                <div id="mod-page-pending-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- List Re-Order & Ranking Editor Column -->
+            <div>
+                <h2 class="section-title">📊 Re-Order Levels & Ranks</h2>
+                <div id="mod-page-level-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -570,33 +625,27 @@
         </div>
     </div>
 
-    <!-- Mod Panel Modal -->
+    <!-- Mod Verification Modal -->
     <div class="modal-overlay" id="mod-modal">
-        <div class="modal" style="max-width: 800px;">
-            <h2>Moderator Control Panel</h2>
+        <div class="modal" style="max-width: 500px;">
+            <h2>Moderator Verification</h2>
             <div id="mod-login-area">
                 <div class="form-group">
                     <label>Moderator Passcode</label>
-                    <input type="password" id="mod-pass-input" placeholder="Enter secret mod code">
+                    <input type="password" id="mod-pass-input" placeholder="Enter secret mod code" onkeydown="if(event.key==='Enter') verifyModPasscode()">
                 </div>
-                <button class="primary" onclick="verifyModPasscode()">Access Mod Panel</button>
-            </div>
-            <div id="mod-content-area" style="display: none;">
-                <h3>Pending Submissions</h3>
-                <div id="pending-queue-list" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                    <!-- Pending items -->
+                <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+                    <button class="primary" onclick="verifyModPasscode()">Access Mod Panel</button>
+                    <button onclick="closeModal('mod-modal')">Cancel</button>
                 </div>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <button onclick="closeModal('mod-modal')">Close Panel</button>
             </div>
         </div>
     </div>
 
     <script>
         // --- JSONBin.io Global Cloud Sync Configuration ---
-        const JSONBIN_BIN_ID = ""; // Paste your Bin ID here when ready
-        const JSONBIN_API_KEY = ""; // Paste your Master Key here when ready
+        const JSONBIN_BIN_ID = "6ace74bcac6210605a2e9954"; // Paste Bin ID here when ready
+        const JSONBIN_API_KEY = "$2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le"; // Paste Master Key here when ready
 
         let currentUser = JSON.parse(localStorage.getItem('tcd_user')) || null;
         let levels = [];
@@ -606,12 +655,13 @@
         let currentCategory = 'main';
         let selectedLevelId = null;
         let currentMainTab = 'list';
+        let isModLoggedIn = false;
 
-        // Plaintext Passcode for Moderator Panel
+        // Passcode for Moderator Panel
         const MOD_PASSCODE = "47664373874558ee";
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // Purge any old local storage mock remnants
+            // Purge local storage remnants
             localStorage.removeItem('tcd_levels');
             localStorage.removeItem('tcd_submissions');
             localStorage.removeItem('tcd_usersdb');
@@ -627,7 +677,7 @@
         });
 
         async function fetchGlobalData() {
-            if (!JSONBIN_BIN_ID) return; // Fallback to empty if not configured yet
+            if (!JSONBIN_BIN_ID) return;
             try {
                 const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
                     headers: { 'X-Master-Key': JSONBIN_API_KEY }
@@ -645,8 +695,7 @@
 
         async function saveData() {
             if(currentUser) localStorage.setItem('tcd_user', JSON.stringify(currentUser));
-            
-            if (!JSONBIN_BIN_ID) return; // Skip cloud push if bin not set up
+            if (!JSONBIN_BIN_ID) return;
             try {
                 await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
@@ -995,33 +1044,52 @@
             alert("Submission successfully sent to list moderators!");
         }
 
-        // Moderator Verification & Panel
+        // Moderator Controls & Full Page Dashboard
         function openModModal() {
-            openModal('mod-modal');
+            if (isModLoggedIn) {
+                showModPage();
+            } else {
+                openModal('mod-modal');
+            }
         }
 
         function verifyModPasscode() {
-    const val = document.getElementById('mod-pass-input').value.trim();
+            const val = document.getElementById('mod-pass-input').value.trim();
 
-    // Check directly against the passcode or legacy hash fallback
-    if (val === "47664373874558ee" || val === MOD_PASSCODE) {
-        document.getElementById('mod-login-area').style.display = 'none';
-        document.getElementById('mod-content-area').style.display = 'block';
-        renderPendingQueue();
-    } else {
-        alert("Incorrect moderator passcode.");
-    }
-}
-        function renderPendingQueue() {
-            const queueEl = document.getElementById('pending-queue-list');
-            queueEl.innerHTML = submissions.length ? submissions.map((s, idx) => `
-                <div style="background:var(--panel-alt); padding:1rem; border-radius:4px; border:1px solid var(--border-color);">
+            if(val === MOD_PASSCODE) {
+                isModLoggedIn = true;
+                closeModal('mod-modal');
+                showModPage();
+            } else {
+                alert("Incorrect moderator passcode.");
+            }
+        }
+
+        function showModPage() {
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('mod-page-view').style.display = 'block';
+            renderModPageContent();
+        }
+
+        function exitModPage() {
+            document.getElementById('mod-page-view').style.display = 'none';
+            document.getElementById('main-container').style.display = 'grid';
+            renderSidebar();
+            if(levels.length > 0) selectLevel(levels[0].id);
+            else renderEmptyState();
+        }
+
+        function renderModPageContent() {
+            // Render pending queue
+            const pendingEl = document.getElementById('mod-page-pending-list');
+            pendingEl.innerHTML = submissions.length ? submissions.map((s, idx) => `
+                <div style="background:var(--panel-bg); padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
                     <p><strong>Type:</strong> ${s.type.toUpperCase()} | <strong>By:</strong> ${s.user} (${s.country})</p>
                     ${s.type === 'level' ? `
-                        <p><strong>Level:</strong> ${s.name} (ID:${s.levelId}) | Diff: ${s.difficulty} \vert{} Req:${s.reqPercent}%</p>
+                        <p><strong>Level:</strong> ${s.name} (ID: ${s.levelId}) \vert{} Diff:${s.difficulty}</p>
                         <p><a href="${s.video}" target="_blank">Video Proof</a></p>
                     ` : `
-                        <p><strong>Record Completion:</strong> Level ID #${s.levelIdTarget} -${s.percent}%</p>
+                        <p><strong>Record Completion:</strong> Target Level ID #${s.levelIdTarget} -${s.percent}%</p>
                         <p><a href="${s.video}" target="_blank">Video Proof</a></p>
                     `}
                     <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
@@ -1029,7 +1097,51 @@
                         <button onclick="rejectSubmission(${idx})" style="background:var(--danger); border-color:var(--danger)">Reject</button>
                     </div>
                 </div>
-            `).join('') : '<p style="color:var(--text-muted)">No pending submissions.</p>';
+            `).join('') : '<p style="color:var(--text-muted)">No pending submissions in queue.</p>';
+
+            // Render Level Ordering Manager
+            const levelEditorEl = document.getElementById('mod-page-level-list');
+            const sortedLevels = [...levels].sort((a,b) => a.rank - b.rank);
+
+            levelEditorEl.innerHTML = sortedLevels.length ? sortedLevels.map((l, idx) => `
+                <div class="mod-editor-card">
+                    <div>
+                        <strong>#${l.rank} - ${l.name}</strong>
+                        <div style="font-size:0.8rem; color:var(--text-muted)">ID: ${l.levelId} | Creator: ${l.creator}</div>
+                    </div>
+                    <div class="mod-controls">
+                        <button onclick="moveLevel(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>⬆ Move Up</button>
+                        <button onclick="moveLevel(${idx}, 1)" ${idx === sortedLevels.length - 1 ? 'disabled style="opacity:0.3"' : ''}>⬇ Move Down</button>
+                        <button onclick="deleteLevel(${l.id})" style="background:var(--danger); border-color:var(--danger)">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('') : '<p style="color:var(--text-muted)">No levels published to re-order.</p>';
+        }
+
+        async function moveLevel(index, direction) {
+            let sortedLevels = [...levels].sort((a,b) => a.rank - b.rank);
+            let targetIndex = index + direction;
+            if(targetIndex < 0 || targetIndex >= sortedLevels.length) return;
+
+            // Swap positions
+            let temp = sortedLevels[index];
+            sortedLevels[index] = sortedLevels[targetIndex];
+            sortedLevels[targetIndex] = temp;
+
+            // Recalculate rank numbers
+            sortedLevels.forEach((l, i) => l.rank = i + 1);
+            levels = sortedLevels;
+
+            await saveData();
+            renderModPageContent();
+        }
+
+        async function deleteLevel(id) {
+            if(!confirm("Are you sure you want to delete this level from the list?")) return;
+            levels = levels.filter(l => l.id !== id);
+            levels.sort((a,b) => a.rank - b.rank).forEach((l, i) => l.rank = i + 1);
+            await saveData();
+            renderModPageContent();
         }
 
         async function approveSubmission(idx) {
@@ -1068,18 +1180,14 @@
             }
             submissions.splice(idx, 1);
             await saveData();
-            renderPendingQueue();
-            renderSidebar();
-            if (levels.length > 0 && selectedLevelId) {
-                selectLevel(selectedLevelId);
-            }
+            renderModPageContent();
             alert("Submission approved successfully!");
         }
 
         async function rejectSubmission(idx) {
             submissions.splice(idx, 1);
             await saveData();
-            renderPendingQueue();
+            renderModPageContent();
             alert("Submission rejected.");
         }
     </script>
