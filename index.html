@@ -14,6 +14,8 @@
             --accent-hover: #ff8533;
             --discord: #5865F2;
             --discord-hover: #4752C4;
+            --youtube: #FF0000;
+            --tiktok: #00f2fe;
             --text-main: #f0f0f0;
             --text-muted: #888888;
             --danger: #cc3333;
@@ -60,83 +62,23 @@
         .completions-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
         .completion-item { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* Custom Cards for Mods & Guidelines */
-        .info-section-card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-        .info-section-card h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.5px;
-        }
-        .info-section-card p.desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            max-width: 500px;
-            margin: 0 auto 1.5rem auto;
-        }
-        .divider-line {
-            width: 100%;
-            height: 1px;
-            background-color: var(--border-color);
-            margin: 1rem 0 1.5rem 0;
-        }
-        .mods-names-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .guidelines-btn-custom {
-            background-color: #0088cc;
-            color: #ffffff;
-            border: none;
-            width: 100%;
-            padding: 0.85rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .guidelines-btn-custom:hover {
-            background-color: #0077b3;
-        }
+        .info-section-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2rem; margin-top: 2rem; text-align: center; }
+        .info-section-card h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.5px; }
+        .info-section-card p.desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; max-width: 500px; margin: 0 auto 1.5rem auto; }
+        .divider-line { width: 100%; height: 1px; background-color: var(--border-color); margin: 1rem 0 1.5rem 0; }
+        .mods-names-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 1.5rem; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .guidelines-btn-custom { background-color: #0088cc; color: #ffffff; border: none; width: 100%; padding: 0.85rem; font-size: 1.1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
+        .guidelines-btn-custom:hover { background-color: #0077b3; }
+        
+        .social-buttons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .social-btn { padding: 0.85rem; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: 0.5rem; color: #fff; transition: opacity 0.2s; }
+        .social-btn:hover { opacity: 0.9; }
+        .discord-link { background-color: var(--discord); }
+        .youtube-link { background-color: var(--youtube); }
+        .tiktok-link { background-color: #111; border: 1px solid #333; color: #fff; }
 
-        .modal-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.8); 
-            display: none; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 1000; 
-            padding: 1rem; 
-        }
-        .modal { 
-            background: var(--panel-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 6px; 
-            width: 100%; 
-            max-width: 600px; 
-            padding: 2rem; 
-            max-height: 85vh; 
-            overflow-y: auto; 
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
+        .modal { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 2rem; max-height: 85vh; overflow-y: auto; }
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
         .form-group input, .form-group select { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.75rem; color: var(--text-main); border-radius: 4px; }
@@ -153,7 +95,7 @@
     <header>
         <div class="brand-container">
             <div class="logo">Tiny TCD Levels List</div>
-            <div class="subtitle">tiny versions of levels ranked</div>
+            <div class="subtitle">demonlist ranked levels</div>
         </div>
         <nav>
             <button onclick="switchMainTab('list')" class="primary" id="nav-list-btn">Lists</button>
@@ -216,23 +158,23 @@
                 <p>All demonlist operations are carried out in accordance with our guidelines. Please read carefully before submitting a level or record!</p>
                 
                 <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">1. Raw Footage & Audio Clicks</h3>
+                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">1. Level Eligibility</h3>
+                    <p style="color: var(--text-muted);">Levels do not have to be tiny! You can submit any level that you have beaten or verified (Hard Demon or harder).</p>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">2. Raw Footage & Audio Clicks</h3>
                     <p style="color: var(--text-muted);">Real-time audio clicks or taps are strictly required for all submissions. No click mods, macros, or edited audio allowed.</p>
                 </div>
 
                 <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">2. Proof Video Quality</h3>
+                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">3. Proof Video Quality</h3>
                     <p style="color: var(--text-muted);">Video proof must show full unedited gameplay from level start to end screen with clear video quality (720p or higher recommended).</p>
                 </div>
 
                 <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">3. Level Requirements</h3>
-                    <p style="color: var(--text-muted);">For new level submissions, the level must be a valid 'Tiny' version of a rated Geometry Dash level and pass the list moderation check.</p>
-                </div>
-
-                <div>
                     <h3 style="color: var(--accent); margin-bottom: 0.35rem;">4. Allowed Modifications</h3>
-                    <p style="color: var(--text-muted);">Standard cosmetic physics/FPS bypass mods are allowed, but hack menus, speedhacks, or frame-steppers will result in an immediate submission ban.</p>
+                    <p style="color: var(--text-muted);">Standard cosmetic physics/FPS bypass mods are permitted, but hack menus, speedhacks, or frame-steppers will result in an immediate ban.</p>
                 </div>
             </div>
             <div style="margin-top: 1.5rem; text-align: right;">
@@ -288,8 +230,10 @@
             <div class="form-group">
                 <label>Submission Type</label>
                 <select id="sub-type" onchange="toggleSubmissionType()">
-                    <option value="level">New Level Suggestion</option>
-                    <option value="record">Level Record Completion</option>
+                    <option value="tiny-level">New Tiny Level Suggestion</option>
+                    <option value="level">New Level Suggestion (Hard Demon+)</option>
+                    <option value="tiny-record">New Tiny Level Record</option>
+                    <option value="record">New Level Record</option>
                 </select>
             </div>
 
@@ -432,12 +376,7 @@
                     if (discordUser.id) {
                         let matchedUser = usersDB.find(u => u.discordId === discordUser.id || u.username.toLowerCase() === discordUser.username.toLowerCase());
                         if(!matchedUser) {
-                            matchedUser = {
-                                username: discordUser.username,
-                                discordId: discordUser.id,
-                                isMod: false,
-                                country: "Other"
-                            };
+                            matchedUser = { username: discordUser.username, discordId: discordUser.id, isMod: false, country: "Other" };
                             usersDB.push(matchedUser);
                         } else {
                             matchedUser.discordId = discordUser.id;
@@ -499,7 +438,7 @@
         function getFilteredLevels() {
             return levels.filter(l => {
                 if (currentCategory === 'main') return l.rank >= 1 && l.rank <= 75;
-                if (currentCategory === 'ext') return l.rank >= 76 && l.rank <= 150;
+                if (currentCategory === 'extended') return l.rank >= 76 && l.rank <= 150;
                 if (currentCategory === 'leg') return l.rank > 150;
                 return false;
             }).sort((a,b) => a.rank - b.rank);
@@ -525,9 +464,9 @@
 
         function renderEmptyState() {
             document.getElementById('main-panel-content').innerHTML = `
-                <div class="empty-panel">
+                <div class="empty-panel" style="text-align:center; padding: 2rem;">
                     <h2>No Levels Added Yet</h2>
-                    <p>Submit a level or log in as a moderator to manage entries.</p>
+                    <p style="color: var(--text-muted);">Submit a level you've beaten or log in as a moderator.</p>
                 </div>
                 ${renderModsAndGuidelinesSections()}
             `;
@@ -554,6 +493,17 @@
                     <div class="divider-line"></div>
                     <p class="desc">All demonlist operations are carried out in accordance to our guidelines. Be sure to check them before submitting a record to ensure a flawless experience!</p>
                     <button class="guidelines-btn-custom" onclick="openModal('guidelines-modal')">Read the guidelines!</button>
+                </div>
+
+                <div class="info-section-card">
+                    <h2>Tiny TCD Community</h2>
+                    <div class="divider-line"></div>
+                    <p class="desc">Connect with us across our community platforms for instant updates, videos, and social content!</p>
+                    <div class="social-buttons-grid">
+                        <a href="https://discord.gg/gvM8HzCQQ" target="_blank" class="social-btn discord-link">Discord Server</a>
+                        <a href="https://www.youtube.com/@TinyTCD_Official" target="_blank" class="social-btn youtube-link">YouTube Channel</a>
+                        <a href="https://tiktok.com/@tinytcd" target="_blank" class="social-btn tiktok-link">TikTok Profile</a>
+                    </div>
                 </div>
             `;
         }
@@ -693,9 +643,11 @@
 
         function toggleSubmissionType() {
             const type = document.getElementById('sub-type').value;
-            document.getElementById('sub-level-fields').style.display = type === 'level' ? 'block' : 'none';
-            document.getElementById('sub-record-fields').style.display = type === 'record' ? 'block' : 'none';
-            if(type === 'record') {
+            const isLevelSub = (type === 'tiny-level' || type === 'level');
+            document.getElementById('sub-level-fields').style.display = isLevelSub ? 'block' : 'none';
+            document.getElementById('sub-record-fields').style.display = isLevelSub ? 'none' : 'block';
+            
+            if(!isLevelSub) {
                 document.getElementById('sr-level-select').innerHTML = levels.map(l => `<option value="${l.id}">#${l.rank} - ${l.name}</option>`).join('');
             }
         }
@@ -704,7 +656,7 @@
             const type = document.getElementById('sub-type').value;
             let subData = { type, user: currentUser ? currentUser.username : "Anonymous", country: currentUser ? currentUser.country : "Other" };
 
-            if(type === 'level') {
+            if(type === 'tiny-level' || type === 'level') {
                 subData.name = document.getElementById('sl-name').value;
                 subData.levelId = document.getElementById('sl-id').value;
                 subData.creator = document.getElementById('sl-creator').value;
@@ -752,7 +704,7 @@
             document.getElementById('mod-page-pending-list').innerHTML = submissions.length ? submissions.map((s, idx) => `
                 <div style="background:var(--panel-bg); padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
                     <p><strong>Type:</strong> ${s.type.toUpperCase()} | <strong>By:</strong> ${s.user}</p>
-                    ${s.type === 'level' ? `<p><strong>Level:</strong> ${s.name} (ID:${s.levelId})</p>` : `<p><strong>Record:</strong> #${s.levelIdTarget} -${s.percent}%</p>`}
+                    ${(s.type === 'tiny-level' || s.type === 'level') ? `<p><strong>Level:</strong> ${s.name} (ID:${s.levelId})</p>` : `<p><strong>Record:</strong> #${s.levelIdTarget} -${s.percent}%</p>`}
                     <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
                         <button class="primary" onclick="approveSubmission(${idx})">Accept</button>
                         <button onclick="rejectSubmission(${idx})" style="background:var(--danger); border-color:var(--danger)">Reject</button>
@@ -807,14 +759,14 @@
 
         async function approveSubmission(idx) {
             const sub = submissions[idx];
-            if(sub.type === 'level') {
+            if(sub.type === 'tiny-level' || sub.type === 'level') {
                 const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
                 const newRank = levels.length + 1;
                 levels.push({
                     id: newId, name: sub.name, levelId: sub.levelId, creator: sub.creator,
                     verifier: sub.verifier, difficulty: sub.difficulty, update: sub.update,
                     song: sub.song, length: sub.length, objects: sub.objects, password: sub.password,
-                    reqPercent: sub.reqPercent, video: sub.video, rank: newRank, completions: []
+                    reqPercent: sub.reqPercent, video: sub.video, rank: newRank, addedAt: new Date().toISOString(), completions: []
                 });
                 selectedLevelId = newId;
             } else {
