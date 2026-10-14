@@ -391,6 +391,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             await fetchGlobalData();
             handleDiscordCallback();
+            syncCurrentUserState();
             updateAuthUI();
             renderSidebar();
             renderSideModsList();
@@ -410,6 +411,16 @@
                     usersDB = data.record.usersDB || [];
                 }
             } catch(e) { console.error("Cloud sync load error:", e); }
+        }
+
+        function syncCurrentUserState() {
+            if (currentUser) {
+                const matched = usersDB.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase() || (u.discordId && u.discordId === currentUser.discordId));
+                if (matched) {
+                    currentUser = matched;
+                    localStorage.setItem('tcd_user', JSON.stringify(currentUser));
+                }
+            }
         }
 
         async function saveData() {
@@ -671,7 +682,6 @@
             levels.forEach(l => {
                 const pts = calculatePoints(l.rank);
 
-                // Grant Points to Verifier
                 if (l.verifier) {
                     if (!playerScores[l.verifier]) {
                         playerScores[l.verifier] = { name: l.verifier, country: "Other", points: 0, completions: 0 };
@@ -679,7 +689,6 @@
                     playerScores[l.verifier].points += pts;
                 }
 
-                // Grant Points to Players (Excluding duplicate points if player is the verifier)
                 l.completions.forEach(c => {
                     if (c.percent >= l.reqPercent) {
                         if (!playerScores[c.player]) {
@@ -751,6 +760,7 @@
             usersDB.push(currentUser);
             saveData();
             updateAuthUI();
+            renderSideModsList();
             closeModal('auth-modal');
         }
 
@@ -762,6 +772,7 @@
             currentUser = found;
             saveData();
             updateAuthUI();
+            renderSideModsList();
             closeModal('auth-modal');
         }
 
@@ -907,6 +918,7 @@
             submissions.splice(idx, 1);
             await saveData();
             renderModPageContent();
+            renderSideModsList();
         }
 
         async function rejectSubmission(idx) {
