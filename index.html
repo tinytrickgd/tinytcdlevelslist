@@ -489,7 +489,6 @@
 
             if (!newName) return alert("Username cannot be empty.");
 
-            // Update level ownership references if username changed
             if (oldName !== newName) {
                 levels.forEach(l => {
                     if (l.verifier === oldName) l.verifier = newName;
@@ -520,14 +519,12 @@
 
             if (!oldPass || !targetLevelId) return alert("Fill in both old password and Level ID.");
 
-            // Find old account with matching password
             const oldUserAccount = usersDB.find(u => u.password === oldPass);
             if (!oldUserAccount) return alert("Invalid old account password.");
 
             const targetLevel = levels.find(l => l.levelId.toString() === targetLevelId);
             if (!targetLevel) return alert("Level ID not found on list.");
 
-            // Transfer verifier/creator ownership
             if (targetLevel.verifier === oldUserAccount.username || targetLevel.creator === oldUserAccount.username) {
                 if (targetLevel.verifier === oldUserAccount.username) targetLevel.verifier = currentUser.username;
                 if (targetLevel.creator === oldUserAccount.username) targetLevel.creator = currentUser.username;
@@ -558,7 +555,11 @@
 
         function calculatePoints(rank) {
             if (rank > 150) return 0;
-            return Math.round(1000 * Math.pow((151 - rank) / 150, 2.2));
+            const maxPts = 350;
+            let pts = maxPts * Math.pow((151 - rank) / 150, 1.85);
+            if (rank === 1) pts = 350;
+            if (rank === 150) pts = 18.71;
+            return Math.round(pts * 100) / 100;
         }
 
         function switchMainTab(tab) {
@@ -670,7 +671,7 @@
             levels.forEach(l => {
                 const pts = calculatePoints(l.rank);
 
-                // 1. Grant Points to Verifier
+                // Grant Points to Verifier
                 if (l.verifier) {
                     if (!playerScores[l.verifier]) {
                         playerScores[l.verifier] = { name: l.verifier, country: "Other", points: 0, completions: 0 };
@@ -678,14 +679,13 @@
                     playerScores[l.verifier].points += pts;
                 }
 
-                // 2. Grant Points to Players (Excluding Duplicate Points if Player is Verifier)
+                // Grant Points to Players (Excluding duplicate points if player is the verifier)
                 l.completions.forEach(c => {
                     if (c.percent >= l.reqPercent) {
                         if (!playerScores[c.player]) {
                             playerScores[c.player] = { name: c.player, country: c.country, points: 0, completions: 0 };
                         }
                         
-                        // Don't duplicate points if player is already the verifier
                         if (c.player !== l.verifier) {
                             playerScores[c.player].points += pts;
                         }
