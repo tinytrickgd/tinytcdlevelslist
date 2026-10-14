@@ -15,7 +15,9 @@
             --discord: #5865F2;
             --discord-hover: #4752C4;
             --youtube: #FF0000;
-            --tiktok: #00f2fe;
+            --youtube-hover: #CC0000;
+            --tiktok: #111111;
+            --tiktok-hover: #222222;
             --text-main: #f0f0f0;
             --text-muted: #888888;
             --danger: #cc3333;
@@ -23,23 +25,35 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
-        header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Header Layout */
+        header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
         .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
         .subtitle { font-size: 0.8rem; color: var(--text-muted); }
-        nav { display: flex; gap: 1rem; align-items: center; }
+        nav { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
 
-        button, .btn { background-color: var(--panel-alt); color: var(--text-main); border: 1px solid var(--border-color); padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 4px; transition: 0.15s; }
+        button, .btn { background-color: var(--panel-alt); color: var(--text-main); border: 1px solid var(--border-color); padding: 0.5rem 0.85rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; border-radius: 4px; transition: 0.15s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; }
         button:hover, .btn:hover { border-color: var(--accent); }
         button.primary, .btn.primary { background-color: var(--accent); color: #fff; border-color: var(--accent); }
-        button.discord-btn { background-color: var(--discord); color: #fff; border-color: var(--discord); display: flex; align-items: center; gap: 0.5rem; }
-        button.discord-btn:hover { background-color: var(--discord-hover); }
+        
+        /* Social Buttons in Top Header */
+        .header-social { color: #fff; font-weight: 700; }
+        .header-social.discord { background-color: var(--discord); border-color: var(--discord); }
+        .header-social.discord:hover { background-color: var(--discord-hover); }
+        .header-social.youtube { background-color: var(--youtube); border-color: var(--youtube); }
+        .header-social.youtube:hover { background-color: var(--youtube-hover); }
+        .header-social.tiktok { background-color: var(--tiktok); border-color: #333; }
+        .header-social.tiktok:hover { background-color: var(--tiktok-hover); }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; width: 100%; flex: 1; display: grid; grid-template-columns: 320px 1fr; gap: 2rem; }
-        @media(max-width: 900px) { .container { grid-template-columns: 1fr; } }
+        /* Main Container 3-Column Grid Layout */
+        .container { max-width: 1600px; margin: 0 auto; padding: 2rem; width: 100%; flex: 1; display: grid; grid-template-columns: 320px 1fr 280px; gap: 1.5rem; }
+        @media(max-width: 1150px) { .container { grid-template-columns: 300px 1fr; } .right-sidebar { grid-column: span 2; } }
+        @media(max-width: 800px) { .container { grid-template-columns: 1fr; } .right-sidebar { grid-column: span 1; } }
 
+        /* Left Sidebar - Levels List */
         .sidebar { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; display: flex; flex-direction: column; max-height: 80vh; overflow: hidden; }
         .list-tabs { display: grid; grid-template-columns: repeat(3, 1fr); background-color: var(--panel-alt); border-bottom: 1px solid var(--border-color); }
-        .list-tab-btn { background: transparent; border: none; padding: 0.75rem 0.25rem; font-size: 0.75rem; color: var(--text-muted); }
+        .list-tab-btn { background: transparent; border: none; padding: 0.75rem 0.25rem; font-size: 0.75rem; color: var(--text-muted); cursor: pointer; }
         .list-tab-btn.active { color: var(--accent); border-bottom: 2px solid var(--accent); background-color: var(--panel-bg); }
         .level-search { padding: 0.75rem; border-bottom: 1px solid var(--border-color); }
         .level-search input { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.5rem; color: var(--text-main); border-radius: 4px; }
@@ -50,11 +64,12 @@
         .level-item.active { border-left: 3px solid var(--accent); }
         .level-thumb-mini { width: 50px; height: 35px; border-radius: 3px; object-fit: cover; background: #000; }
 
+        /* Middle Main Panel */
         .main-panel { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2rem; overflow-y: auto; }
         .level-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
         .meta-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 4px; }
         .meta-card label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block; }
         .section-title { font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin: 1.5rem 0 1rem 0; }
@@ -62,21 +77,20 @@
         .completions-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
         .completion-item { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
 
-        .info-section-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2rem; margin-top: 2rem; text-align: center; }
-        .info-section-card h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.5px; }
-        .info-section-card p.desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; max-width: 500px; margin: 0 auto 1.5rem auto; }
-        .divider-line { width: 100%; height: 1px; background-color: var(--border-color); margin: 1rem 0 1.5rem 0; }
-        .mods-names-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 1.5rem; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .guidelines-btn-custom { background-color: #0088cc; color: #ffffff; border: none; width: 100%; padding: 0.85rem; font-size: 1.1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
-        .guidelines-btn-custom:hover { background-color: #0077b3; }
+        /* Right Sidebar for Mods & Guidelines */
+        .right-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+        .side-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; text-align: center; }
+        .side-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .side-card p.desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.4; margin-bottom: 1rem; }
+        .divider-line { width: 100%; height: 1px; background-color: var(--border-color); margin: 0.75rem 0 1rem 0; }
         
-        .social-buttons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .social-btn { padding: 0.85rem; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: 0.5rem; color: #fff; transition: opacity 0.2s; }
-        .social-btn:hover { opacity: 0.9; }
-        .discord-link { background-color: var(--discord); }
-        .youtube-link { background-color: var(--youtube); }
-        .tiktok-link { background-color: #111; border: 1px solid #333; color: #fff; }
+        .side-mods-list { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .side-mod-item { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 0.5rem; border-radius: 4px; }
+        
+        .guidelines-btn-custom { background-color: #0088cc; color: #ffffff; border: none; width: 100%; padding: 0.75rem; font-size: 0.95rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
+        .guidelines-btn-custom:hover { background-color: #0077b3; }
 
+        /* Modals */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
         .modal { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 2rem; max-height: 85vh; overflow-y: auto; }
         .form-group { margin-bottom: 1rem; }
@@ -101,6 +115,12 @@
             <button onclick="switchMainTab('list')" class="primary" id="nav-list-btn">Lists</button>
             <button onclick="switchMainTab('leaderboard')" id="nav-lb-btn">Leaderboards</button>
             <button onclick="openModal('submit-modal')">Submit / Record</button>
+            
+            <!-- Social Buttons at Very Top Header -->
+            <a href="https://discord.gg/gvM8HzCQQ" target="_blank" class="btn header-social discord">Discord</a>
+            <a href="https://www.youtube.com/@TinyTCD_Official" target="_blank" class="btn header-social youtube">YouTube</a>
+            <a href="https://tiktok.com/@tinytcd" target="_blank" class="btn header-social tiktok">TikTok</a>
+
             <div id="user-auth-area">
                 <button onclick="openModal('auth-modal')" id="login-register-btn">Login / Register</button>
             </div>
@@ -108,6 +128,7 @@
     </header>
 
     <div class="container" id="main-container">
+        <!-- Left Sidebar: Level Navigation -->
         <aside class="sidebar" id="sidebar-container">
             <div class="list-tabs">
                 <button class="list-tab-btn active" onclick="switchListCategory('main')" id="tab-main">Main (#1-75)</button>
@@ -120,7 +141,27 @@
             <div class="level-items" id="level-items-list"></div>
         </aside>
 
+        <!-- Middle Main Content Panel -->
         <main class="main-panel" id="main-panel-content"></main>
+
+        <!-- Right Sidebar: List Mods & Guidelines -->
+        <aside class="right-sidebar" id="right-sidebar-container">
+            <div class="side-card">
+                <h3>List Moderators</h3>
+                <div class="divider-line"></div>
+                <p class="desc">Contact any of these moderators for list issues or edits.</p>
+                <div class="side-mods-list" id="side-mods-display">
+                    <div class="side-mod-item">TinyDoggie</div>
+                </div>
+            </div>
+
+            <div class="side-card">
+                <h3>Guidelines</h3>
+                <div class="divider-line"></div>
+                <p class="desc">Check guidelines before submitting records!</p>
+                <button class="guidelines-btn-custom" onclick="openModal('guidelines-modal')">Read the guidelines!</button>
+            </div>
+        </aside>
     </div>
 
     <!-- Mod Dashboard View -->
@@ -208,7 +249,7 @@
                 </div>
                 
                 <div style="margin: 1.5rem 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-                    <button class="discord-btn" onclick="loginWithDiscord()" style="width: 100%; justify-content: center;">
+                    <button class="btn header-social discord" onclick="loginWithDiscord()" style="width: 100%; justify-content: center;">
                         <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a74.57,74.57,0,0,0,64.3,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77.5,77.5,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-18.91-72.13ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74C48.81,40.23,53.9,45.92,53.8,53,53.8,60,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74C91,40.23,96.12,45.92,96,53,96,60,90.93,65.69,84.69,65.69Z"/></svg>
                         Sign in with Discord
                     </button>
@@ -325,6 +366,7 @@
             handleDiscordCallback();
             updateAuthUI();
             renderSidebar();
+            renderSideModsList();
             if (levels.length > 0) selectLevel(levels[0].id);
             else renderEmptyState();
         });
@@ -358,6 +400,16 @@
             } catch(e) { console.error("Cloud sync save error:", e); }
         }
 
+        function renderSideModsList() {
+            const activeMods = usersDB.filter(u => u.isMod === true);
+            const container = document.getElementById('side-mods-display');
+            if (activeMods.length > 0) {
+                container.innerHTML = activeMods.map(m => `<div class="side-mod-item">${m.username}</div>`).join('');
+            } else {
+                container.innerHTML = `<div class="side-mod-item">TinyDoggie</div>`;
+            }
+        }
+
         function loginWithDiscord() {
             const scope = encodeURIComponent('identify');
             const redirect = encodeURIComponent(DISCORD_REDIRECT_URI);
@@ -385,6 +437,7 @@
                         await saveData();
                         window.history.replaceState({}, document.title, window.location.pathname);
                         updateAuthUI();
+                        renderSideModsList();
                         alert(`Signed in as Discord User: ${discordUser.username}`);
                     }
                 } catch(e) { console.error("Discord auth error:", e); }
@@ -418,12 +471,14 @@
             document.getElementById('nav-lb-btn').classList.toggle('primary', tab === 'leaderboard');
             const container = document.getElementById('main-container');
             if (tab === 'list') {
-                container.style.gridTemplateColumns = '320px 1fr';
+                container.style.gridTemplateColumns = '320px 1fr 280px';
                 document.getElementById('sidebar-container').style.display = 'flex';
+                document.getElementById('right-sidebar-container').style.display = 'flex';
                 if (levels.length > 0 && !selectedLevelId) selectLevel(levels[0].id);
             } else {
                 container.style.gridTemplateColumns = '1fr';
                 document.getElementById('sidebar-container').style.display = 'none';
+                document.getElementById('right-sidebar-container').style.display = 'none';
                 renderLeaderboardView();
             }
         }
@@ -464,46 +519,9 @@
 
         function renderEmptyState() {
             document.getElementById('main-panel-content').innerHTML = `
-                <div class="empty-panel" style="text-align:center; padding: 2rem;">
+                <div class="empty-panel" style="text-align:center; padding: 3rem 1rem;">
                     <h2>No Levels Added Yet</h2>
-                    <p style="color: var(--text-muted);">Submit a level you've beaten or log in as a moderator.</p>
-                </div>
-                ${renderModsAndGuidelinesSections()}
-            `;
-        }
-
-        function renderModsAndGuidelinesSections() {
-            const activeMods = usersDB.filter(u => u.isMod === true);
-            const modNamesHtml = activeMods.length 
-                ? activeMods.map(m => `<span>${m.username}</span>`).join('') 
-                : '<span style="color: var(--text-muted);">TinyDoggie</span>';
-
-            return `
-                <div class="info-section-card">
-                    <h2>List Moderators</h2>
-                    <div class="divider-line"></div>
-                    <p class="desc">Contact any of these people if you have problems with the list or want to see a specific thing changed.</p>
-                    <div class="mods-names-list">
-                        ${modNamesHtml}
-                    </div>
-                </div>
-
-                <div class="info-section-card">
-                    <h2>Guidelines</h2>
-                    <div class="divider-line"></div>
-                    <p class="desc">All demonlist operations are carried out in accordance to our guidelines. Be sure to check them before submitting a record to ensure a flawless experience!</p>
-                    <button class="guidelines-btn-custom" onclick="openModal('guidelines-modal')">Read the guidelines!</button>
-                </div>
-
-                <div class="info-section-card">
-                    <h2>Tiny TCD Community</h2>
-                    <div class="divider-line"></div>
-                    <p class="desc">Connect with us across our community platforms for instant updates, videos, and social content!</p>
-                    <div class="social-buttons-grid">
-                        <a href="https://discord.gg/gvM8HzCQQ" target="_blank" class="social-btn discord-link">Discord Server</a>
-                        <a href="https://www.youtube.com/@TinyTCD_Official" target="_blank" class="social-btn youtube-link">YouTube Channel</a>
-                        <a href="https://tiktok.com/@tinytcd" target="_blank" class="social-btn tiktok-link">TikTok Profile</a>
-                    </div>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Submit a level you've beaten or log in as a moderator.</p>
                 </div>
             `;
         }
@@ -529,7 +547,7 @@
                 ${level.video ? `<div class="video-wrapper"><iframe src="${getYouTubeEmbedUrl(level.video)}" allowfullscreen></iframe></div>` : ''}
 
                 <div class="meta-grid">
-                    <div class="meta-card"><label>List Points</label><value style="color: var(--accent);">${calculatePoints(level.rank)} pts</value></div>
+                    <div class="meta-card"><label>List Points</label><value style="color: var(--accent); font-weight:bold;">${calculatePoints(level.rank)} pts</value></div>
                     <div class="meta-card"><label>Level ID</label><value>${level.levelId}</value></div>
                     <div class="meta-card"><label>Difficulty</label><value>${level.difficulty}</value></div>
                     <div class="meta-card"><label>GD Update</label><value>${level.update}</value></div>
@@ -546,8 +564,6 @@
                         </li>
                     `).join('') : '<li style="color: var(--text-muted);">No completions recorded yet.</li>'}
                 </ul>
-
-                ${renderModsAndGuidelinesSections()}
             `;
         }
 
@@ -697,6 +713,7 @@
             document.getElementById('mod-page-view').style.display = 'none';
             document.getElementById('main-container').style.display = 'grid';
             renderSidebar();
+            renderSideModsList();
             if(levels.length > 0) selectLevel(levels[0].id);
         }
 
