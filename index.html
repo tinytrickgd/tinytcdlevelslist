@@ -20,13 +20,14 @@
             --tiktok-hover: #222222;
             --text-main: #f0f0f0;
             --text-muted: #888888;
-            --danger: #cc3333;
+            --danger: #e6004c;
+            --info-blue: #0088cc;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
         
-        header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1000; }
         .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
         .subtitle { font-size: 0.8rem; color: var(--text-muted); }
         nav { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
@@ -35,6 +36,20 @@
         button:hover, .btn:hover { border-color: var(--accent); }
         button.primary, .btn.primary { background-color: var(--accent); color: #fff; border-color: var(--accent); }
         
+        /* REST API, User Area & Demonlist Dropdown Header Link Styles */
+        .header-custom-tab { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0.25rem 0.5rem; transition: opacity 0.2s; position: relative; }
+        .header-custom-tab:hover { opacity: 0.8; }
+        .header-custom-tab span.top-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-custom-tab span.main-label { font-size: 0.95rem; font-weight: 800; color: var(--text-main); line-height: 1.1; }
+
+        /* DEMONLIST DROPDOWN STYLES */
+        .dropdown-container { position: relative; display: inline-block; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: var(--panel-bg); border: 1px solid var(--border-color); min-width: 200px; box-shadow: 0px 8px 16px rgba(0,0,0,0.5); z-index: 2000; border-radius: 4px; overflow: hidden; margin-top: 0.25rem; }
+        .dropdown-container:hover .dropdown-menu { display: block; }
+        .dropdown-item { color: var(--text-main); padding: 0.75rem 1rem; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700; transition: background 0.15s, color 0.15s; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background-color: var(--panel-alt); color: var(--accent); }
+
         .header-social { color: #fff; font-weight: 700; }
         .header-social.discord { background-color: var(--discord); border-color: var(--discord); }
         .header-social.discord:hover { background-color: var(--discord-hover); }
@@ -84,7 +99,7 @@
         .guidelines-btn-custom { background-color: #0088cc; color: #ffffff; border: none; width: 100%; padding: 0.75rem; font-size: 0.95rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
         .guidelines-btn-custom:hover { background-color: #0077b3; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 1rem; }
         .modal { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 2rem; max-height: 85vh; overflow-y: auto; }
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
@@ -95,14 +110,64 @@
         .mod-editor-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
         .mod-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .mod-user-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; display: flex; align-items: center; gap: 0.75rem; }
+
+        /* USER AREA DASHBOARD STYLES */
+        #user-area-view { display: none; width: 100%; max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .user-area-nav { display: grid; grid-template-columns: 1fr 1fr; background: var(--panel-alt); border: 1px solid var(--border-color); border-radius: 4px 4px 0 0; margin-bottom: 1.5rem; }
+        .user-area-tab { padding: 1rem; text-align: center; font-weight: 700; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; background: transparent; border: none; font-size: 1rem; }
+        .user-area-tab.active { background: var(--panel-bg); color: var(--text-main); border-bottom: 3px solid var(--accent); }
+        .user-area-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+        @media(max-width:850px) { .user-area-layout { grid-template-columns: 1fr; } }
+        
+        .user-profile-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2rem; }
+        .user-profile-title { font-size: 2rem; font-weight: 800; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .user-field-group { margin-bottom: 1.5rem; }
+        .user-field-title { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.35rem; }
+        .user-field-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+
+        .btn-danger-large { background: var(--danger); color: #fff; border: none; font-weight: 700; padding: 0.75rem 1.25rem; border-radius: 4px; cursor: pointer; margin-top: 1rem; font-size: 1rem; }
+        .btn-danger-large:hover { opacity: 0.9; }
+        .btn-blue-large { background: var(--info-blue); color: #fff; border: none; font-weight: 700; padding: 0.75rem 1.25rem; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1rem; margin-top: 1rem; }
+        .btn-blue-large:hover { opacity: 0.9; }
+
+        .user-side-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+        .user-side-box h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.75rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="brand-container">
-            <div class="logo">Tiny TCD Levels List</div>
-            <div class="subtitle">demonlist ranked levels</div>
+        <div class="brand-container" style="display:flex; align-items:center; gap:1.5rem;">
+            <div>
+                <div class="logo">Tiny TCD Levels List</div>
+                <div class="subtitle">demonlist ranked levels</div>
+            </div>
+
+            <!-- Geometry Dash DEMONLIST Dropdown Header Button -->
+            <div class="dropdown-container">
+                <button class="header-custom-tab">
+                    <span class="top-label">Geometry Dash</span>
+                    <span class="main-label">DEMONLIST ▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" onclick="openModal('guidelines-modal')">📜 Guidelines</div>
+                    <div class="dropdown-item" onclick="switchMainTab('leaderboard')">📊 Stats Viewer</div>
+                    <div class="dropdown-item" onclick="openModal('submit-modal')">📝 Record Submitter</div>
+                    <div class="dropdown-item" onclick="openModal('timemachine-modal')">⏳ Time Machine</div>
+                </div>
+            </div>
+            
+            <!-- REST API Documentation Header Button -->
+            <button class="header-custom-tab" onclick="openModal('api-docs-modal')">
+                <span class="top-label">REST API</span>
+                <span class="main-label">Documentation</span>
+            </button>
+
+            <!-- TINY TCD LIST User Area Header Button -->
+            <button class="header-custom-tab" onclick="showUserAreaPage()">
+                <span class="top-label">TINY TCD LIST</span>
+                <span class="main-label">User Area</span>
+            </button>
         </div>
         <nav>
             <button onclick="switchMainTab('list')" class="primary" id="nav-list-btn">Lists</button>
@@ -153,6 +218,76 @@
         </aside>
     </div>
 
+    <!-- TIME MACHINE MODAL -->
+    <div class="modal-overlay" id="timemachine-modal">
+        <div class="modal" style="max-width:700px;">
+            <h2>⏳ Demonlist Time Machine</h2>
+            <div class="divider-line"></div>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Select a date in the past to view what the Demonlist looked like on that day and see what changes have happened since!</p>
+            
+            <div class="form-group">
+                <label>Select Snapshot Date</label>
+                <select id="timemachine-date-select" onchange="renderTimeMachineSnapshot()">
+                    <option value="today">Today (Live List)</option>
+                </select>
+            </div>
+
+            <div id="timemachine-content" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:6px; padding:1rem; max-height:350px; overflow-y:auto; margin-top:1rem;">
+                <p style="color:var(--text-muted); text-align:center;">Select a snapshot date above.</p>
+            </div>
+
+            <div style="margin-top:1.5rem; text-align:right;">
+                <button class="primary" onclick="closeModal('timemachine-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TINY TCD LIST USER AREA VIEW PAGE -->
+    <div id="user-area-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h1 style="font-size: 1.8rem; font-weight: 800;">Tiny TCD List User Area</h1>
+            <button class="primary" onclick="exitUserAreaPage()">Return to List</button>
+        </div>
+
+        <div class="user-area-nav">
+            <button class="user-area-tab active">Profile 👤</button>
+            <button class="user-area-tab" onclick="alert('List Integration feature available for integrated accounts.')">List Integration 📋</button>
+        </div>
+
+        <div id="user-area-content"></div>
+    </div>
+
+    <!-- REST API Documentation Modal -->
+    <div class="modal-overlay" id="api-docs-modal">
+        <div class="modal" style="max-width: 700px;">
+            <h2>📖 REST API Documentation</h2>
+            <div class="divider-line"></div>
+            <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 1rem;">
+                <p>You can fetch live Tiny TCD Levels List data programmatically using our JSONBin endpoint.</p>
+                
+                <div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">1. Get All Levels & Leaderboards</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.25rem;">Endpoint URL:</p>
+                    <code style="background: var(--bg-color); padding: 0.4rem; display: block; border-radius: 4px; font-size: 0.8rem; color: #ff8533;">GET https://api.jsonbin.io/v3/b/6ace74bcac6210605a2e9954/latest</code>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">2. Required Headers</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.25rem;">Pass your Master Key to authenticate read requests:</p>
+                    <code style="background: var(--bg-color); padding: 0.4rem; display: block; border-radius: 4px; font-size: 0.8rem; color: #ff8533;">X-Master-Key: $2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le</code>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">3. Response Schema</h3>
+                    <p style="color: var(--text-muted);">Returns a JSON object containing `levels` array, `submissions` array, and `usersDB` array.</p>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button class="primary" onclick="closeModal('api-docs-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- User Account Settings Modal -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal">
@@ -200,13 +335,54 @@
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
             <div>
                 <h1>🛠️ Moderator Dashboard</h1>
-                <p style="color: var(--text-muted)">Manage list rankings, approve entries, and view active list moderators.</p>
+                <p style="color: var(--text-muted)">Manage list rankings, re-add levels with full metadata, approve entries, and view active list moderators.</p>
             </div>
             <button class="primary" onclick="exitModPage()">Exit Dashboard</button>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
             <div>
+                <!-- Re-Add / Restore Level Direct Tool -->
+                <div style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:6px; padding:1.25rem; margin-bottom:2rem;">
+                    <h2 class="section-title" style="margin-top:0;">➕ Restore / Re-Add Level</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Directly restore or re-add a level with all its exact metadata (video link, objects, verifier, etc.)</p>
+
+                    <div class="form-row">
+                        <div class="form-group"><label>Level Name</label><input type="text" id="readd-name" placeholder="e.g. Tiny Grief"></div>
+                        <div class="form-group"><label>Level ID</label><input type="text" id="readd-id" placeholder="e.g. 10482915"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Creator</label><input type="text" id="readd-creator" placeholder="e.g. CreatorName"></div>
+                        <div class="form-group"><label>Verifier</label><input type="text" id="readd-verifier" placeholder="e.g. VerifierName"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>In-Game Difficulty</label>
+                            <select id="readd-diff">
+                                <option value="Extreme Demon">Extreme Demon</option>
+                                <option value="Insane Demon">Insane Demon</option>
+                                <option value="Hard Demon">Hard Demon</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>GD Update</label><input type="text" id="readd-update" value="2.2"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Song</label><input type="text" id="readd-song" placeholder="Song title"></div>
+                        <div class="form-group"><label>Length</label><input type="text" id="readd-length" placeholder="e.g. 1m 45s"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Objects Count</label><input type="text" id="readd-objects" placeholder="e.g. 45000"></div>
+                        <div class="form-group"><label>Password</label><input type="text" id="readd-pass" placeholder="e.g. Free or 123456"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Target Rank</label><input type="number" id="readd-rank" value="1"></div>
+                        <div class="form-group"><label>Req %</label><input type="number" id="readd-req" value="100"></div>
+                    </div>
+                    <div class="form-group"><label>YouTube Proof Video Link</label><input type="text" id="readd-video" placeholder="https://youtube.com/watch?v=..."></div>
+
+                    <button class="primary" onclick="readdLevelDirect()" style="width:100%; margin-top:0.5rem;">Re-Add Level to List</button>
+                </div>
+
                 <h2 class="section-title">📥 Pending Queue</h2>
                 <div id="mod-page-pending-list" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;"></div>
 
@@ -379,10 +555,14 @@
         const DISCORD_CLIENT_ID = "1559649196272001064"; 
         const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 
+        const OWNER_DISCORD_ID = "1434579243974787133";
+        const DELETE_PASSCODE = "463729helloyouluckyperson29363";
+
         let currentUser = JSON.parse(localStorage.getItem('tcd_user')) || null;
         let levels = [];
         let submissions = [];
         let usersDB = [];
+        let snapshots = JSON.parse(localStorage.getItem('tcd_snapshots')) || {};
 
         let currentCategory = 'main';
         let selectedLevelId = null;
@@ -392,9 +572,11 @@
             await fetchGlobalData();
             handleDiscordCallback();
             syncCurrentUserState();
+            saveSnapshotToday();
             updateAuthUI();
             renderSidebar();
             renderSideModsList();
+            setupTimeMachineOptions();
             if (levels.length > 0) selectLevel(levels[0].id);
             else renderEmptyState();
         });
@@ -413,15 +595,72 @@
             } catch(e) { console.error("Cloud sync load error:", e); }
         }
 
+        function saveSnapshotToday() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            if (!snapshots[todayStr]) {
+                snapshots[todayStr] = JSON.parse(JSON.stringify(levels));
+                localStorage.setItem('tcd_snapshots', JSON.stringify(snapshots));
+            }
+        }
+
+        function setupTimeMachineOptions() {
+            const sel = document.getElementById('timemachine-date-select');
+            sel.innerHTML = '<option value="today">Today (Live List)</option>';
+            Object.keys(snapshots).sort().reverse().forEach(dateKey => {
+                sel.innerHTML += `<option value="${dateKey}">${dateKey}</option>`;
+            });
+        }
+
+        function renderTimeMachineSnapshot() {
+            const dateVal = document.getElementById('timemachine-date-select').value;
+            const container = document.getElementById('timemachine-content');
+
+            if (dateVal === 'today') {
+                container.innerHTML = `
+                    <h3 style="color:var(--accent);">📍 Currently viewing Live List</h3>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;">Total Levels: <strong>${levels.length}</strong></p>
+                `;
+                return;
+            }
+
+            const snapLevels = snapshots[dateVal] || [];
+            const currentNames = levels.map(l => l.name);
+            const snapNames = snapLevels.map(l => l.name);
+
+            const newAdded = levels.filter(l => !snapNames.includes(l.name));
+            const removed = snapLevels.filter(l => !currentNames.includes(l.name));
+
+            container.innerHTML = `
+                <h3 style="color:var(--accent); margin-bottom:0.5rem;">📅 Snapshot: ${dateVal}</h3>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Total levels on this date: <strong>${snapLevels.length}</strong></p>
+
+                <h4 style="font-size:0.9rem; margin-top:0.5rem;">✨ Changes Since ${dateVal}:</h4>
+                <ul style="padding-left:1.25rem; font-size:0.85rem; color:var(--text-main); margin-top:0.35rem; line-height:1.5;">
+                    <li><strong>${newAdded.length}</strong> new level(s) added since this date. ${newAdded.length ? `(${newAdded.map(l => l.name).join(', ')})` : ''}</li>
+                    <li><strong>${removed.length}</strong> level(s) removed or moved to legacy. ${removed.length ? `(${removed.map(l => l.name).join(', ')})` : ''}</li>
+                </ul>
+
+                <div style="margin-top:1rem; border-top:1px solid var(--border-color); padding-top:0.75rem;">
+                    <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">🏆 Top 5 Levels on ${dateVal}:</h4>
+                    <ol style="padding-left:1.25rem; font-size:0.85rem; color:var(--text-muted);">
+                        ${snapLevels.slice(0, 5).map(l => `<li><strong>#${l.rank} - ${l.name}</strong> by${l.creator}</li>`).join('')}
+                    </ol>
+                </div>
+            `;
+        }
+
         function syncCurrentUserState() {
             if (currentUser) {
+                if (currentUser.discordId === OWNER_DISCORD_ID) {
+                    currentUser.isMod = true;
+                }
+
                 const matched = usersDB.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase() || (u.discordId && u.discordId === currentUser.discordId));
                 if (matched) {
-                    // Ensure isMod privileges are maintained locally
+                    if (currentUser.discordId === OWNER_DISCORD_ID) matched.isMod = true;
                     currentUser = matched;
                     localStorage.setItem('tcd_user', JSON.stringify(currentUser));
                 } else {
-                    // Force owner/logged-in admin fallback if unmatched
                     currentUser.isMod = true;
                     usersDB.push(currentUser);
                     saveData();
@@ -431,7 +670,9 @@
 
         async function saveData() {
             if(currentUser) {
+                if (currentUser.discordId === OWNER_DISCORD_ID) currentUser.isMod = true;
                 localStorage.setItem('tcd_user', JSON.stringify(currentUser));
+                
                 const idx = usersDB.findIndex(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
                 if(idx !== -1) {
                     usersDB[idx] = currentUser;
@@ -440,10 +681,7 @@
                 }
             }
 
-            // Protect against empty/corrupted state syncs
-            if (!levels || levels.length === 0) {
-                await fetchGlobalData(); // Refetch if empty
-            }
+            saveSnapshotToday();
 
             try {
                 await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
@@ -481,25 +719,157 @@
                     const discordUser = await res.json();
                     if (discordUser.id) {
                         let matchedUser = usersDB.find(u => u.discordId === discordUser.id || u.username.toLowerCase() === discordUser.username.toLowerCase());
+                        let isModStatus = (discordUser.id === OWNER_DISCORD_ID);
+
                         if(!matchedUser) {
                             let customUsername = prompt("Enter your preferred website username:", discordUser.username) || discordUser.username;
                             let customCountry = prompt("Enter your country (e.g. United Kingdom, United States, Australia):", "United Kingdom") || "United Kingdom";
 
-                            matchedUser = { username: customUsername, discordId: discordUser.id, isMod: true, country: customCountry };
+                            matchedUser = { username: customUsername, discordId: discordUser.id, isMod: isModStatus, country: customCountry };
                             usersDB.push(matchedUser);
                         } else {
                             matchedUser.discordId = discordUser.id;
-                            matchedUser.isMod = true; // Ensure mod privileges remain active
+                            if (isModStatus) matchedUser.isMod = true;
                         }
                         currentUser = matchedUser;
                         await saveData();
                         window.history.replaceState({}, document.title, window.location.pathname);
                         updateAuthUI();
                         renderSideModsList();
-                        alert(`Signed in as: ${currentUser.username} (Mod Access Active)`);
+                        alert(`Signed in as: ${currentUser.username}`);
                     }
                 } catch(e) { console.error("Discord auth error:", e); }
             }
+        }
+
+        /* USER AREA DASHBOARD LOGIC */
+        function showUserAreaPage() {
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('mod-page-view').style.display = 'none';
+            document.getElementById('user-area-view').style.display = 'block';
+
+            renderUserAreaContent();
+        }
+
+        function exitUserAreaPage() {
+            document.getElementById('user-area-view').style.display = 'none';
+            document.getElementById('main-container').style.display = 'grid';
+        }
+
+        function renderUserAreaContent() {
+            const container = document.getElementById('user-area-content');
+
+            if (!currentUser) {
+                container.innerHTML = `
+                    <div class="user-profile-box" style="text-align:center;">
+                        <h2>You are not signed in</h2>
+                        <p style="color:var(--text-muted); margin: 1rem 0;">Please log in or sign in with Discord to access your Tiny TCD List user area account profile.</p>
+                        <button class="primary" onclick="openModal('auth-modal')">Login / Register</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const isStaff = currentUser.isMod === true;
+            const userYt = currentUser.youtube || `https://youtube.com/@${currentUser.username}`;
+
+            container.innerHTML = `
+                <div class="user-area-layout">
+                    <div class="user-profile-box">
+                        <div class="user-profile-title">Profile - ${currentUser.username}</div>
+
+                        <div class="user-field-group">
+                            <div class="user-field-title">Username: <span style="font-weight:400; color:var(--text-muted);">${currentUser.username}</span></div>
+                            <div class="user-field-desc">The name you registered under and which you use to log in to Tiny TCD List. This name is unique to your account, and cannot be changed.</div>
+                        </div>
+
+                        <div class="user-field-group">
+                            <div class="user-field-title">✏️ Display name: <span style="font-weight:400; color:var(--text-muted);">${currentUser.displayName || currentUser.username}</span></div>
+                            <div class="user-field-desc">If set, this name will be displayed instead of your username. Display names aren't unique and you cannot use your display name to login to your Tiny TCD List account.</div>
+                        </div>
+
+                        <div class="user-field-group">
+                            <div class="user-field-title">✏️ YouTube channel: <a href="${userYt}" target="_blank" style="color:var(--accent); text-decoration:none;">🔗 Link</a></div>
+                            <div class="user-field-desc">A link to your YouTube channel, if you have one. If set, all mentions of your name will turn into links to it.</div>
+                        </div>
+
+                        <div class="user-field-group">
+                            <div class="user-field-title">Permissions:</div>
+                            <div class="user-field-desc">
+                                The permissions you have on Tiny TCD List. 'List Mod' means you're a member of the demonlist team. 'Moderator' and 'Administrator' mean you're part of Tiny TCD List's staff team.
+                                <br><br>
+                                <strong style="color:${isStaff ? 'var(--accent)' : 'var(--text-muted)'};">[ ${isStaff ? 'List Moderator / Staff' : 'Standard Member'} ]</strong>
+                            </div>
+                        </div>
+
+                        <button class="btn-danger-large" onclick="deleteAccountAction()">Delete My Account</button>
+                    </div>
+
+                    <div>
+                        <div class="user-side-box">
+                            <h3>Logout</h3>
+                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Log out of your Tiny TCD List account in this browser.</p>
+                            <button class="btn-danger-large" style="width:100%; margin-top:0;" onclick="logout()">Logout</button>
+                        </div>
+
+                        <div class="user-side-box">
+                            <h3>Get access token</h3>
+                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Your Tiny TCD List access token allows you, or programs authorized by you, to make API calls on your behalf. They do not allow modifications of your account however.</p>
+                            <button class="btn-blue-large" onclick="alert('Access Token: tcd_token_' + Math.random().toString(36).substring(2, 15))">Get access token</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function deleteAccountAction() {
+            if (!currentUser) return;
+            if (!confirm("Are you sure you want to delete your Tiny TCD List account? This action cannot be undone.")) return;
+
+            usersDB = usersDB.filter(u => u.username.toLowerCase() !== currentUser.username.toLowerCase());
+            currentUser = null;
+            localStorage.removeItem('tcd_user');
+            await saveData();
+            alert("Your account has been deleted.");
+            exitUserAreaPage();
+            updateAuthUI();
+        }
+
+        async function readdLevelDirect() {
+            if (!currentUser || !currentUser.isMod) return alert("Only List Mods can re-add levels.");
+
+            const name = document.getElementById('readd-name').value.trim();
+            const levelId = document.getElementById('readd-id').value.trim();
+            const creator = document.getElementById('readd-creator').value.trim();
+            const verifier = document.getElementById('readd-verifier').value.trim();
+            const difficulty = document.getElementById('readd-diff').value;
+            const update = document.getElementById('readd-update').value.trim();
+            const song = document.getElementById('readd-song').value.trim();
+            const length = document.getElementById('readd-length').value.trim();
+            const objects = document.getElementById('readd-objects').value.trim();
+            const password = document.getElementById('readd-pass').value.trim();
+            const rank = parseInt(document.getElementById('readd-rank').value) || 1;
+            const reqPercent = parseInt(document.getElementById('readd-req').value) || 100;
+            const video = document.getElementById('readd-video').value.trim();
+
+            if (!name || !levelId) return alert("Level Name and Level ID are required.");
+
+            const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
+
+            let newLevel = {
+                id: newId, name, levelId, creator, verifier, difficulty, update,
+                song, length, objects, password, reqPercent, video, rank,
+                addedAt: new Date().toISOString(), completions: []
+            };
+
+            levels.splice(rank - 1, 0, newLevel);
+            levels.forEach((l, idx) => l.rank = idx + 1);
+
+            await saveData();
+            renderModPageContent();
+            renderSidebar();
+            selectLevel(newId);
+            alert(`Successfully restored/re-added level: #${rank} - ${name}!`);
         }
 
         function openSettingsModal() {
@@ -599,11 +969,13 @@
                 container.style.gridTemplateColumns = '320px 1fr 280px';
                 document.getElementById('sidebar-container').style.display = 'flex';
                 document.getElementById('right-sidebar-container').style.display = 'flex';
+                document.getElementById('user-area-view').style.display = 'none';
                 if (levels.length > 0 && !selectedLevelId) selectLevel(levels[0].id);
             } else {
                 container.style.gridTemplateColumns = '1fr';
                 document.getElementById('sidebar-container').style.display = 'none';
                 document.getElementById('right-sidebar-container').style.display = 'none';
+                document.getElementById('user-area-view').style.display = 'none';
                 renderLeaderboardView();
             }
         }
@@ -677,6 +1049,7 @@
                     <div class="meta-card"><label>Difficulty</label><value>${level.difficulty}</value></div>
                     <div class="meta-card"><label>GD Update</label><value>${level.update}</value></div>
                     <div class="meta-card"><label>Song</label><value>${level.song}</value></div>
+                    <div class="meta-card"><label>Objects</label><value>${level.objects || 'N/A'}</value></div>
                     <div class="meta-card"><label>Req %</label><value>${level.reqPercent}%</value></div>
                 </div>
 
@@ -756,8 +1129,7 @@
             if (currentUser) {
                 area.innerHTML = `
                     <div class="user-pill" style="display:flex; gap:0.5rem; align-items:center;">
-                        <span>👤 ${currentUser.username} ${currentUser.isMod ? '🛡️ [List Mod]' : ''}</span> 
-                        <button onclick="openSettingsModal()">⚙️ Settings</button>
+                        <button onclick="showUserAreaPage()">👤 ${currentUser.username} ${currentUser.isMod ? '🛡️' : ''}</button>
                         <button onclick="logout()">Logout</button>
                     </div>
                 `;
@@ -786,7 +1158,7 @@
             const p = document.getElementById('auth-password').value;
             const found = usersDB.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
             if(!found) return alert("Invalid credentials.");
-            found.isMod = true; // Maintain mod access
+            found.isMod = true;
             currentUser = found;
             saveData();
             updateAuthUI();
@@ -798,6 +1170,9 @@
             currentUser = null;
             localStorage.removeItem('tcd_user');
             updateAuthUI();
+            if(document.getElementById('user-area-view').style.display === 'block') {
+                renderUserAreaContent();
+            }
         }
 
         function toggleSubmissionType() {
@@ -847,6 +1222,7 @@
 
         function showModPage() {
             document.getElementById('main-container').style.display = 'none';
+            document.getElementById('user-area-view').style.display = 'none';
             document.getElementById('mod-page-view').style.display = 'block';
             renderModPageContent();
         }
@@ -909,11 +1285,16 @@
         }
 
         async function deleteLevel(id) {
-            if(!confirm("Delete this level?")) return;
+            const userPasscode = prompt("🔒 Enter deletion passcode required to delete this level:");
+            if (userPasscode !== DELETE_PASSCODE) {
+                return alert("❌ Incorrect passcode! Level deletion cancelled.");
+            }
+
             levels = levels.filter(l => l.id !== id);
             levels.sort((a,b) => a.rank - b.rank).forEach((l, i) => l.rank = i + 1);
             await saveData();
             renderModPageContent();
+            alert("Level successfully deleted.");
         }
 
         async function approveSubmission(idx) {
