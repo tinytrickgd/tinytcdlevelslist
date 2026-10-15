@@ -93,7 +93,6 @@
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        /* Exactly 6 meta cards matching user specifications */
         .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
         .meta-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 4px; }
         .meta-card label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem; }
@@ -126,42 +125,22 @@
         .mod-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .mod-user-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; display: flex; align-items: center; gap: 0.75rem; }
 
-        /* Global Announcement Banner */
         #global-announcement-banner { background: linear-gradient(90deg, #ff6600, #ff8533); color: #000; padding: 0.75rem 2rem; font-weight: 700; text-align: center; display: none; align-items: center; justify-content: center; gap: 1rem; z-index: 3000; }
         #global-announcement-banner.visible { display: flex; }
 
-        /* USER AREA DASHBOARD STYLES */
         #user-area-view { display: none; width: 100%; max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .user-area-nav { display: grid; grid-template-columns: 1fr 1fr; background: var(--panel-alt); border: 1px solid var(--border-color); border-radius: 4px 4px 0 0; margin-bottom: 1.5rem; }
-        .user-area-tab { padding: 1rem; text-align: center; font-weight: 700; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; background: transparent; border: none; font-size: 1rem; }
-        .user-area-tab.active { background: var(--panel-bg); color: var(--text-main); border-bottom: 3px solid var(--accent); }
-        .user-area-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
-        @media(max-width:850px) { .user-area-layout { grid-template-columns: 1fr; } }
-        
         .user-profile-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2rem; }
         .user-profile-title { font-size: 2rem; font-weight: 800; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; }
-        .user-field-group { margin-bottom: 1.5rem; }
-        .user-field-title { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.35rem; }
-        .user-field-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-
         .btn-danger-large { background: var(--danger); color: #fff; border: none; font-weight: 700; padding: 0.75rem 1.25rem; border-radius: 4px; cursor: pointer; margin-top: 1rem; font-size: 1rem; }
-        .btn-danger-large:hover { opacity: 0.9; }
-        .btn-blue-large { background: var(--info-blue); color: #fff; border: none; font-weight: 700; padding: 0.75rem 1.25rem; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1rem; margin-top: 1rem; }
-        .btn-blue-large:hover { opacity: 0.9; }
-
-        .user-side-box { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
-        .user-side-box h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.75rem; }
     </style>
 </head>
 <body>
 
-    <!-- Mod Panel Bar at the top -->
     <div id="mod-panel-bar">
         <span>🛡️ LIST MOD PANEL ACTIVE</span>
         <span id="mod-user-info"></span>
     </div>
 
-    <!-- Global Announcement Banner -->
     <div id="global-announcement-banner">
         <div id="announcement-text-content"></div>
         <div id="announcement-media-content"></div>
@@ -172,64 +151,65 @@
         <div class="brand-container" style="display:flex; align-items:center; gap:1.5rem;">
             <div>
                 <div class="logo">Tiny TCD Levels List</div>
-                <div class="subtitle">demonlist ranked levels</div>
+                <div class="subtitle" data-i18n="subtitle">demonlist ranked levels</div>
             </div>
 
-            <!-- Geometry Dash DEMONLIST Dropdown Header Button -->
+            <!-- Geometry Dash Demonlist Dropdown -->
             <div class="dropdown-container">
                 <button class="header-custom-tab">
                     <span class="top-label">Geometry Dash</span>
                     <span class="main-label">DEMONLIST ▼</span>
                 </button>
                 <div class="dropdown-menu">
-                    <div class="dropdown-item" onclick="openModal('guidelines-modal')">📜 Guidelines</div>
-                    <div class="dropdown-item" onclick="switchMainTab('leaderboard')">📊 Stats Viewer</div>
-                    <div class="dropdown-item" onclick="openModal('submit-modal')">📝 Record Submitter</div>
-                    <div class="dropdown-item" onclick="openModal('timemachine-modal')">⏳ Time Machine</div>
+                    <div class="dropdown-item" onclick="openModal('guidelines-modal')" data-i18n="guidelines">📜 Guidelines</div>
+                    <div class="dropdown-item" onclick="switchMainTab('leaderboard')" data-i18n="statsViewer">📊 Stats Viewer</div>
+                    <div class="dropdown-item" onclick="openModal('submit-modal')" data-i18n="submitRecord">📝 Record Submitter</div>
+                    <div class="dropdown-item" onclick="openModal('timemachine-modal')" data-i18n="timeMachine">⏳ Time Machine</div>
                 </div>
             </div>
             
-            <!-- REST API Documentation Header Button -->
+            <!-- REST API Documentation -->
             <button class="header-custom-tab" onclick="openModal('api-docs-modal')">
                 <span class="top-label">REST API</span>
-                <span class="main-label">Documentation</span>
+                <span class="main-label" data-i18n="documentation">Documentation</span>
             </button>
 
-            <!-- TINY TCD LIST User Area Header Button -->
+            <!-- Tiny TCD List User Area -->
             <button class="header-custom-tab" onclick="showUserAreaPage()">
                 <span class="top-label">TINY TCD LIST</span>
-                <span class="main-label">User Area</span>
+                <span class="main-label" data-i18n="userArea">User Area</span>
             </button>
         </div>
+
         <nav>
-            <button onclick="switchMainTab('list')" class="primary" id="nav-list-btn">Lists</button>
-            <button onclick="switchMainTab('leaderboard')" id="nav-lb-btn">Leaderboards</button>
-            <button onclick="openModal('submit-modal')">Submit / Record</button>
+            <button onclick="switchMainTab('list')" class="primary" id="nav-list-btn" data-i18n="lists">Lists</button>
+            <button onclick="switchMainTab('leaderboard')" id="nav-lb-btn" data-i18n="leaderboards">Leaderboards</button>
+            <button onclick="openModal('submit-modal')" data-i18n="submitRecordBtn">Submit / Record</button>
             
             <a href="https://discord.gg/gvM8HzCQQ" target="_blank" class="btn header-social discord">Discord</a>
             <a href="https://www.youtube.com/@TinyTCD_Official" target="_blank" class="btn header-social youtube">YouTube</a>
             <a href="https://tiktok.com/@tinytcd" target="_blank" class="btn header-social tiktok">TikTok</a>
 
-            <!-- Website Language Select -->
+            <!-- Language Select -->
             <select id="languageSelect" class="language-select" onchange="changeLanguage(this.value)">
                 <option value="en">English</option>
-                <option value="de">Deutsch (German)</option>
-                <option value="es">Español (Spanish)</option>
-                <option value="fr">Français (French)</option>
-                <option value="ru">Русский (Russian)</option>
-                <option value="pl">Polski (Polish)</option>
-                <option value="ro">Română (Romanian)</option>
-                <option value="it">Italiano (Italian)</option>
-                <option value="el">Ελληνικά (Greek)</option>
+                <option value="de">Deutsch</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="ru">Русский</option>
+                <option value="pl">Polski</option>
+                <option value="ro">Română</option>
+                <option value="it">Italiano</option>
+                <option value="el">Ελληνικά</option>
             </select>
 
-            <!-- Mod Actions Button & User Auth Area (Moved above / next to logout) -->
+            <!-- Mod Actions Button & User Auth Area Positioned Before Login/Logout -->
             <div id="mod-badge-container" style="display:none;">
-                <button class="primary" style="background-color: #b30000; border-color: #ff3333;" onclick="openModModal()">Mod Actions</button>
+                <button class="primary" style="background-color: #b30000; border-color: #ff3333;" onclick="openModModal()" data-i18n="modActions">Mod Actions</button>
             </div>
 
             <div id="user-auth-area" style="display:inline-flex; align-items:center; gap:0.5rem;">
-                <button onclick="openModal('auth-modal')" id="login-register-btn">Login / Register</button>
+                <button onclick="openModal('auth-modal')" id="login-register-btn" data-i18n="loginRegister">Login / Register</button>
             </div>
         </nav>
     </header>
@@ -242,7 +222,7 @@
                 <button class="list-tab-btn" onclick="switchListCategory('leg')" id="tab-leg">Legacy</button>
             </div>
             <div class="level-search">
-                <input type="text" id="level-search-input" placeholder="Search level..." oninput="filterLevels()">
+                <input type="text" id="level-search-input" placeholder="Search level..." oninput="filterLevels()" data-i18n-placeholder="searchLevel">
             </div>
             <div class="level-items" id="level-items-list"></div>
         </aside>
@@ -251,19 +231,19 @@
 
         <aside class="right-sidebar" id="right-sidebar-container">
             <div class="side-card">
-                <h3>List Moderators</h3>
+                <h3 data-i18n="listModerators">List Moderators</h3>
                 <div class="divider-line"></div>
-                <p class="desc">Contact any of these moderators for list issues or edits.</p>
+                <p class="desc" data-i18n="modsDesc">Contact any of these moderators for list issues or edits.</p>
                 <div class="side-mods-list" id="side-mods-display">
                     <div class="side-mod-item">TinyDoggie</div>
                 </div>
             </div>
 
             <div class="side-card">
-                <h3>Guidelines</h3>
+                <h3 data-i18n="guidelinesTitle">Guidelines</h3>
                 <div class="divider-line"></div>
-                <p class="desc">Check guidelines before submitting records!</p>
-                <button class="guidelines-btn-custom" onclick="openModal('guidelines-modal')">Read the guidelines!</button>
+                <p class="desc" data-i18n="guidelinesDesc">Check guidelines before submitting records!</p>
+                <button class="guidelines-btn-custom" onclick="openModal('guidelines-modal')" data-i18n="readGuidelines">Read the guidelines!</button>
             </div>
         </aside>
     </div>
@@ -271,69 +251,47 @@
     <!-- TIME MACHINE MODAL -->
     <div class="modal-overlay" id="timemachine-modal">
         <div class="modal" style="max-width:700px;">
-            <h2>⏳ Demonlist Time Machine</h2>
+            <h2 data-i18n="tmTitle">⏳ Demonlist Time Machine</h2>
             <div class="divider-line"></div>
-            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Select a date in the past to view what the Demonlist looked like on that day and see what changes have happened since!</p>
-            
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;" data-i18n="tmDesc">Select a date in the past to view what the Demonlist looked like on that day!</p>
             <div class="form-group">
-                <label>Select Snapshot Date</label>
+                <label data-i18n="tmSelectDate">Select Snapshot Date</label>
                 <select id="timemachine-date-select" onchange="renderTimeMachineSnapshot()">
                     <option value="today">Today (Live List)</option>
                 </select>
             </div>
-
             <div id="timemachine-content" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:6px; padding:1rem; max-height:350px; overflow-y:auto; margin-top:1rem;">
-                <p style="color:var(--text-muted); text-align:center;">Select a snapshot date above.</p>
+                <p style="color:var(--text-muted); text-align:center;" data-i18n="tmSelectPrompt">Select a snapshot date above.</p>
             </div>
-
             <div style="margin-top:1.5rem; text-align:right;">
-                <button class="primary" onclick="closeModal('timemachine-modal')">Close</button>
+                <button class="primary" onclick="closeModal('timemachine-modal')" data-i18n="close">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- TINY TCD LIST USER AREA VIEW PAGE -->
+    <!-- USER AREA VIEW PAGE -->
     <div id="user-area-view">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h1 style="font-size: 1.8rem; font-weight: 800;">Tiny TCD List User Area</h1>
-            <button class="primary" onclick="exitUserAreaPage()">Return to List</button>
+            <h1 style="font-size: 1.8rem; font-weight: 800;" data-i18n="userAreaTitle">Tiny TCD List User Area</h1>
+            <button class="primary" onclick="exitUserAreaPage()" data-i18n="returnToList">Return to List</button>
         </div>
-
-        <div class="user-area-nav">
-            <button class="user-area-tab active">Profile 👤</button>
-            <button class="user-area-tab" onclick="alert('List Integration feature available for integrated accounts.')">List Integration 📋</button>
-        </div>
-
         <div id="user-area-content"></div>
     </div>
 
     <!-- REST API Documentation Modal -->
     <div class="modal-overlay" id="api-docs-modal">
         <div class="modal" style="max-width: 700px;">
-            <h2>📖 REST API Documentation</h2>
+            <h2 data-i18n="apiTitle">📖 REST API Documentation</h2>
             <div class="divider-line"></div>
             <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 1rem;">
-                <p>You can fetch live Tiny TCD Levels List data programmatically using our JSONBin endpoint.</p>
-                
+                <p data-i18n="apiDesc">You can fetch live Tiny TCD Levels List data programmatically using our JSONBin endpoint.</p>
                 <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">1. Get All Levels & Leaderboards</h3>
-                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.25rem;">Endpoint URL:</p>
+                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">Endpoint URL</h3>
                     <code style="background: var(--bg-color); padding: 0.4rem; display: block; border-radius: 4px; font-size: 0.8rem; color: #ff8533;">GET https://api.jsonbin.io/v3/b/6ace74bcac6210605a2e9954/latest</code>
-                </div>
-
-                <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">2. Required Headers</h3>
-                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.25rem;">Pass your Master Key to authenticate read requests:</p>
-                    <code style="background: var(--bg-color); padding: 0.4rem; display: block; border-radius: 4px; font-size: 0.8rem; color: #ff8533;">X-Master-Key: $2a$10$X8M6Pg5z9KiyS8nkkyRrz.6uddBf0h3Xm53siSGAlNsXLD15Cy7le</code>
-                </div>
-
-                <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.25rem;">3. Response Schema</h3>
-                    <p style="color: var(--text-muted);">Returns a JSON object containing `levels` array, `submissions` array, and `usersDB` array.</p>
                 </div>
             </div>
             <div style="margin-top: 1.5rem; text-align: right;">
-                <button class="primary" onclick="closeModal('api-docs-modal')">Close</button>
+                <button class="primary" onclick="closeModal('api-docs-modal')" data-i18n="close">Close</button>
             </div>
         </div>
     </div>
@@ -342,71 +300,49 @@
     <div id="mod-page-view">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
             <div>
-                <h1>🛠️ Moderator Dashboard</h1>
-                <p style="color: var(--text-muted)">Manage list rankings, publish global announcements (messages, GIFs, pictures), and edit level difficulties.</p>
+                <h1 data-i18n="modDashboard">🛠️ Moderator Dashboard</h1>
+                <p style="color: var(--text-muted)" data-i18n="modDesc">Manage list rankings, publish global announcements, and edit level difficulties.</p>
             </div>
-            <button class="primary" onclick="exitModPage()">Exit Dashboard</button>
+            <button class="primary" onclick="exitModPage()" data-i18n="exitDashboard">Exit Dashboard</button>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
             <div>
-                <!-- Global Announcement Publisher Tool -->
                 <div style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:6px; padding:1.25rem; margin-bottom:2rem;">
-                    <h2 class="section-title" style="margin-top:0;">📢 Global Announcement Publisher</h2>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Broadcast a global message, GIF, or picture across all users' screens instantly.</p>
-
+                    <h2 class="section-title" style="margin-top:0;" data-i18n="globalAnnounce">📢 Global Announcement Publisher</h2>
                     <div class="form-group">
-                        <label>Announcement Text Message</label>
-                        <textarea id="announcement-msg" rows="2" placeholder="Type global announcement message here..."></textarea>
+                        <label data-i18n="announcementText">Announcement Text Message</label>
+                        <textarea id="announcement-msg" rows="2" placeholder="Type global announcement message..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Media URL (Image or GIF link)</label>
-                        <input type="text" id="announcement-media" placeholder="https://example.com/image.gif or https://.../pic.png">
+                        <label data-i18n="mediaUrl">Media URL (Image or GIF link)</label>
+                        <input type="text" id="announcement-media" placeholder="https://example.com/image.gif">
                     </div>
-
                     <div style="display:flex; gap:1rem;">
-                        <button class="primary" onclick="publishGlobalAnnouncement()" style="flex:1;">Publish Globally</button>
-                        <button onclick="clearGlobalAnnouncement()" style="background:var(--danger); border-color:var(--danger)">Clear Active</button>
+                        <button class="primary" onclick="publishGlobalAnnouncement()" style="flex:1;" data-i18n="publishGlobal">Publish Globally</button>
+                        <button onclick="clearGlobalAnnouncement()" style="background:var(--danger); border-color:var(--danger)" data-i18n="clearActive">Clear Active</button>
                     </div>
                 </div>
 
-                <!-- Restore / Re-Add Level Direct Tool -->
                 <div style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:6px; padding:1.25rem; margin-bottom:2rem;">
-                    <h2 class="section-title" style="margin-top:0;">➕ Restore / Re-Add Level</h2>
+                    <h2 class="section-title" style="margin-top:0;" data-i18n="restoreLevel">➕ Restore / Re-Add Level</h2>
                     <div class="form-row">
-                        <div class="form-group"><label>Level Name</label><input type="text" id="readd-name" placeholder="e.g. Tiny Grief"></div>
-                        <div class="form-group"><label>Level ID</label><input type="text" id="readd-id" placeholder="e.g. 10482915"></div>
+                        <div class="form-group"><label data-i18n="levelName">Level Name</label><input type="text" id="readd-name" placeholder="Level Name"></div>
+                        <div class="form-group"><label data-i18n="levelId">Level ID</label><input type="text" id="readd-id" placeholder="Level ID"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Creator</label><input type="text" id="readd-creator" placeholder="CreatorName"></div>
-                        <div class="form-group"><label>Verifier</label><input type="text" id="readd-verifier" placeholder="VerifierName"></div>
+                        <div class="form-group"><label data-i18n="creator">Creator</label><input type="text" id="readd-creator" placeholder="Creator"></div>
+                        <div class="form-group"><label data-i18n="verifier">Verifier</label><input type="text" id="readd-verifier" placeholder="Verifier"></div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Difficulty</label>
-                            <select id="readd-diff">
-                                <option value="Hard Demon">Hard Demon</option>
-                                <option value="Insane Demon">Insane Demon</option>
-                                <option value="Extreme Demon">Extreme Demon</option>
-                            </select>
-                        </div>
-                        <div class="form-group"><label>GD Update</label><input type="text" id="readd-update" value="2.2"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Song</label><input type="text" id="readd-song" placeholder="Song"></div>
-                        <div class="form-group"><label>Req %</label><input type="number" id="readd-req" value="100"></div>
-                    </div>
-                    <div class="form-group"><label>YouTube Proof Video Link</label><input type="text" id="readd-video" placeholder="https://youtube.com/watch?v=..."></div>
-
-                    <button class="primary" onclick="readdLevelDirect()" style="width:100%; margin-top:0.5rem;">Re-Add Level to List</button>
+                    <button class="primary" onclick="readdLevelDirect()" style="width:100%; margin-top:0.5rem;" data-i18n="readdBtn">Re-Add Level to List</button>
                 </div>
 
-                <h2 class="section-title">🛡️ Active List Moderators</h2>
+                <h2 class="section-title" data-i18n="activeListMods">🛡️ Active List Moderators</h2>
                 <div id="mod-staff-directory" class="mod-list-grid"></div>
             </div>
 
             <div>
-                <h2 class="section-title">📊 Re-Order Levels & Edit Difficulties</h2>
+                <h2 class="section-title" data-i18n="reorderLevels">📊 Re-Order Levels & Edit Difficulties</h2>
                 <div id="mod-page-level-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
             </div>
         </div>
@@ -415,48 +351,33 @@
     <!-- Guidelines Modal -->
     <div class="modal-overlay" id="guidelines-modal">
         <div class="modal">
-            <h2>📜 Submission Guidelines & Rules</h2>
+            <h2 data-i18n="guidelinesModalTitle">📜 Submission Guidelines & Rules</h2>
             <div class="divider-line"></div>
-            <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 1rem;">
-                <p>All demonlist operations are carried out in accordance with our guidelines. Please read carefully before submitting a level or record!</p>
-                <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">1. Level Eligibility</h3>
-                    <p style="color: var(--text-muted);">Levels do not have to be tiny! You can submit any level that you have beaten or verified (Hard Demon or harder).</p>
-                </div>
-                <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">2. Raw Footage & Audio Clicks</h3>
-                    <p style="color: var(--text-muted);">Real-time audio clicks or taps are strictly required for all submissions. No click mods, macros, or edited audio allowed.</p>
-                </div>
-                <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">3. Proof Video Quality</h3>
-                    <p style="color: var(--text-muted);">Video proof must show full unedited gameplay from level start to end screen with clear video quality (720p or higher recommended).</p>
-                </div>
-            </div>
+            <p style="color:var(--text-muted); line-height:1.6;" data-i18n="guidelinesModalText">All demonlist operations are carried out in accordance with our guidelines. Real-time audio clicks are required for all submissions.</p>
             <div style="margin-top: 1.5rem; text-align: right;">
-                <button class="primary" onclick="closeModal('guidelines-modal')">I Understand</button>
+                <button class="primary" onclick="closeModal('guidelines-modal')" data-i18n="iUnderstand">I Understand</button>
             </div>
         </div>
     </div>
 
-    <!-- Auth Modal with Discord Integration -->
+    <!-- Auth Modal -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal">
-            <h2>User Account</h2>
+            <h2 data-i18n="userAccount">User Account</h2>
             <div id="auth-forms">
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="auth-username" placeholder="Your Geometry Dash name">
+                    <label data-i18n="username">Username</label>
+                    <input type="text" id="auth-username" placeholder="Your GD name">
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label data-i18n="password">Password</label>
                     <input type="password" id="auth-password" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label>Country</label>
-                    <select id="auth-country" class="country-select-list">
+                    <label data-i18n="country">Country</label>
+                    <select id="auth-country">
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="United States">United States</option>
-                        <option value="Canada">Canada</option>
                         <option value="Germany">Germany</option>
                         <option value="France">France</option>
                         <option value="Spain">Spain</option>
@@ -470,16 +391,13 @@
                 </div>
                 
                 <div style="margin: 1.5rem 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-                    <button class="btn header-social discord" onclick="loginWithDiscord()" style="width: 100%; justify-content: center;">
-                        <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a74.57,74.57,0,0,0,64.3,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77.5,77.5,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-18.91-72.13ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74C48.81,40.23,53.9,45.92,53.8,53,53.8,60,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74C91,40.23,96.12,45.92,96,53,96,60,90.93,65.69,84.69,65.69Z"/></svg>
-                        Sign in with Discord
-                    </button>
+                    <button class="btn header-social discord" onclick="loginWithDiscord()" style="width: 100%; justify-content: center;" data-i18n="signinDiscord">Sign in with Discord</button>
                 </div>
 
                 <div style="display: flex; gap: 1rem;">
-                    <button class="primary" onclick="handleLogin()">Login</button>
-                    <button onclick="handleRegister()">Register</button>
-                    <button onclick="closeModal('auth-modal')" style="margin-left: auto;">Cancel</button>
+                    <button class="primary" onclick="handleLogin()" data-i18n="login">Login</button>
+                    <button onclick="handleRegister()" data-i18n="register">Register</button>
+                    <button onclick="closeModal('auth-modal')" style="margin-left: auto;" data-i18n="cancel">Cancel</button>
                 </div>
             </div>
         </div>
@@ -488,53 +406,17 @@
     <!-- Submit Modal -->
     <div class="modal-overlay" id="submit-modal">
         <div class="modal">
-            <h2>Submit Level or Record</h2>
+            <h2 data-i18n="submitModalTitle">Submit Level or Record</h2>
             <div class="form-group">
-                <label>Submission Type</label>
-                <select id="sub-type" onchange="toggleSubmissionType()">
-                    <option value="tiny-level">New Tiny Level Suggestion</option>
-                    <option value="level">New Level Suggestion (Hard Demon+)</option>
-                    <option value="tiny-record">New Tiny Level Record</option>
-                    <option value="record">New Level Record</option>
+                <label data-i18n="submissionType">Submission Type</label>
+                <select id="sub-type">
+                    <option value="tiny-level" data-i18n="subTinyLevel">New Tiny Level Suggestion</option>
+                    <option value="level" data-i18n="subLevel">New Level Suggestion (Hard Demon+)</option>
                 </select>
             </div>
-
-            <div id="sub-level-fields">
-                <div class="form-row">
-                    <div class="form-group"><label>Level Name</label><input type="text" id="sl-name"></div>
-                    <div class="form-group"><label>Level ID</label><input type="text" id="sl-id"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Creator</label><input type="text" id="sl-creator"></div>
-                    <div class="form-group"><label>Verifier</label><input type="text" id="sl-verifier"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Difficulty</label>
-                        <select id="sl-diff">
-                            <option value="Hard Demon">Hard Demon</option>
-                            <option value="Insane Demon">Insane Demon</option>
-                            <option value="Extreme Demon">Extreme Demon</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>GD Update</label><input type="text" id="sl-update" value="2.2"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Song</label><input type="text" id="sl-song"></div>
-                    <div class="form-group"><label>Req %</label><input type="number" id="sl-req" value="70"></div>
-                </div>
-                <div class="form-group"><label>YouTube Link</label><input type="text" id="sl-video"></div>
-            </div>
-
-            <div id="sub-record-fields" style="display: none;">
-                <div class="form-group"><label>Select Level</label><select id="sr-level-select"></select></div>
-                <div class="form-group"><label>Achieved %</label><input type="number" id="sr-percent" value="100"></div>
-                <div class="form-group"><label>YouTube Video Link</label><input type="text" id="sr-video"></div>
-            </div>
-
-            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                <button class="primary" onclick="submitEntry()">Submit</button>
-                <button onclick="closeModal('submit-modal')">Cancel</button>
+            <div class="form-group" style="display:flex; gap:1rem; margin-top:1.5rem;">
+                <button class="primary" onclick="closeModal('submit-modal')" data-i18n="submit">Submit</button>
+                <button onclick="closeModal('submit-modal')" data-i18n="cancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -554,6 +436,559 @@
             "1217096688154579006"
         ];
         const DELETE_PASSCODE = "463729helloyouluckyperson29363";
+
+        // Complete UI Translation Dictionaries for all 9 languages
+        const TRANSLATIONS = {
+            en: {
+                subtitle: "demonlist ranked levels",
+                guidelines: "📜 Guidelines",
+                statsViewer: "📊 Stats Viewer",
+                submitRecord: "📝 Record Submitter",
+                timeMachine: "⏳ Time Machine",
+                documentation: "Documentation",
+                userArea: "User Area",
+                lists: "Lists",
+                leaderboards: "Leaderboards",
+                submitRecordBtn: "Submit / Record",
+                modActions: "Mod Actions",
+                loginRegister: "Login / Register",
+                searchLevel: "Search level...",
+                listModerators: "List Moderators",
+                modsDesc: "Contact any of these moderators for list issues or edits.",
+                guidelinesTitle: "Guidelines",
+                guidelinesDesc: "Check guidelines before submitting records!",
+                readGuidelines: "Read the guidelines!",
+                tmTitle: "⏳ Demonlist Time Machine",
+                tmDesc: "Select a date in the past to view what the Demonlist looked like on that day!",
+                tmSelectDate: "Select Snapshot Date",
+                tmSelectPrompt: "Select a snapshot date above.",
+                close: "Close",
+                userAreaTitle: "Tiny TCD List User Area",
+                returnToList: "Return to List",
+                apiTitle: "📖 REST API Documentation",
+                apiDesc: "You can fetch live Tiny TCD Levels List data programmatically using our JSONBin endpoint.",
+                modDashboard: "🛠️ Moderator Dashboard",
+                modDesc: "Manage list rankings, publish global announcements, and edit level difficulties.",
+                exitDashboard: "Exit Dashboard",
+                globalAnnounce: "📢 Global Announcement Publisher",
+                announcementText: "Announcement Text Message",
+                mediaUrl: "Media URL (Image or GIF link)",
+                publishGlobal: "Publish Globally",
+                clearActive: "Clear Active",
+                restoreLevel: "➕ Restore / Re-Add Level",
+                levelName: "Level Name",
+                levelId: "Level ID",
+                creator: "Creator",
+                verifier: "Verifier",
+                readdBtn: "Re-Add Level to List",
+                activeListMods: "🛡️ Active List Moderators",
+                reorderLevels: "📊 Re-Order Levels & Edit Difficulties",
+                guidelinesModalTitle: "📜 Submission Guidelines & Rules",
+                guidelinesModalText: "All demonlist operations are carried out in accordance with our guidelines. Real-time audio clicks are required for all submissions.",
+                iUnderstand: "I Understand",
+                userAccount: "User Account",
+                username: "Username",
+                password: "Password",
+                country: "Country",
+                signinDiscord: "Sign in with Discord",
+                login: "Login",
+                register: "Register",
+                cancel: "Cancel",
+                submitModalTitle: "Submit Level or Record",
+                submissionType: "Submission Type",
+                subTinyLevel: "New Tiny Level Suggestion",
+                subLevel: "New Level Suggestion (Hard Demon+)",
+                submit: "Submit"
+            },
+            de: {
+                subtitle: "Demonlist Ranglisten-Level",
+                guidelines: "📜 Richtlinien",
+                statsViewer: "📊 Statistik",
+                submitRecord: "📝 Rekord einreichen",
+                timeMachine: "⏳ Zeitmaschine",
+                documentation: "Dokumentation",
+                userArea: "Benutzerbereich",
+                lists: "Listen",
+                leaderboards: "Bestenlisten",
+                submitRecordBtn: "Einreichen",
+                modActions: "Mod-Aktionen",
+                loginRegister: "Anmelden / Registrieren",
+                searchLevel: "Level suchen...",
+                listModerators: "List-Moderatoren",
+                modsDesc: "Kontaktiere die Moderatoren bei Fragen oder Problemen.",
+                guidelinesTitle: "Richtlinien",
+                guidelinesDesc: "Prüfe die Richtlinien vor dem Einreichen!",
+                readGuidelines: "Richtlinien lesen!",
+                tmTitle: "⏳ Demonlist Zeitmaschine",
+                tmDesc: "Wähle ein Datum in der Vergangenheit, um die damalige Liste zu sehen!",
+                tmSelectDate: "Datum auswählen",
+                tmSelectPrompt: "Wähle oben ein Datum aus.",
+                close: "Schließen",
+                userAreaTitle: "Tiny TCD List Benutzerbereich",
+                returnToList: "Zurück zur Liste",
+                apiTitle: "📖 REST-API Dokumentation",
+                apiDesc: "Du kannst Live-Daten der Tiny TCD Liste über unseren Endpunkt abrufen.",
+                modDashboard: "🛠️ Moderator-Dashboard",
+                modDesc: "Verwalte Ranglisten, globale Ankündigungen und Level-Schwierigkeiten.",
+                exitDashboard: "Dashboard verlassen",
+                globalAnnounce: "📢 Globale Ankündigung",
+                announcementText: "Ankündigungstext",
+                mediaUrl: "Medien-URL (Bild oder GIF)",
+                publishGlobal: "Global veröffentlichen",
+                clearActive: "Löschen",
+                restoreLevel: "➕ Level wiederherstellen",
+                levelName: "Levelname",
+                levelId: "Level-ID",
+                creator: "Ersteller",
+                verifier: "Verifizierer",
+                readdBtn: "Level zur Liste hinzufügen",
+                activeListMods: "🛡️ Aktive Moderatoren",
+                reorderLevels: "📊 Reihenfolge & Schwierigkeiten bearbeiten",
+                guidelinesModalTitle: "📜 Einrichtungsregeln",
+                guidelinesModalText: "Alle Einreichungen müssen Echtzeit-Klicks enthalten.",
+                iUnderstand: "Verstanden",
+                userAccount: "Benutzerkonto",
+                username: "Benutzername",
+                password: "Passwort",
+                country: "Land",
+                signinDiscord: "Mit Discord anmelden",
+                login: "Anmelden",
+                register: "Registrieren",
+                cancel: "Abbrechen",
+                submitModalTitle: "Level oder Rekord einreichen",
+                submissionType: "Einreichungstyp",
+                subTinyLevel: "Neues Tiny-Level",
+                subLevel: "Neues Level (Hard Demon+)",
+                submit: "Absenden"
+            },
+            es: {
+                subtitle: "niveles clasificados de demonlist",
+                guidelines: "📜 Pautas",
+                statsViewer: "📊 Estadísticas",
+                submitRecord: "📝 Enviar récord",
+                timeMachine: "⏳ Máquina del tiempo",
+                documentation: "Documentación",
+                userArea: "Área de usuario",
+                lists: "Listas",
+                leaderboards: "Tablas de clasificación",
+                submitRecordBtn: "Enviar / Récord",
+                modActions: "Acciones de Mod",
+                loginRegister: "Iniciar sesión / Registrarse",
+                searchLevel: "Buscar nivel...",
+                listModerators: "Moderadores",
+                modsDesc: "Contacta a los moderadores para problemas con la lista.",
+                guidelinesTitle: "Pautas",
+                guidelinesDesc: "¡Revisa las pautas antes de enviar!",
+                readGuidelines: "¡Leer pautas!",
+                tmTitle: "⏳ Máquina del Tiempo",
+                tmDesc: "¡Selecciona una fecha pasada para ver cómo era la lista!",
+                tmSelectDate: "Seleccionar fecha",
+                tmSelectPrompt: "Selecciona una fecha arriba.",
+                close: "Cerrar",
+                userAreaTitle: "Área de Usuario Tiny TCD",
+                returnToList: "Volver a la lista",
+                apiTitle: "📖 Documentación REST API",
+                apiDesc: "Puedes obtener datos en vivo de la lista con nuestro endpoint.",
+                modDashboard: "🛠️ Panel de Moderador",
+                modDesc: "Gestiona rankings, anuncios globales y dificultades.",
+                exitDashboard: "Salir del panel",
+                globalAnnounce: "📢 Anuncio Global",
+                announcementText: "Mensaje de anuncio",
+                mediaUrl: "URL de medios (Imagen o GIF)",
+                publishGlobal: "Publicar globalmente",
+                clearActive: "Borrar activo",
+                restoreLevel: "➕ Restaurar nivel",
+                levelName: "Nombre del nivel",
+                levelId: "ID del nivel",
+                creator: "Creador",
+                verifier: "Verificador",
+                readdBtn: "Añadir nivel",
+                activeListMods: "🛡️ Moderadores activos",
+                reorderLevels: "📊 Reordenar niveles y dificultades",
+                guidelinesModalTitle: "📜 Reglas de envío",
+                guidelinesModalText: "Se requieren clics de audio en tiempo real.",
+                iUnderstand: "Entiendo",
+                userAccount: "Cuenta de usuario",
+                username: "Usuario",
+                password: "Contraseña",
+                country: "País",
+                signinDiscord: "Iniciar sesión con Discord",
+                login: "Iniciar sesión",
+                register: "Registrarse",
+                cancel: "Cancelar",
+                submitModalTitle: "Enviar nivel o récord",
+                submissionType: "Tipo de envío",
+                subTinyLevel: "Sugerencia de Tiny Level",
+                subLevel: "Sugerencia de nivel",
+                submit: "Enviar"
+            },
+            fr: {
+                subtitle: "niveaux classés demonlist",
+                guidelines: "📜 Lignes directrices",
+                statsViewer: "📊 Statistiques",
+                submitRecord: "📝 Soumettre un record",
+                timeMachine: "⏳ Machine à remonter le temps",
+                documentation: "Documentation",
+                userArea: "Espace utilisateur",
+                lists: "Listes",
+                leaderboards: "Classements",
+                submitRecordBtn: "Soumettre / Record",
+                modActions: "Actions Modo",
+                loginRegister: "Connexion / S'inscrire",
+                searchLevel: "Rechercher...",
+                listModerators: "Modérateurs",
+                modsDesc: "Contactez les modérateurs pour tout problème.",
+                guidelinesTitle: "Règles",
+                guidelinesDesc: "Vérifiez les règles avant de soumettre !",
+                readGuidelines: "Lire les règles !",
+                tmTitle: "⏳ Machine à remonter le temps",
+                tmDesc: "Sélectionnez une date passée pour voir l'état de la liste !",
+                tmSelectDate: "Sélectionner la date",
+                tmSelectPrompt: "Sélectionnez une date ci-dessus.",
+                close: "Fermer",
+                userAreaTitle: "Espace Utilisateur Tiny TCD",
+                returnToList: "Retour à la liste",
+                apiTitle: "📖 Documentation REST API",
+                apiDesc: "Récupérez les données en direct via notre endpoint JSONBin.",
+                modDashboard: "🛠️ Tableau de bord modérateur",
+                modDesc: "Gérez les classements et annonces globales.",
+                exitDashboard: "Quitter",
+                globalAnnounce: "📢 Annonce Globale",
+                announcementText: "Message d'annonce",
+                mediaUrl: "URL Média (Image ou GIF)",
+                publishGlobal: "Publier globalement",
+                clearActive: "Effacer",
+                restoreLevel: "➕ Restaurer un niveau",
+                levelName: "Nom du niveau",
+                levelId: "ID du niveau",
+                creator: "Créateur",
+                verifier: "Vérificateur",
+                readdBtn: "Ajouter à la liste",
+                activeListMods: "🛡️ Modérateurs actifs",
+                reorderLevels: "📊 Réorganiser et éditer les difficultés",
+                guidelinesModalTitle: "📜 Règles de soumission",
+                guidelinesModalText: "Les clics audio en temps réel sont obligatoires.",
+                iUnderstand: "Je comprends",
+                userAccount: "Compte utilisateur",
+                username: "Nom d'utilisateur",
+                password: "Mot de passe",
+                country: "Pays",
+                signinDiscord: "Se connecter avec Discord",
+                login: "Connexion",
+                register: "S'inscrire",
+                cancel: "Annuler",
+                submitModalTitle: "Soumettre un niveau ou record",
+                submissionType: "Type de soumission",
+                subTinyLevel: "Suggestion Tiny Level",
+                subLevel: "Suggestion Niveau",
+                submit: "Soumettre"
+            },
+            ru: {
+                subtitle: "ранжированные уровни demonlist",
+                guidelines: "📜 Правила",
+                statsViewer: "📊 Статистика",
+                submitRecord: "📝 Отправить рекорд",
+                timeMachine: "⏳ Машина времени",
+                documentation: "Документация",
+                userArea: "Личный кабинет",
+                lists: "Списки",
+                leaderboards: "Таблица лидеров",
+                submitRecordBtn: "Отправить",
+                modActions: "Меню модератора",
+                loginRegister: "Вход / Регистрация",
+                searchLevel: "Поиск уровня...",
+                listModerators: "Модераторы списка",
+                modsDesc: "Свяжитесь с модераторами по вопросам списка.",
+                guidelinesTitle: "Правила",
+                guidelinesDesc: "Ознакомьтесь с правилами перед отправкой!",
+                readGuidelines: "Читать правила!",
+                tmTitle: "⏳ Машина времени",
+                tmDesc: "Выберите дату в прошлом, чтобы посмотреть состояние списка!",
+                tmSelectDate: "Выбрать дату",
+                tmSelectPrompt: "Выберите дату выше.",
+                close: "Закрыть",
+                userAreaTitle: "Кабинет пользователя Tiny TCD",
+                returnToList: "Вернуться к списку",
+                apiTitle: "📖 Документация REST API",
+                apiDesc: "Получайте данные списка через наш endpoint.",
+                modDashboard: "🛠️ Панель модератора",
+                modDesc: "Управляйте рейтингом и глобальными объявлениями.",
+                exitDashboard: "Выйти из панели",
+                globalAnnounce: "📢 Глобальное объявление",
+                announcementText: "Текст объявления",
+                mediaUrl: "URL медиа (Картинка или GIF)",
+                publishGlobal: "Опубликовать глобально",
+                clearActive: "Очистить",
+                restoreLevel: "➕ Восстановить уровень",
+                levelName: "Название уровня",
+                levelId: "ID уровня",
+                creator: "Создатель",
+                verifier: "Верификатор",
+                readdBtn: "Добавить в список",
+                activeListMods: "🛡️ Активные модераторы",
+                reorderLevels: "📊 Изменить порядок и сложность",
+                guidelinesModalTitle: "📜 Правила отправки",
+                guidelinesModalText: "Обязательны звуки кликов в реальном времени.",
+                iUnderstand: "Я понял",
+                userAccount: "Аккаунт",
+                username: "Имя пользователя",
+                password: "Пароль",
+                country: "Страна",
+                signinDiscord: "Войти через Discord",
+                login: "Войти",
+                register: "Регистрация",
+                cancel: "Отмена",
+                submitModalTitle: "Отправить уровень или рекорд",
+                submissionType: "Тип заявки",
+                subTinyLevel: "Предложение Tiny уровня",
+                subLevel: "Предложение уровня",
+                submit: "Отправить"
+            },
+            pl: {
+                subtitle: "sklasyfikowane poziomy demonlist",
+                guidelines: "📜 Wytyczne",
+                statsViewer: "📊 Statystyki",
+                submitRecord: "📝 Wyślij rekord",
+                timeMachine: "⏳ Wehikuł czasu",
+                documentation: "Dokumentacja",
+                userArea: "Strefa użytkownika",
+                lists: "Listy",
+                leaderboards: "Tablica wyników",
+                submitRecordBtn: "Wyślij / Rekord",
+                modActions: "Akcje Moderatora",
+                loginRegister: "Zaloguj / Rejestracja",
+                searchLevel: "Szukaj poziomu...",
+                listModerators: "Moderatorzy listy",
+                modsDesc: "Skontaktuj się z moderatorami w sprawie błędów.",
+                guidelinesTitle: "Wytyczne",
+                guidelinesDesc: "Sprawdź wytyczne przed wysłaniem rekordu!",
+                readGuidelines: "Przeczytaj wytyczne!",
+                tmTitle: "⏳ Wehikuł czasu",
+                tmDesc: "Wybierz datę z przeszłości, aby zobaczyć stan listy!",
+                tmSelectDate: "Wybierz datę",
+                tmSelectPrompt: "Wybierz datę powyżej.",
+                close: "Zamknij",
+                userAreaTitle: "Strefa użytkownika Tiny TCD",
+                returnToList: "Powrót do listy",
+                apiTitle: "📖 Dokumentacja REST API",
+                apiDesc: "Pobieraj dane listy programowo za pomocą naszego endpointu.",
+                modDashboard: "🛠️ Panel moderatora",
+                modDesc: "Zarządzaj rankingami, globalnymi ogłoszeniami i trudnością.",
+                exitDashboard: "Wyjdź z panelu",
+                globalAnnounce: "📢 Globalne ogłoszenie",
+                announcementText: "Treść ogłoszenia",
+                mediaUrl: "URL mediów (Obraz lub GIF)",
+                publishGlobal: "Opublikuj globalnie",
+                clearActive: "Wyczyść",
+                restoreLevel: "➕ Przywróć poziom",
+                levelName: "Nazwa poziomu",
+                levelId: "ID poziomu",
+                creator: "Twórca",
+                verifier: "Weryfikator",
+                readdBtn: "Dodaj poziom do listy",
+                activeListMods: "🛡️ Aktywni moderatorzy",
+                reorderLevels: "📊 Zmień kolejność i trudność",
+                guidelinesModalTitle: "📜 Zasady zgłoszeń",
+                guidelinesModalText: "Dźwięki kliknięć w czasie rzeczywistym są wymagane.",
+                iUnderstand: "Rozumiem",
+                userAccount: "Konto użytkownika",
+                username: "Nazwa użytkownika",
+                password: "Hasło",
+                country: "Kraj",
+                signinDiscord: "Zaloguj przez Discord",
+                login: "Zaloguj",
+                register: "Zarejestruj",
+                cancel: "Anuluj",
+                submitModalTitle: "Zgłoś poziom lub rekord",
+                submissionType: "Typ zgłoszenia",
+                subTinyLevel: "Nowa sugerowana propozycja Tiny",
+                subLevel: "Nowy poziom (Hard Demon+)",
+                submit: "Wyślij"
+            },
+            ro: {
+                subtitle: "niveluri clasificate demonlist",
+                guidelines: "📜 Ghid",
+                statsViewer: "📊 Statistici",
+                submitRecord: "📝 Trimite record",
+                timeMachine: "⏳ Mașina timpului",
+                documentation: "Documentație",
+                userArea: "Zona utilizatorului",
+                lists: "Liste",
+                leaderboards: "Clasament",
+                submitRecordBtn: "Trimite / Record",
+                modActions: "Acțiuni Moderator",
+                loginRegister: "Autentificare / Înregistrare",
+                searchLevel: "Caută nivel...",
+                listModerators: "Moderatori listă",
+                modsDesc: "Contactează moderatorii pentru probleme legate de listă.",
+                guidelinesTitle: "Ghid",
+                guidelinesDesc: "Verifică regulile înainte de a trimite!",
+                readGuidelines: "Citește ghidul!",
+                tmTitle: "⏳ Mașina timpului",
+                tmDesc: "Selectează o dată din trecut pentru a vedea cum arăta lista!",
+                tmSelectDate: "Selectează data",
+                tmSelectPrompt: "Selectează o dată de mai sus.",
+                close: "Închide",
+                userAreaTitle: "Zona Utilizator Tiny TCD",
+                returnToList: "Înapoi la listă",
+                apiTitle: "📖 Documentație REST API",
+                apiDesc: "Poți prelua date live folosind endpoint-ul nostru JSONBin.",
+                modDashboard: "🛠️ Panou Moderator",
+                modDesc: "Gestionează clasamentele, anunțurile globale și dificultățile.",
+                exitDashboard: "Ieși din panou",
+                globalAnnounce: "📢 Anunț Global",
+                announcementText: "Text anunț",
+                mediaUrl: "URL Media (Imagine sau GIF)",
+                publishGlobal: "Publică global",
+                clearActive: "Șterge activ",
+                restoreLevel: "➕ Restaurează nivel",
+                levelName: "Nume nivel",
+                levelId: "ID nivel",
+                creator: "Creator",
+                verifier: "Verificator",
+                readdBtn: "Adaugă nivel în listă",
+                activeListMods: "🛡️ Moderatori activi",
+                reorderLevels: "📊 Reordonează și editează dificultăți",
+                guidelinesModalTitle: "📜 Regulile de trimitere",
+                guidelinesModalText: "Sunetele de click în timp real sunt obligatorii.",
+                iUnderstand: "Am înțeles",
+                userAccount: "Cont utilizator",
+                username: "Nutilizator",
+                password: "Parolă",
+                country: "Țară",
+                signinDiscord: "Autentificare cu Discord",
+                login: "Autentificare",
+                register: "Înregistrare",
+                cancel: "Anulare",
+                submitModalTitle: "Trimite nivel sau record",
+                submissionType: "Tip trimitere",
+                subTinyLevel: "Sugestie Tiny Level nou",
+                subLevel: "Sugestie nivel nou",
+                submit: "Trimite"
+            },
+            it: {
+                subtitle: "livelli classificati demonlist",
+                guidelines: "📜 Linee guida",
+                statsViewer: "📊 Statistiche",
+                submitRecord: "📝 Invia record",
+                timeMachine: "⏳ Macchina del tempo",
+                documentation: "Documentazione",
+                userArea: "Area utente",
+                lists: "Liste",
+                leaderboards: "Classifica",
+                submitRecordBtn: "Invia / Record",
+                modActions: "Azioni Mod",
+                loginRegister: "Accedi / Registrati",
+                searchLevel: "Cerca livello...",
+                listModerators: "Moderatori della lista",
+                modsDesc: "Contatta i moderatori per problemi con la lista.",
+                guidelinesTitle: "Linee guida",
+                guidelinesDesc: "Controlla le linee guida prima di inviare!",
+                readGuidelines: "Leggi le linee guida!",
+                tmTitle: "⏳ Macchina del tempo",
+                tmDesc: "Seleziona una data passata per vedere la lista in quel momento!",
+                tmSelectDate: "Seleziona data",
+                tmSelectPrompt: "Seleziona una data sopra.",
+                close: "Chiudi",
+                userAreaTitle: "Area Utente Tiny TCD",
+                returnToList: "Torna alla lista",
+                apiTitle: "📖 Documentazione REST API",
+                apiDesc: "Puoi recuperare i dati della lista tramite il nostro endpoint.",
+                modDashboard: "🛠️ Dashboard Moderatore",
+                modDesc: "Gestisci classifiche, annunci globali e difficoltà.",
+                exitDashboard: "Esci dalla dashboard",
+                globalAnnounce: "📢 Annuncio Globale",
+                announcementText: "Testo annuncio",
+                mediaUrl: "URL Media (Immagine o GIF)",
+                publishGlobal: "Pubblica globalmente",
+                clearActive: "Cancella attivo",
+                restoreLevel: "➕ Ripristina livello",
+                levelName: "Nome livello",
+                levelId: "ID livello",
+                creator: "Creatore",
+                verifier: "Verificatore",
+                readdBtn: "Aggiungi livello",
+                activeListMods: "🛡️ Moderatori attivi",
+                reorderLevels: "📊 Riordina e modifica difficoltà",
+                guidelinesModalTitle: "📜 Regole di invio",
+                guidelinesModalText: "I clic audio in tempo reale sono obbligatori.",
+                iUnderstand: "Ho capito",
+                userAccount: "Account utente",
+                username: "Nome utente",
+                password: "Password",
+                country: "Paese",
+                signinDiscord: "Accedi con Discord",
+                login: "Accedi",
+                register: "Registrati",
+                cancel: "Annulla",
+                submitModalTitle: "Invia livello o record",
+                submissionType: "Tipo di invio",
+                subTinyLevel: "Nuovo Tiny Level",
+                subLevel: "Nuovo Livello (Hard Demon+)",
+                submit: "Invia"
+            },
+            el: {
+                subtitle: "επίπεδα demonlist",
+                guidelines: "📜 Οδηγίες",
+                statsViewer: "📊 Στατιστικά",
+                submitRecord: "📝 Υποβολή ρεκόρ",
+                timeMachine: "⏳ Χρονομηχανή",
+                documentation: "Τεκμηρίωση",
+                userArea: "Περιοχή χρήστη",
+                lists: "Λίστες",
+                leaderboards: "Κατάταξη",
+                submitRecordBtn: "Υποβολή / Ρεκόρ",
+                modActions: "Ενέργειες Mod",
+                loginRegister: "Σύνδεση / Εγγραφή",
+                searchLevel: "Αναζήτηση...",
+                listModerators: "Συντονιστές",
+                modsDesc: "Επικοινωνήστε με τους συντονιστές για θέματα λίστας.",
+                guidelinesTitle: "Οδηγίες",
+                guidelinesDesc: "Ελέγξτε τις οδηγίες πριν την υποβολή!",
+                readGuidelines: "Διαβάστε τις οδηγίες!",
+                tmTitle: "⏳ Χρονομηχανή",
+                tmDesc: "Επιλέξτε μια ημερομηνία στο παρελθόν για να δείτε τη λίστα τότε!",
+                tmSelectDate: "Επιλογή ημερομηνίας",
+                tmSelectPrompt: "Επιλέξτε ημερομηνία παραπάνω.",
+                close: "Κλείσιμο",
+                userAreaTitle: "Περιοχή Χρήστη Tiny TCD",
+                returnToList: "Επιστροφή στη λίστα",
+                apiTitle: "📖 Τεκμηρίωση REST API",
+                apiDesc: "Μπορείτε να ανακτήσετε ζωντανά δεδομένα λίστας μέσω JSONBin.",
+                modDashboard: "🛠️ Πίνακας Συντονιστή",
+                modDesc: "Διαχειριστείτε κατατάξεις, παγκόσμιες ανακοινώσεις και δυσκολίες.",
+                exitDashboard: "Έξοδος από πίνακα",
+                globalAnnounce: "📢 Παγκόσμια Ανακοίνωση",
+                announcementText: "Κείμενο ανακοίνωσης",
+                mediaUrl: "URL πολυμέσων (Εικόνα ή GIF)",
+                publishGlobal: "Δημοσίευση παγκόσμια",
+                clearActive: "Εκκαθάριση",
+                restoreLevel: "➕ Επαναφορά επιπέδου",
+                levelName: "Όνομα επιπέδου",
+                levelId: "ID επιπέδου",
+                creator: "Δημιουργός",
+                verifier: "Verifier",
+                readdBtn: "Προσθήκη στη λίστα",
+                activeListMods: "🛡️ Ενεργοί συντονιστές",
+                reorderLevels: "📊 Αναδιάταξη επιπέδων & επεξεργασία",
+                guidelinesModalTitle: "📜 Κανόνες υποβολής",
+                guidelinesModalText: "Απαιτούνται κλικ ήχου σε πραγματικό χρόνο.",
+                iUnderstand: "Κατάλαβα",
+                userAccount: "Λογαριασμός χρήστη",
+                username: "Όνομα χρήστη",
+                password: "Κωδικός",
+                country: "Χώρα",
+                signinDiscord: "Σύνδεση με Discord",
+                login: "Σύνδεση",
+                register: "Εγγραφή",
+                cancel: "Ακύρωση",
+                submitModalTitle: "Υποβολή επιπέδου ή ρεκόρ",
+                submissionType: "Tύπος υποβολής",
+                subTinyLevel: "Νέα πρόταση Tiny Level",
+                subLevel: "Νέα πρόταση επιπέδου",
+                submit: "Υποβολή"
+            }
+        };
 
         let currentUser = JSON.parse(localStorage.getItem('tcd_user')) || null;
         let levels = [];
@@ -577,10 +1012,9 @@
             setupTimeMachineOptions();
             checkGlobalAnnouncementBanner();
             
-            const savedLang = localStorage.getItem("website_language");
-            if (savedLang) {
-                document.getElementById("languageSelect").value = savedLang;
-            }
+            const savedLang = localStorage.getItem("website_language") || "en";
+            document.getElementById("languageSelect").value = savedLang;
+            applyTranslations(savedLang);
 
             if (levels.length > 0) selectLevel(levels[0].id);
             else renderEmptyState();
@@ -765,6 +1199,19 @@
 
         function changeLanguage(lang) {
             localStorage.setItem("website_language", lang);
+            applyTranslations(lang);
+        }
+
+        function applyTranslations(lang) {
+            const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.innerText = dict[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key]) el.placeholder = dict[key];
+            });
         }
 
         function showUserAreaPage() {
@@ -801,18 +1248,13 @@
             const levelId = document.getElementById('readd-id').value.trim();
             const creator = document.getElementById('readd-creator').value.trim();
             const verifier = document.getElementById('readd-verifier').value.trim();
-            const difficulty = document.getElementById('readd-diff').value;
-            const update = document.getElementById('readd-update').value.trim();
-            const song = document.getElementById('readd-song').value.trim();
-            const reqPercent = parseInt(document.getElementById('readd-req').value) || 100;
-            const video = document.getElementById('readd-video').value.trim();
 
             if (!name || !levelId) return alert("Level Name and Level ID are required.");
 
             const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
             let newLevel = {
-                id: newId, name, levelId, creator, verifier, difficulty, update,
-                song, reqPercent, video, rank: 1, addedAt: new Date().toISOString(), completions: []
+                id: newId, name, levelId, creator, verifier, difficulty: "Extreme Demon", update: "2.2",
+                song: "Unknown", reqPercent: 100, video: "", rank: 1, addedAt: new Date().toISOString(), completions: []
             };
 
             levels.unshift(newLevel);
@@ -923,7 +1365,7 @@
 
                 ${level.video ? `<div class="video-wrapper"><iframe src="${getYouTubeEmbedUrl(level.video)}" allowfullscreen></iframe></div>` : ''}
 
-                <!-- Exactly 6 meta cards matching your requested layout -->
+                <!-- Exactly 6 meta cards matching your layout -->
                 <div class="meta-grid">
                     <div class="meta-card">
                         <label>List Points</label>
