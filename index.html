@@ -27,7 +27,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* Mod Panel at the top */
         #mod-panel-bar {
             background: linear-gradient(90deg, #b30000, #ff3333);
             color: white;
@@ -50,13 +49,11 @@
         button:hover, .btn:hover { border-color: var(--accent); }
         button.primary, .btn.primary { background-color: var(--accent); color: #fff; border-color: var(--accent); }
         
-        /* REST API, User Area & Demonlist Dropdown Header Link Styles */
         .header-custom-tab { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0.25rem 0.5rem; transition: opacity 0.2s; position: relative; }
         .header-custom-tab:hover { opacity: 0.8; }
         .header-custom-tab span.top-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .header-custom-tab span.main-label { font-size: 0.95rem; font-weight: 800; color: var(--text-main); line-height: 1.1; }
 
-        /* DEMONLIST DROPDOWN STYLES */
         .dropdown-container { position: relative; display: inline-block; }
         .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: var(--panel-bg); border: 1px solid var(--border-color); min-width: 200px; box-shadow: 0px 8px 16px rgba(0,0,0,0.5); z-index: 2000; border-radius: 4px; overflow: hidden; margin-top: 0.25rem; }
         .dropdown-container:hover .dropdown-menu { display: block; }
@@ -95,11 +92,13 @@
         .level-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .meta-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 4px; }
-        .meta-card label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block; }
-        .section-title { font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin: 1.5rem 0 1rem 0; }
         
+        /* Exactly 6 meta cards matching user specifications */
+        .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .meta-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 4px; }
+        .meta-card label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem; }
+        
+        .section-title { font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin: 1.5rem 0 1rem 0; }
         .completions-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
         .completion-item { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
 
@@ -119,13 +118,17 @@
         .modal { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 2rem; max-height: 85vh; overflow-y: auto; }
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
-        .form-group input, .form-group select { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.75rem; color: var(--text-main); border-radius: 4px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.75rem; color: var(--text-main); border-radius: 4px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
         #mod-page-view { display: none; width: 100%; max-width: 1400px; margin: 0 auto; padding: 2rem; }
         .mod-editor-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
         .mod-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .mod-user-card { background: var(--panel-alt); border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; display: flex; align-items: center; gap: 0.75rem; }
+
+        /* Global Announcement Banner */
+        #global-announcement-banner { background: linear-gradient(90deg, #ff6600, #ff8533); color: #000; padding: 0.75rem 2rem; font-weight: 700; text-align: center; display: none; align-items: center; justify-content: center; gap: 1rem; z-index: 3000; }
+        #global-announcement-banner.visible { display: flex; }
 
         /* USER AREA DASHBOARD STYLES */
         #user-area-view { display: none; width: 100%; max-width: 1200px; margin: 0 auto; padding: 2rem; }
@@ -152,10 +155,17 @@
 </head>
 <body>
 
-    <!-- Mod Panel Bar (Appears at top if logged in user is a list mod) -->
+    <!-- Mod Panel Bar at the top -->
     <div id="mod-panel-bar">
         <span>🛡️ LIST MOD PANEL ACTIVE</span>
         <span id="mod-user-info"></span>
+    </div>
+
+    <!-- Global Announcement Banner -->
+    <div id="global-announcement-banner">
+        <div id="announcement-text-content"></div>
+        <div id="announcement-media-content"></div>
+        <button onclick="dismissAnnouncement()" style="background:none; border:none; color:#000; font-weight:bold; cursor:pointer;">✕</button>
     </div>
 
     <header>
@@ -213,7 +223,7 @@
                 <option value="el">Ελληνικά (Greek)</option>
             </select>
 
-            <!-- Mod badge button next to logout -->
+            <!-- Mod Actions Button & User Auth Area (Moved above / next to logout) -->
             <div id="mod-badge-container" style="display:none;">
                 <button class="primary" style="background-color: #b30000; border-color: #ff3333;" onclick="openModModal()">Mod Actions</button>
             </div>
@@ -328,190 +338,62 @@
         </div>
     </div>
 
-    <!-- User Account Settings Modal -->
-    <div class="modal-overlay" id="settings-modal">
-        <div class="modal">
-            <h2>⚙️ User Settings</h2>
-            <div class="divider-line"></div>
-            
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="setting-username">
-            </div>
-            <div class="form-group">
-                <label>Country</label>
-                <select id="setting-country" class="country-select-list">
-                    <!-- Complete list of countries -->
-                    <option value="Afghanistan">Afghanistan</option>
-                    <option value="Albania">Albania</option>
-                    <option value="Algeria">Algeria</option>
-                    <option value="Andorra">Andorra</option>
-                    <option value="Angola">Angola</option>
-                    <option value="Argentina">Argentina</option>
-                    <option value="Armenia">Armenia</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Austria">Austria</option>
-                    <option value="Azerbaijan">Azerbaijan</option>
-                    <option value="Bahamas">Bahamas</option>
-                    <option value="Bahrain">Bahrain</option>
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="Belarus">Belarus</option>
-                    <option value="Belgium">Belgium</option>
-                    <option value="Belize">Belize</option>
-                    <option value="Benin">Benin</option>
-                    <option value="Bhutan">Bhutan</option>
-                    <option value="Bolivia">Bolivia</option>
-                    <option value="Brazil">Brazil</option>
-                    <option value="Bulgaria">Bulgaria</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Chile">Chile</option>
-                    <option value="China">China</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Costa Rica">Costa Rica</option>
-                    <option value="Croatia">Croatia</option>
-                    <option value="Cuba">Cuba</option>
-                    <option value="Cyprus">Cyprus</option>
-                    <option value="Czech Republic">Czech Republic</option>
-                    <option value="Denmark">Denmark</option>
-                    <option value="Ecuador">Ecuador</option>
-                    <option value="Egypt">Egypt</option>
-                    <option value="Estonia">Estonia</option>
-                    <option value="Finland">Finland</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Greece">Greece</option>
-                    <option value="Hungary">Hungary</option>
-                    <option value="Iceland">Iceland</option>
-                    <option value="India">India</option>
-                    <option value="Indonesia">Indonesia</option>
-                    <option value="Iran">Iran</option>
-                    <option value="Iraq">Iraq</option>
-                    <option value="Ireland">Ireland</option>
-                    <option value="Israel">Israel</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Japan">Japan</option>
-                    <option value="Jordan">Jordan</option>
-                    <option value="Kazakhstan">Kazakhstan</option>
-                    <option value="Kenya">Kenya</option>
-                    <option value="Kuwait">Kuwait</option>
-                    <option value="Latvia">Latvia</option>
-                    <option value="Lebanon">Lebanon</option>
-                    <option value="Libya">Libya</option>
-                    <option value="Lithuania">Lithuania</option>
-                    <option value="Luxembourg">Luxembourg</option>
-                    <option value="Malaysia">Malaysia</option>
-                    <option value="Malta">Malta</option>
-                    <option value="Mexico">Mexico</option>
-                    <option value="Monaco">Monaco</option>
-                    <option value="Morocco">Morocco</option>
-                    <option value="Netherlands">Netherlands</option>
-                    <option value="New Zealand">New Zealand</option>
-                    <option value="Nigeria">Nigeria</option>
-                    <option value="Norway">Norway</option>
-                    <option value="Oman">Oman</option>
-                    <option value="Pakistan">Pakistan</option>
-                    <option value="Panama">Panama</option>
-                    <option value="Paraguay">Paraguay</option>
-                    <option value="Peru">Peru</option>
-                    <option value="Philippines">Philippines</option>
-                    <option value="Poland">Poland</option>
-                    <option value="Portugal">Portugal</option>
-                    <option value="Qatar">Qatar</option>
-                    <option value="Romania">Romania</option>
-                    <option value="Russia">Russia</option>
-                    <option value="Saudi Arabia">Saudi Arabia</option>
-                    <option value="Serbia">Serbia</option>
-                    <option value="Singapore">Singapore</option>
-                    <option value="Slovakia">Slovakia</option>
-                    <option value="Slovenia">Slovenia</option>
-                    <option value="South Africa">South Africa</option>
-                    <option value="South Korea">South Korea</option>
-                    <option value="Spain">Spain</option>
-                    <option value="Sri Lanka">Sri Lanka</option>
-                    <option value="Sweden">Sweden</option>
-                    <option value="Switzerland">Switzerland</option>
-                    <option value="Syria">Syria</option>
-                    <option value="Taiwan">Taiwan</option>
-                    <option value="Thailand">Thailand</option>
-                    <option value="Turkey">Turkey</option>
-                    <option value="Ukraine">Ukraine</option>
-                    <option value="United Arab Emirates">United Arab Emirates</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="United States">United States</option>
-                    <option value="Uruguay">Uruguay</option>
-                    <option value="Venezuela">Venezuela</option>
-                    <option value="Vietnam">Vietnam</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-
-            <div style="margin-top:1.5rem; border-top:1px solid var(--border-color); padding-top:1rem;">
-                <h3 style="font-size:1rem; color:var(--accent); margin-bottom:0.5rem;">🔑 Claim Previous Level Verification</h3>
-                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">If you uploaded/verified a level under an old account, claim ownership using your previous password!</p>
-                <div class="form-group">
-                    <label>Old Account Password</label>
-                    <input type="password" id="claim-old-pass" placeholder="Enter old password">
-                </div>
-                <div class="form-group">
-                    <label>Level In-Game ID</label>
-                    <input type="text" id="claim-level-id" placeholder="e.g. 150515146">
-                </div>
-                <button onclick="claimPreviousVerification()" style="width:100%; background:var(--panel-alt); border-color:var(--accent);">Claim Verification Ownership</button>
-            </div>
-
-            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                <button class="primary" onclick="saveUserSettings()">Save Settings</button>
-                <button onclick="closeModal('settings-modal')">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Mod Dashboard View -->
     <div id="mod-page-view">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
             <div>
                 <h1>🛠️ Moderator Dashboard</h1>
-                <p style="color: var(--text-muted)">Manage list rankings, re-add levels with full metadata, approve entries, and view active list moderators.</p>
+                <p style="color: var(--text-muted)">Manage list rankings, publish global announcements (messages, GIFs, pictures), and edit level difficulties.</p>
             </div>
             <button class="primary" onclick="exitModPage()">Exit Dashboard</button>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
             <div>
-                <!-- Re-Add / Restore Level Direct Tool -->
+                <!-- Global Announcement Publisher Tool -->
+                <div style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:6px; padding:1.25rem; margin-bottom:2rem;">
+                    <h2 class="section-title" style="margin-top:0;">📢 Global Announcement Publisher</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Broadcast a global message, GIF, or picture across all users' screens instantly.</p>
+
+                    <div class="form-group">
+                        <label>Announcement Text Message</label>
+                        <textarea id="announcement-msg" rows="2" placeholder="Type global announcement message here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Media URL (Image or GIF link)</label>
+                        <input type="text" id="announcement-media" placeholder="https://example.com/image.gif or https://.../pic.png">
+                    </div>
+
+                    <div style="display:flex; gap:1rem;">
+                        <button class="primary" onclick="publishGlobalAnnouncement()" style="flex:1;">Publish Globally</button>
+                        <button onclick="clearGlobalAnnouncement()" style="background:var(--danger); border-color:var(--danger)">Clear Active</button>
+                    </div>
+                </div>
+
+                <!-- Restore / Re-Add Level Direct Tool -->
                 <div style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:6px; padding:1.25rem; margin-bottom:2rem;">
                     <h2 class="section-title" style="margin-top:0;">➕ Restore / Re-Add Level</h2>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Directly restore or re-add a level with all its exact metadata (video link, objects, verifier, etc.)</p>
-
                     <div class="form-row">
                         <div class="form-group"><label>Level Name</label><input type="text" id="readd-name" placeholder="e.g. Tiny Grief"></div>
                         <div class="form-group"><label>Level ID</label><input type="text" id="readd-id" placeholder="e.g. 10482915"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Creator</label><input type="text" id="readd-creator" placeholder="e.g. CreatorName"></div>
-                        <div class="form-group"><label>Verifier</label><input type="text" id="readd-verifier" placeholder="e.g. VerifierName"></div>
+                        <div class="form-group"><label>Creator</label><input type="text" id="readd-creator" placeholder="CreatorName"></div>
+                        <div class="form-group"><label>Verifier</label><input type="text" id="readd-verifier" placeholder="VerifierName"></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>In-Game Difficulty</label>
+                            <label>Difficulty</label>
                             <select id="readd-diff">
-                                <option value="Extreme Demon">Extreme Demon</option>
-                                <option value="Insane Demon">Insane Demon</option>
                                 <option value="Hard Demon">Hard Demon</option>
+                                <option value="Insane Demon">Insane Demon</option>
+                                <option value="Extreme Demon">Extreme Demon</option>
                             </select>
                         </div>
                         <div class="form-group"><label>GD Update</label><input type="text" id="readd-update" value="2.2"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Song</label><input type="text" id="readd-song" placeholder="Song title"></div>
-                        <div class="form-group"><label>Length</label><input type="text" id="readd-length" placeholder="e.g. 1m 45s"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Objects Count</label><input type="text" id="readd-objects" placeholder="e.g. 45000"></div>
-                        <div class="form-group"><label>Password</label><input type="text" id="readd-pass" placeholder="e.g. Free or 123456"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Target Rank</label><input type="number" id="readd-rank" value="1"></div>
+                        <div class="form-group"><label>Song</label><input type="text" id="readd-song" placeholder="Song"></div>
                         <div class="form-group"><label>Req %</label><input type="number" id="readd-req" value="100"></div>
                     </div>
                     <div class="form-group"><label>YouTube Proof Video Link</label><input type="text" id="readd-video" placeholder="https://youtube.com/watch?v=..."></div>
@@ -519,15 +401,12 @@
                     <button class="primary" onclick="readdLevelDirect()" style="width:100%; margin-top:0.5rem;">Re-Add Level to List</button>
                 </div>
 
-                <h2 class="section-title">📥 Pending Queue</h2>
-                <div id="mod-page-pending-list" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;"></div>
-
                 <h2 class="section-title">🛡️ Active List Moderators</h2>
                 <div id="mod-staff-directory" class="mod-list-grid"></div>
             </div>
 
             <div>
-                <h2 class="section-title">📊 Re-Order Levels & Ranks</h2>
+                <h2 class="section-title">📊 Re-Order Levels & Edit Difficulties</h2>
                 <div id="mod-page-level-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
             </div>
         </div>
@@ -552,10 +431,6 @@
                     <h3 style="color: var(--accent); margin-bottom: 0.35rem;">3. Proof Video Quality</h3>
                     <p style="color: var(--text-muted);">Video proof must show full unedited gameplay from level start to end screen with clear video quality (720p or higher recommended).</p>
                 </div>
-                <div>
-                    <h3 style="color: var(--accent); margin-bottom: 0.35rem;">4. Allowed Modifications</h3>
-                    <p style="color: var(--text-muted);">Standard cosmetic physics/FPS bypass mods are permitted, but hack menus, speedhacks, or frame-steppers will result in an immediate ban.</p>
-                </div>
             </div>
             <div style="margin-top: 1.5rem; text-align: right;">
                 <button class="primary" onclick="closeModal('guidelines-modal')">I Understand</button>
@@ -579,105 +454,17 @@
                 <div class="form-group">
                     <label>Country</label>
                     <select id="auth-country" class="country-select-list">
-                        <option value="Afghanistan">Afghanistan</option>
-                        <option value="Albania">Albania</option>
-                        <option value="Algeria">Algeria</option>
-                        <option value="Andorra">Andorra</option>
-                        <option value="Angola">Angola</option>
-                        <option value="Argentina">Argentina</option>
-                        <option value="Armenia">Armenia</option>
-                        <option value="Australia">Australia</option>
-                        <option value="Austria">Austria</option>
-                        <option value="Azerbaijan">Azerbaijan</option>
-                        <option value="Bahamas">Bahamas</option>
-                        <option value="Bahrain">Bahrain</option>
-                        <option value="Bangladesh">Bangladesh</option>
-                        <option value="Belarus">Belarus</option>
-                        <option value="Belgium">Belgium</option>
-                        <option value="Belize">Belize</option>
-                        <option value="Benin">Benin</option>
-                        <option value="Bhutan">Bhutan</option>
-                        <option value="Bolivia">Bolivia</option>
-                        <option value="Brazil">Brazil</option>
-                        <option value="Bulgaria">Bulgaria</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Chile">Chile</option>
-                        <option value="China">China</option>
-                        <option value="Colombia">Colombia</option>
-                        <option value="Costa Rica">Costa Rica</option>
-                        <option value="Croatia">Croatia</option>
-                        <option value="Cuba">Cuba</option>
-                        <option value="Cyprus">Cyprus</option>
-                        <option value="Czech Republic">Czech Republic</option>
-                        <option value="Denmark">Denmark</option>
-                        <option value="Ecuador">Ecuador</option>
-                        <option value="Egypt">Egypt</option>
-                        <option value="Estonia">Estonia</option>
-                        <option value="Finland">Finland</option>
-                        <option value="France">France</option>
-                        <option value="Germany">Germany</option>
-                        <option value="Greece">Greece</option>
-                        <option value="Hungary">Hungary</option>
-                        <option value="Iceland">Iceland</option>
-                        <option value="India">India</option>
-                        <option value="Indonesia">Indonesia</option>
-                        <option value="Iran">Iran</option>
-                        <option value="Iraq">Iraq</option>
-                        <option value="Ireland">Ireland</option>
-                        <option value="Israel">Israel</option>
-                        <option value="Italy">Italy</option>
-                        <option value="Japan">Japan</option>
-                        <option value="Jordan">Jordan</option>
-                        <option value="Kazakhstan">Kazakhstan</option>
-                        <option value="Kenya">Kenya</option>
-                        <option value="Kuwait">Kuwait</option>
-                        <option value="Latvia">Latvia</option>
-                        <option value="Lebanon">Lebanon</option>
-                        <option value="Libya">Libya</option>
-                        <option value="Lithuania">Lithuania</option>
-                        <option value="Luxembourg">Luxembourg</option>
-                        <option value="Malaysia">Malaysia</option>
-                        <option value="Malta">Malta</option>
-                        <option value="Mexico">Mexico</option>
-                        <option value="Monaco">Monaco</option>
-                        <option value="Morocco">Morocco</option>
-                        <option value="Netherlands">Netherlands</option>
-                        <option value="New Zealand">New Zealand</option>
-                        <option value="Nigeria">Nigeria</option>
-                        <option value="Norway">Norway</option>
-                        <option value="Oman">Oman</option>
-                        <option value="Pakistan">Pakistan</option>
-                        <option value="Panama">Panama</option>
-                        <option value="Paraguay">Paraguay</option>
-                        <option value="Peru">Peru</option>
-                        <option value="Philippines">Philippines</option>
-                        <option value="Poland">Poland</option>
-                        <option value="Portugal">Portugal</option>
-                        <option value="Qatar">Qatar</option>
-                        <option value="Romania">Romania</option>
-                        <option value="Russia">Russia</option>
-                        <option value="Saudi Arabia">Saudi Arabia</option>
-                        <option value="Serbia">Serbia</option>
-                        <option value="Singapore">Singapore</option>
-                        <option value="Slovakia">Slovakia</option>
-                        <option value="Slovenia">Slovenia</option>
-                        <option value="South Africa">South Africa</option>
-                        <option value="South Korea">South Korea</option>
-                        <option value="Spain">Spain</option>
-                        <option value="Sri Lanka">Sri Lanka</option>
-                        <option value="Sweden">Sweden</option>
-                        <option value="Switzerland">Switzerland</option>
-                        <option value="Syria">Syria</option>
-                        <option value="Taiwan">Taiwan</option>
-                        <option value="Thailand">Thailand</option>
-                        <option value="Turkey">Turkey</option>
-                        <option value="Ukraine">Ukraine</option>
-                        <option value="United Arab Emirates">United Arab Emirates</option>
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="United States">United States</option>
-                        <option value="Uruguay">Uruguay</option>
-                        <option value="Venezuela">Venezuela</option>
-                        <option value="Vietnam">Vietnam</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Greece">Greece</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
@@ -723,24 +510,19 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>In-Game Difficulty</label>
+                        <label>Difficulty</label>
                         <select id="sl-diff">
                             <option value="Hard Demon">Hard Demon</option>
                             <option value="Insane Demon">Insane Demon</option>
                             <option value="Extreme Demon">Extreme Demon</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>GD Update</label><input type="text" id="sl-update" placeholder="e.g. 2.2"></div>
+                    <div class="form-group"><label>GD Update</label><input type="text" id="sl-update" value="2.2"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Song</label><input type="text" id="sl-song"></div>
-                    <div class="form-group"><label>Length</label><input type="text" id="sl-length"></div>
+                    <div class="form-group"><label>Req %</label><input type="number" id="sl-req" value="70"></div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Objects</label><input type="text" id="sl-objects"></div>
-                    <div class="form-group"><label>Password</label><input type="text" id="sl-pass"></div>
-                </div>
-                <div class="form-group"><label>List Req %</label><input type="number" id="sl-req" value="70"></div>
                 <div class="form-group"><label>YouTube Link</label><input type="text" id="sl-video"></div>
             </div>
 
@@ -750,31 +532,9 @@
                 <div class="form-group"><label>YouTube Video Link</label><input type="text" id="sr-video"></div>
             </div>
 
-            <div class="form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top:1rem;">
-                <input type="checkbox" id="sub-clicks" required>
-                <label for="sub-clicks" style="margin-bottom:0">Includes real-time audio clicks (No click mods)</label>
-            </div>
-
             <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                 <button class="primary" onclick="submitEntry()">Submit</button>
                 <button onclick="closeModal('submit-modal')">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mod Request Modal -->
-    <div class="modal-overlay" id="mod-request-modal">
-        <div class="modal">
-            <h2>Request List Moderator Status</h2>
-            <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:1.5rem;">
-                To become a moderator, connect your Discord account and submit a request in the server.<br><br>
-                <strong>Requirements:</strong><br>
-                1. Hold the <strong>List Mod Potential</strong> role on Discord.<br>
-                2. Run <code>/requestmod username:${currentUser ? currentUser.username : 'your_username'}</code> in the Discord server.<br>
-                3. Existing List Mods will review and approve your application directly in Discord DMs!
-            </p>
-            <div style="display:flex; justify-content:flex-end;">
-                <button class="primary" onclick="closeModal('mod-request-modal')">Got It</button>
             </div>
         </div>
     </div>
@@ -799,6 +559,7 @@
         let levels = [];
         let submissions = [];
         let usersDB = [];
+        let globalAnnouncement = null;
         let snapshots = JSON.parse(localStorage.getItem('tcd_snapshots')) || {};
 
         let currentCategory = 'main';
@@ -814,6 +575,7 @@
             renderSidebar();
             renderSideModsList();
             setupTimeMachineOptions();
+            checkGlobalAnnouncementBanner();
             
             const savedLang = localStorage.getItem("website_language");
             if (savedLang) {
@@ -834,8 +596,43 @@
                     levels = data.record.levels || [];
                     submissions = data.record.submissions || [];
                     usersDB = data.record.usersDB || [];
+                    globalAnnouncement = data.record.globalAnnouncement || null;
                 }
             } catch(e) { console.error("Cloud sync load error:", e); }
+        }
+
+        function checkGlobalAnnouncementBanner() {
+            const banner = document.getElementById('global-announcement-banner');
+            if (globalAnnouncement && (globalAnnouncement.text || globalAnnouncement.media)) {
+                document.getElementById('announcement-text-content').innerText = globalAnnouncement.text || '';
+                document.getElementById('announcement-media-content').innerHTML = globalAnnouncement.media ? `<img src="${globalAnnouncement.media}" style="max-height:40px; border-radius:4px; vertical-align:middle;" alt="media">` : '';
+                banner.classList.add('visible');
+            } else {
+                banner.classList.remove('visible');
+            }
+        }
+
+        function dismissAnnouncement() {
+            document.getElementById('global-announcement-banner').classList.remove('visible');
+        }
+
+        async function publishGlobalAnnouncement() {
+            if (!currentUser || !currentUser.isMod) return alert("Unauthorized.");
+            const text = document.getElementById('announcement-msg').value.trim();
+            const media = document.getElementById('announcement-media').value.trim();
+
+            globalAnnouncement = { text, media };
+            await saveData();
+            checkGlobalAnnouncementBanner();
+            alert("Global announcement published successfully!");
+        }
+
+        async function clearGlobalAnnouncement() {
+            if (!currentUser || !currentUser.isMod) return alert("Unauthorized.");
+            globalAnnouncement = null;
+            await saveData();
+            checkGlobalAnnouncementBanner();
+            alert("Global announcement cleared.");
         }
 
         function saveSnapshotToday() {
@@ -867,28 +664,9 @@
             }
 
             const snapLevels = snapshots[dateVal] || [];
-            const currentNames = levels.map(l => l.name);
-            const snapNames = snapLevels.map(l => l.name);
-
-            const newAdded = levels.filter(l => !snapNames.includes(l.name));
-            const removed = snapLevels.filter(l => !currentNames.includes(l.name));
-
             container.innerHTML = `
                 <h3 style="color:var(--accent); margin-bottom:0.5rem;">📅 Snapshot: ${dateVal}</h3>
                 <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Total levels on this date: <strong>${snapLevels.length}</strong></p>
-
-                <h4 style="font-size:0.9rem; margin-top:0.5rem;">✨ Changes Since ${dateVal}:</h4>
-                <ul style="padding-left:1.25rem; font-size:0.85rem; color:var(--text-main); margin-top:0.35rem; line-height:1.5;">
-                    <li><strong>${newAdded.length}</strong> new level(s) added since this date. ${newAdded.length ? `(${newAdded.map(l => l.name).join(', ')})` : ''}</li>
-                    <li><strong>${removed.length}</strong> level(s) removed or moved to legacy. ${removed.length ? `(${removed.map(l => l.name).join(', ')})` : ''}</li>
-                </ul>
-
-                <div style="margin-top:1rem; border-top:1px solid var(--border-color); padding-top:0.75rem;">
-                    <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">🏆 Top 5 Levels on ${dateVal}:</h4>
-                    <ol style="padding-left:1.25rem; font-size:0.85rem; color:var(--text-muted);">
-                        ${snapLevels.slice(0, 5).map(l => `<li><strong>#${l.rank} - ${l.name}</strong> by${l.creator}</li>`).join('')}
-                    </ol>
-                </div>
             `;
         }
 
@@ -930,7 +708,7 @@
                 await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-                    body: JSON.stringify({ levels, submissions, usersDB })
+                    body: JSON.stringify({ levels, submissions, usersDB, globalAnnouncement })
                 });
             } catch(e) { console.error("Cloud sync save error:", e); }
         }
@@ -966,7 +744,7 @@
 
                         if(!matchedUser) {
                             let customUsername = prompt("Enter your preferred website username:", discordUser.username) || discordUser.username;
-                            let customCountry = prompt("Enter your country (e.g. United Kingdom, United States, Germany, France, etc.):", "United Kingdom") || "United Kingdom";
+                            let customCountry = prompt("Enter your country:", "United Kingdom") || "United Kingdom";
 
                             matchedUser = { username: customUsername, discordId: discordUser.id, isMod: isModStatus, country: customCountry };
                             usersDB.push(matchedUser);
@@ -989,12 +767,10 @@
             localStorage.setItem("website_language", lang);
         }
 
-        /* USER AREA DASHBOARD LOGIC */
         function showUserAreaPage() {
             document.getElementById('main-container').style.display = 'none';
             document.getElementById('mod-page-view').style.display = 'none';
             document.getElementById('user-area-view').style.display = 'block';
-
             renderUserAreaContent();
         }
 
@@ -1005,81 +781,17 @@
 
         function renderUserAreaContent() {
             const container = document.getElementById('user-area-content');
-
             if (!currentUser) {
-                container.innerHTML = `
-                    <div class="user-profile-box" style="text-align:center;">
-                        <h2>You are not signed in</h2>
-                        <p style="color:var(--text-muted); margin: 1rem 0;">Please log in or sign in with Discord to access your Tiny TCD List user area account profile.</p>
-                        <button class="primary" onclick="openModal('auth-modal')">Login / Register</button>
-                    </div>
-                `;
+                container.innerHTML = `<div class="user-profile-box" style="text-align:center;"><h2>You are not signed in</h2></div>`;
                 return;
             }
-
-            const isStaff = currentUser.isMod === true;
-            const userYt = currentUser.youtube || `https://youtube.com/@${currentUser.username}`;
-
             container.innerHTML = `
-                <div class="user-area-layout">
-                    <div class="user-profile-box">
-                        <div class="user-profile-title">Profile - ${currentUser.username}</div>
-
-                        <div class="user-field-group">
-                            <div class="user-field-title">Username: <span style="font-weight:400; color:var(--text-muted);">${currentUser.username}</span></div>
-                            <div class="user-field-desc">The name you registered under and which you use to log in to Tiny TCD List. This name is unique to your account, and cannot be changed.</div>
-                        </div>
-
-                        <div class="user-field-group">
-                            <div class="user-field-title">✏️ Display name: <span style="font-weight:400; color:var(--text-muted);">${currentUser.displayName || currentUser.username}</span></div>
-                            <div class="user-field-desc">If set, this name will be displayed instead of your username. Display names aren't unique and you cannot use your display name to login to your Tiny TCD List account.</div>
-                        </div>
-
-                        <div class="user-field-group">
-                            <div class="user-field-title">✏️ YouTube channel: <a href="${userYt}" target="_blank" style="color:var(--accent); text-decoration:none;">🔗 Link</a></div>
-                            <div class="user-field-desc">A link to your YouTube channel, if you have one. If set, all mentions of your name will turn into links to it.</div>
-                        </div>
-
-                        <div class="user-field-group">
-                            <div class="user-field-title">Permissions:</div>
-                            <div class="user-field-desc">
-                                The permissions you have on Tiny TCD List. 'List Mod' means you're a member of the demonlist team.
-                                <br><br>
-                                <strong style="color:${isStaff ? 'var(--accent)' : 'var(--text-muted)'};">[ ${isStaff ? 'List Moderator / Staff' : 'Standard Member'} ]</strong>
-                            </div>
-                        </div>
-
-                        <button class="btn-danger-large" onclick="deleteAccountAction()">Delete My Account</button>
-                    </div>
-
-                    <div>
-                        <div class="user-side-box">
-                            <h3>Logout</h3>
-                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Log out of your Tiny TCD List account in this browser.</p>
-                            <button class="btn-danger-large" style="width:100%; margin-top:0;" onclick="logout()">Logout</button>
-                        </div>
-
-                        <div class="user-side-box">
-                            <h3>Get access token</h3>
-                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Your Tiny TCD List access token allows you, or programs authorized by you, to make API calls on your behalf.</p>
-                            <button class="btn-blue-large" onclick="alert('Access Token: tcd_token_' + Math.random().toString(36).substring(2, 15))">Get access token</button>
-                        </div>
-                    </div>
+                <div class="user-profile-box">
+                    <div class="user-profile-title">Profile - ${currentUser.username}</div>
+                    <p>Role: ${currentUser.isMod ? 'List Moderator' : 'Standard Member'}</p>
+                    <button class="btn-danger-large" onclick="logout()">Logout</button>
                 </div>
             `;
-        }
-
-        async function deleteAccountAction() {
-            if (!currentUser) return;
-            if (!confirm("Are you sure you want to delete your Tiny TCD List account? This action cannot be undone.")) return;
-
-            usersDB = usersDB.filter(u => u.username.toLowerCase() !== currentUser.username.toLowerCase());
-            currentUser = null;
-            localStorage.removeItem('tcd_user');
-            await saveData();
-            alert("Your account has been deleted.");
-            exitUserAreaPage();
-            updateAuthUI();
         }
 
         async function readdLevelDirect() {
@@ -1092,110 +804,35 @@
             const difficulty = document.getElementById('readd-diff').value;
             const update = document.getElementById('readd-update').value.trim();
             const song = document.getElementById('readd-song').value.trim();
-            const length = document.getElementById('readd-length').value.trim();
-            const objects = document.getElementById('readd-objects').value.trim();
-            const password = document.getElementById('readd-pass').value.trim();
-            const rank = parseInt(document.getElementById('readd-rank').value) || 1;
             const reqPercent = parseInt(document.getElementById('readd-req').value) || 100;
             const video = document.getElementById('readd-video').value.trim();
 
             if (!name || !levelId) return alert("Level Name and Level ID are required.");
 
             const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
-
             let newLevel = {
                 id: newId, name, levelId, creator, verifier, difficulty, update,
-                song, length, objects, password, reqPercent, video, rank,
-                addedAt: new Date().toISOString(), completions: []
+                song, reqPercent, video, rank: 1, addedAt: new Date().toISOString(), completions: []
             };
 
-            levels.splice(rank - 1, 0, newLevel);
+            levels.unshift(newLevel);
             levels.forEach((l, idx) => l.rank = idx + 1);
 
             await saveData();
             renderModPageContent();
             renderSidebar();
             selectLevel(newId);
-            alert(`Successfully restored/re-added level: #${rank} - ${name}!`);
+            alert(`Successfully restored/re-added level: ${name}!`);
         }
 
-        function openSettingsModal() {
-            if (!currentUser) return;
-            document.getElementById('setting-username').value = currentUser.username;
-            document.getElementById('setting-country').value = currentUser.country || "United Kingdom";
-            openModal('settings-modal');
-        }
-
-        async function saveUserSettings() {
-            if (!currentUser) return;
-            const oldName = currentUser.username;
-            const newName = document.getElementById('setting-username').value.trim();
-            const newCountry = document.getElementById('setting-country').value;
-
-            if (!newName) return alert("Username cannot be empty.");
-
-            if (oldName !== newName) {
-                levels.forEach(l => {
-                    if (l.verifier === oldName) l.verifier = newName;
-                    if (l.creator === oldName) l.creator = newName;
-                    l.completions.forEach(c => {
-                        if (c.player === oldName) {
-                            c.player = newName;
-                            c.country = newCountry;
-                        }
-                    });
-                });
-            }
-
-            currentUser.username = newName;
-            currentUser.country = newCountry;
-
-            await saveData();
-            updateAuthUI();
-            renderSideModsList();
-            closeModal('settings-modal');
-            alert("Settings saved!");
-        }
-
-        async function claimPreviousVerification() {
-            if (!currentUser) return alert("Please log in first.");
-            const oldPass = document.getElementById('claim-old-pass').value;
-            const targetLevelId = document.getElementById('claim-level-id').value.trim();
-
-            if (!oldPass || !targetLevelId) return alert("Fill in both old password and Level ID.");
-
-            const oldUserAccount = usersDB.find(u => u.password === oldPass);
-            if (!oldUserAccount) return alert("Invalid old account password.");
-
-            const targetLevel = levels.find(l => l.levelId.toString() === targetLevelId);
-            if (!targetLevel) return alert("Level ID not found on list.");
-
-            if (targetLevel.verifier === oldUserAccount.username || targetLevel.creator === oldUserAccount.username) {
-                if (targetLevel.verifier === oldUserAccount.username) targetLevel.verifier = currentUser.username;
-                if (targetLevel.creator === oldUserAccount.username) targetLevel.creator = currentUser.username;
-
+        async function updateLevelDifficulty(levelId, newDiff) {
+            const lvl = levels.find(l => l.id === levelId);
+            if (lvl) {
+                lvl.difficulty = newDiff;
                 await saveData();
-                alert(`Successfully claimed verification for level: ${targetLevel.name}!`);
-                closeModal('settings-modal');
-            } else {
-                alert("Old account is not recorded as the verifier for this level.");
+                renderSidebar();
+                if (selectedLevelId === levelId) selectLevel(levelId);
             }
-        }
-
-        function getYouTubeVideoId(url) {
-            if (!url) return null;
-            let match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-            return match ? match[1] : null;
-        }
-
-        function getYouTubeEmbedUrl(url) {
-            const id = getYouTubeVideoId(url);
-            return id ? `https://www.youtube.com/embed/${id}` : url;
-        }
-
-        function getYouTubeThumbnailUrl(url) {
-            const id = getYouTubeVideoId(url);
-            return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : 'https://via.placeholder.com/120x90?text=No+Thumb';
         }
 
         function calculatePoints(rank) {
@@ -1265,7 +902,6 @@
             document.getElementById('main-panel-content').innerHTML = `
                 <div class="empty-panel" style="text-align:center; padding: 3rem 1rem;">
                     <h2>No Levels Added Yet</h2>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Submit a level you've beaten or log in as a moderator.</p>
                 </div>
             `;
         }
@@ -1283,21 +919,36 @@
                         <h1>#${level.rank} - ${level.name}</h1>
                         <p style="color: var(--text-muted)">Created by ${level.creator} | Verified by ${level.verifier}</p>
                     </div>
-                    <div>
-                        ${currentUser && currentUser.isMod ? '<button class="primary" onclick="openModModal()">Mod Panel</button>' : ''}
-                    </div>
                 </div>
 
                 ${level.video ? `<div class="video-wrapper"><iframe src="${getYouTubeEmbedUrl(level.video)}" allowfullscreen></iframe></div>` : ''}
 
+                <!-- Exactly 6 meta cards matching your requested layout -->
                 <div class="meta-grid">
-                    <div class="meta-card"><label>List Points</label><value style="color: var(--accent); font-weight:bold;">${calculatePoints(level.rank)} pts</value></div>
-                    <div class="meta-card"><label>Level ID</label><value>${level.levelId}</value></div>
-                    <div class="meta-card"><label>Difficulty</label><value>${level.difficulty}</value></div>
-                    <div class="meta-card"><label>GD Update</label><value>${level.update}</value></div>
-                    <div class="meta-card"><label>Song</label><value>${level.song}</value></div>
-                    <div class="meta-card"><label>Objects</label><value>${level.objects || 'N/A'}</value></div>
-                    <div class="meta-card"><label>Req %</label><value>${level.reqPercent}%</value></div>
+                    <div class="meta-card">
+                        <label>List Points</label>
+                        <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent);">${calculatePoints(level.rank)} pts</div>
+                    </div>
+                    <div class="meta-card">
+                        <label>Level ID</label>
+                        <div style="font-size: 1.2rem; font-weight: 700;">${level.levelId}</div>
+                    </div>
+                    <div class="meta-card">
+                        <label>Difficulty</label>
+                        <div style="font-size: 1.2rem; font-weight: 700; color: var(--danger);">${level.difficulty}</div>
+                    </div>
+                    <div class="meta-card">
+                        <label>GD Update</label>
+                        <div style="font-size: 1.2rem; font-weight: 700;">${level.update || '2.2'}</div>
+                    </div>
+                    <div class="meta-card">
+                        <label>Song</label>
+                        <div style="font-size: 1.2rem; font-weight: 700;">${level.song || 'Unknown'}</div>
+                    </div>
+                    <div class="meta-card">
+                        <label>Req %</label>
+                        <div style="font-size: 1.2rem; font-weight: 700;">${level.reqPercent}%</div>
+                    </div>
                 </div>
 
                 <h3 class="section-title">Completions (${level.completions.length})</h3>
@@ -1312,64 +963,21 @@
             `;
         }
 
-        function renderLeaderboardView() {
-            const panel = document.getElementById('main-panel-content');
-            let playerScores = {};
-
-            levels.forEach(l => {
-                const pts = calculatePoints(l.rank);
-
-                if (l.verifier) {
-                    if (!playerScores[l.verifier]) {
-                        playerScores[l.verifier] = { name: l.verifier, country: "Other", points: 0, completions: 0 };
-                    }
-                    playerScores[l.verifier].points += pts;
-                }
-
-                l.completions.forEach(c => {
-                    if (c.percent >= l.reqPercent) {
-                        if (!playerScores[c.player]) {
-                            playerScores[c.player] = { name: c.player, country: c.country, points: 0, completions: 0 };
-                        }
-                        
-                        if (c.player !== l.verifier) {
-                            playerScores[c.player].points += pts;
-                        }
-                        playerScores[c.player].completions++;
-                    }
-                });
-            });
-
-            let sortedPlayers = Object.values(playerScores).sort((a,b) => b.points - a.points);
-            panel.innerHTML = `
-                <h2>Player Leaderboards</h2>
-                <table style="width:100%; border-collapse:collapse; margin-top:1rem;">
-                    <thead>
-                        <tr style="text-align:left; border-bottom:1px solid var(--border-color); color:var(--text-muted); font-size:0.85rem;">
-                            <th style="padding:0.75rem;">RANK</th>
-                            <th style="padding:0.75rem;">PLAYER</th>
-                            <th style="padding:0.75rem;">COUNTRY</th>
-                            <th style="padding:0.75rem;">COMPLETIONS</th>
-                            <th style="padding:0.75rem;">POINTS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${sortedPlayers.length ? sortedPlayers.map((p, idx) => `
-                            <tr style="border-bottom:1px solid var(--border-color);">
-                                <td style="padding:0.75rem;">#${idx + 1}</td>
-                                <td style="padding:0.75rem;"><strong>${p.name}</strong></td>
-                                <td style="padding:0.75rem;">${p.country}</td>
-                                <td style="padding:0.75rem;">${p.completions}</td>
-                                <td style="padding:0.75rem; color: var(--accent); font-weight: bold;">${p.points} pts</td>
-                            </tr>
-                        `).join('') : '<tr><td colspan="5" style="padding:1rem; color: var(--text-muted);">No records available.</td></tr>'}
-                    </tbody>
-                </table>
-            `;
+        function getYouTubeVideoId(url) {
+            if (!url) return null;
+            let match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return match ? match[1] : null;
         }
 
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function getYouTubeEmbedUrl(url) {
+            const id = getYouTubeVideoId(url);
+            return id ? `https://www.youtube.com/embed/${id}` : url;
+        }
+
+        function getYouTubeThumbnailUrl(url) {
+            const id = getYouTubeVideoId(url);
+            return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : 'https://via.placeholder.com/120x90?text=No+Thumb';
+        }
 
         function updateAuthUI() {
             const area = document.getElementById('user-auth-area');
@@ -1402,7 +1010,6 @@
             const p = document.getElementById('auth-password').value;
             const c = document.getElementById('auth-country').value;
             if(!u || !p) return alert("Fill out fields.");
-            if(usersDB.some(x => x.username.toLowerCase() === u.toLowerCase())) return alert("Username exists!");
             
             currentUser = { username: u, password: p, country: c, isMod: false };
             usersDB.push(currentUser);
@@ -1437,46 +1044,6 @@
             }
         }
 
-        function toggleSubmissionType() {
-            const type = document.getElementById('sub-type').value;
-            const isLevelSub = (type === 'tiny-level' || type === 'level');
-            document.getElementById('sub-level-fields').style.display = isLevelSub ? 'block' : 'none';
-            document.getElementById('sub-record-fields').style.display = isLevelSub ? 'none' : 'block';
-            
-            if(!isLevelSub) {
-                document.getElementById('sr-level-select').innerHTML = levels.map(l => `<option value="${l.id}">#${l.rank} - ${l.name}</option>`).join('');
-            }
-        }
-
-        async function submitEntry() {
-            const type = document.getElementById('sub-type').value;
-            let subData = { type, user: currentUser ? currentUser.username : "Anonymous", country: currentUser ? currentUser.country : "Other" };
-
-            if(type === 'tiny-level' || type === 'level') {
-                subData.name = document.getElementById('sl-name').value;
-                subData.levelId = document.getElementById('sl-id').value;
-                subData.creator = document.getElementById('sl-creator').value;
-                subData.verifier = document.getElementById('sl-verifier').value;
-                subData.difficulty = document.getElementById('sl-diff').value;
-                subData.update = document.getElementById('sl-update').value;
-                subData.song = document.getElementById('sl-song').value;
-                subData.length = document.getElementById('sl-length').value;
-                subData.objects = document.getElementById('sl-objects').value;
-                subData.password = document.getElementById('sl-pass').value;
-                subData.reqPercent = parseInt(document.getElementById('sl-req').value) || 70;
-                subData.video = document.getElementById('sl-video').value;
-            } else {
-                subData.levelIdTarget = parseInt(document.getElementById('sr-level-select').value);
-                subData.percent = parseInt(document.getElementById('sr-percent').value);
-                subData.video = document.getElementById('sr-video').value;
-            }
-
-            submissions.push(subData);
-            await saveData();
-            closeModal('submit-modal');
-            alert("Submitted to moderators!");
-        }
-
         function openModModal() {
             if (!currentUser || !currentUser.isMod) return alert("Unauthorized");
             showModPage();
@@ -1498,24 +1065,13 @@
         }
 
         function renderModPageContent() {
-            document.getElementById('mod-page-pending-list').innerHTML = submissions.length ? submissions.map((s, idx) => `
-                <div style="background:var(--panel-bg); padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
-                    <p><strong>Type:</strong> ${s.type.toUpperCase()} | <strong>By:</strong> ${s.user}</p>
-                    ${(s.type === 'tiny-level' || s.type === 'level') ? `<p><strong>Level:</strong> ${s.name} (ID:${s.levelId})</p>` : `<p><strong>Record:</strong> #${s.levelIdTarget} -${s.percent}%</p>`}
-                    <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
-                        <button class="primary" onclick="approveSubmission(${idx})">Accept</button>
-                        <button onclick="rejectSubmission(${idx})" style="background:var(--danger); border-color:var(--danger)">Reject</button>
-                    </div>
-                </div>
-            `).join('') : '<p style="color:var(--text-muted)">No pending submissions.</p>';
-
             const mods = usersDB.filter(u => u.isMod === true);
             document.getElementById('mod-staff-directory').innerHTML = mods.length ? mods.map(m => `
                 <div class="mod-user-card">
                     <span style="font-size:1.5rem;">🛡️</span>
                     <div>
                         <strong>${m.username}</strong>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">${m.discordId ? 'Discord Linked' : 'Standard Account'}</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">List Moderator</div>
                     </div>
                 </div>
             `).join('') : '<p style="color:var(--text-muted)">No active moderators found.</p>';
@@ -1523,8 +1079,18 @@
             const sortedLevels = [...levels].sort((a,b) => a.rank - b.rank);
             document.getElementById('mod-page-level-list').innerHTML = sortedLevels.length ? sortedLevels.map((l, idx) => `
                 <div class="mod-editor-card">
-                    <div><strong>#${l.rank} - ${l.name}</strong><div style="font-size:0.8rem; color:var(--text-muted)">ID: ${l.levelId}</div></div>
-                    <div style="display:flex; gap:0.5rem;">
+                    <div>
+                        <strong>#${l.rank} - ${l.name}</strong>
+                        <div style="margin-top:0.35rem;">
+                            <label style="font-size:0.75rem; color:var(--text-muted);">Difficulty:</label>
+                            <select onchange="updateLevelDifficulty(${l.id}, this.value)" style="background:var(--bg-color); color:var(--text-main); border:1px solid var(--border-color); padding:0.2rem; border-radius:3px;">
+                                <option value="Hard Demon" ${l.difficulty === 'Hard Demon' ? 'selected' : ''}>Hard Demon</option>
+                                <option value="Insane Demon" ${l.difficulty === 'Insane Demon' ? 'selected' : ''}>Insane Demon</option>
+                                <option value="Extreme Demon" ${l.difficulty === 'Extreme Demon' ? 'selected' : ''}>Extreme Demon</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:0.5rem; align-items:center;">
                         <button onclick="moveLevel(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>⬆</button>
                         <button onclick="moveLevel(${idx}, 1)" ${idx === sortedLevels.length - 1 ? 'disabled style="opacity:0.3"' : ''}>⬇</button>
                         <button onclick="deleteLevel(${l.id})" style="background:var(--danger); border-color:var(--danger)">🗑️</button>
@@ -1559,33 +1125,8 @@
             alert("Level successfully deleted.");
         }
 
-        async function approveSubmission(idx) {
-            const sub = submissions[idx];
-            if(sub.type === 'tiny-level' || sub.type === 'level') {
-                const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
-                const newRank = levels.length + 1;
-                levels.push({
-                    id: newId, name: sub.name, levelId: sub.levelId, creator: sub.creator,
-                    verifier: sub.verifier, difficulty: sub.difficulty, update: sub.update,
-                    song: sub.song, length: sub.length, objects: sub.objects, password: sub.password,
-                    reqPercent: sub.reqPercent, video: sub.video, rank: newRank, addedAt: new Date().toISOString(), completions: []
-                });
-                selectedLevelId = newId;
-            } else {
-                const targetL = levels.find(l => l.id === sub.levelIdTarget);
-                if(targetL) targetL.completions.push({ player: sub.user, country: sub.country, percent: sub.percent, video: sub.video });
-            }
-            submissions.splice(idx, 1);
-            await saveData();
-            renderModPageContent();
-            renderSideModsList();
-        }
-
-        async function rejectSubmission(idx) {
-            submissions.splice(idx, 1);
-            await saveData();
-            renderModPageContent();
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 </body>
 </html>
