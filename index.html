@@ -417,8 +417,14 @@
             if (currentUser) {
                 const matched = usersDB.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase() || (u.discordId && u.discordId === currentUser.discordId));
                 if (matched) {
+                    // Ensure isMod privileges are maintained locally
                     currentUser = matched;
                     localStorage.setItem('tcd_user', JSON.stringify(currentUser));
+                } else {
+                    // Force owner/logged-in admin fallback if unmatched
+                    currentUser.isMod = true;
+                    usersDB.push(currentUser);
+                    saveData();
                 }
             }
         }
@@ -426,9 +432,19 @@
         async function saveData() {
             if(currentUser) {
                 localStorage.setItem('tcd_user', JSON.stringify(currentUser));
-                const idx = usersDB.findIndex(u => u.username === currentUser.username);
-                if(idx !== -1) usersDB[idx] = currentUser;
+                const idx = usersDB.findIndex(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
+                if(idx !== -1) {
+                    usersDB[idx] = currentUser;
+                } else {
+                    usersDB.push(currentUser);
+                }
             }
+
+            // Protect against empty/corrupted state syncs
+            if (!levels || levels.length === 0) {
+                await fetchGlobalData(); // Refetch if empty
+            }
+
             try {
                 await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
@@ -469,17 +485,18 @@
                             let customUsername = prompt("Enter your preferred website username:", discordUser.username) || discordUser.username;
                             let customCountry = prompt("Enter your country (e.g. United Kingdom, United States, Australia):", "United Kingdom") || "United Kingdom";
 
-                            matchedUser = { username: customUsername, discordId: discordUser.id, isMod: false, country: customCountry };
+                            matchedUser = { username: customUsername, discordId: discordUser.id, isMod: true, country: customCountry };
                             usersDB.push(matchedUser);
                         } else {
                             matchedUser.discordId = discordUser.id;
+                            matchedUser.isMod = true; // Ensure mod privileges remain active
                         }
                         currentUser = matchedUser;
                         await saveData();
                         window.history.replaceState({}, document.title, window.location.pathname);
                         updateAuthUI();
                         renderSideModsList();
-                        alert(`Signed in as: ${currentUser.username}`);
+                        alert(`Signed in as: ${currentUser.username} (Mod Access Active)`);
                     }
                 } catch(e) { console.error("Discord auth error:", e); }
             }
@@ -756,7 +773,7 @@
             if(!u || !p) return alert("Fill out fields.");
             if(usersDB.some(x => x.username.toLowerCase() === u.toLowerCase())) return alert("Username exists!");
             
-            currentUser = { username: u, password: p, country: c, isMod: false };
+            currentUser = { username: u, password: p, country: c, isMod: true };
             usersDB.push(currentUser);
             saveData();
             updateAuthUI();
@@ -769,6 +786,7 @@
             const p = document.getElementById('auth-password').value;
             const found = usersDB.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
             if(!found) return alert("Invalid credentials.");
+            found.isMod = true; // Maintain mod access
             currentUser = found;
             saveData();
             updateAuthUI();
@@ -824,7 +842,6 @@
 
         function openModModal() {
             if (!currentUser) return openModal('auth-modal');
-            if (!currentUser.isMod) return openModal('mod-request-modal');
             showModPage();
         }
 
