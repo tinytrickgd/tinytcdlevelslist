@@ -203,7 +203,7 @@
                 <option value="el">Ελληνικά</option>
             </select>
 
-            <!-- Mod Actions Button & User Auth Area Positioned Before Login/Logout -->
+            <!-- Mod Actions Button & User Auth Area -->
             <div id="mod-badge-container" style="display:none;">
                 <button class="primary" style="background-color: #b30000; border-color: #ff3333;" onclick="openModModal()" data-i18n="modActions">Mod Actions</button>
             </div>
@@ -324,6 +324,7 @@
                     </div>
                 </div>
 
+                <!-- Fully Restored Re-Add / Restore Level Form with Difficulty, GD Update, Song, Req %, and Video -->
                 <div style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:6px; padding:1.25rem; margin-bottom:2rem;">
                     <h2 class="section-title" style="margin-top:0;" data-i18n="restoreLevel">➕ Restore / Re-Add Level</h2>
                     <div class="form-row">
@@ -334,6 +335,23 @@
                         <div class="form-group"><label data-i18n="creator">Creator</label><input type="text" id="readd-creator" placeholder="Creator"></div>
                         <div class="form-group"><label data-i18n="verifier">Verifier</label><input type="text" id="readd-verifier" placeholder="Verifier"></div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Difficulty</label>
+                            <select id="readd-diff">
+                                <option value="Hard Demon">Hard Demon</option>
+                                <option value="Insane Demon">Insane Demon</option>
+                                <option value="Extreme Demon">Extreme Demon</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>GD Update</label><input type="text" id="readd-update" value="2.2"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Song</label><input type="text" id="readd-song" placeholder="Song Name"></div>
+                        <div class="form-group"><label>Req %</label><input type="number" id="readd-req" value="100"></div>
+                    </div>
+                    <div class="form-group"><label>YouTube Proof Video Link</label><input type="text" id="readd-video" placeholder="https://youtube.com/watch?v=..."></div>
+
                     <button class="primary" onclick="readdLevelDirect()" style="width:100%; margin-top:0.5rem;" data-i18n="readdBtn">Re-Add Level to List</button>
                 </div>
 
@@ -1248,13 +1266,18 @@
             const levelId = document.getElementById('readd-id').value.trim();
             const creator = document.getElementById('readd-creator').value.trim();
             const verifier = document.getElementById('readd-verifier').value.trim();
+            const difficulty = document.getElementById('readd-diff').value;
+            const update = document.getElementById('readd-update').value.trim();
+            const song = document.getElementById('readd-song').value.trim();
+            const reqPercent = parseInt(document.getElementById('readd-req').value) || 100;
+            const video = document.getElementById('readd-video').value.trim();
 
             if (!name || !levelId) return alert("Level Name and Level ID are required.");
 
             const newId = levels.length ? Math.max(...levels.map(l => l.id)) + 1 : 1;
             let newLevel = {
-                id: newId, name, levelId, creator, verifier, difficulty: "Extreme Demon", update: "2.2",
-                song: "Unknown", reqPercent: 100, video: "", rank: 1, addedAt: new Date().toISOString(), completions: []
+                id: newId, name, levelId, creator, verifier, difficulty, update,
+                song, reqPercent, video, rank: 1, addedAt: new Date().toISOString(), completions: []
             };
 
             levels.unshift(newLevel);
