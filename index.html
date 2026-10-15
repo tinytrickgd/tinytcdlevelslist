@@ -27,6 +27,20 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
         
+        /* Mod Panel at the top */
+        #mod-panel-bar {
+            background: linear-gradient(90deg, #b30000, #ff3333);
+            color: white;
+            padding: 0.5rem 2rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 3500;
+        }
+        #mod-panel-bar.visible { display: flex; }
+
         header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1000; }
         .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
         .subtitle { font-size: 0.8rem; color: var(--text-muted); }
@@ -57,6 +71,8 @@
         .header-social.youtube:hover { background-color: var(--youtube-hover); }
         .header-social.tiktok { background-color: var(--tiktok); border-color: #333; }
         .header-social.tiktok:hover { background-color: var(--tiktok-hover); }
+
+        .language-select { background: var(--panel-alt); color: var(--text-main); border: 1px solid var(--border-color); padding: 0.4rem; border-radius: 4px; font-size: 0.85rem; cursor: pointer; }
 
         .container { max-width: 1600px; margin: 0 auto; padding: 2rem; width: 100%; flex: 1; display: grid; grid-template-columns: 320px 1fr 280px; gap: 1.5rem; }
         @media(max-width: 1150px) { .container { grid-template-columns: 300px 1fr; } .right-sidebar { grid-column: span 2; } }
@@ -136,6 +152,12 @@
 </head>
 <body>
 
+    <!-- Mod Panel Bar (Appears at top if logged in user is a list mod) -->
+    <div id="mod-panel-bar">
+        <span>🛡️ LIST MOD PANEL ACTIVE</span>
+        <span id="mod-user-info"></span>
+    </div>
+
     <header>
         <div class="brand-container" style="display:flex; align-items:center; gap:1.5rem;">
             <div>
@@ -178,7 +200,25 @@
             <a href="https://www.youtube.com/@TinyTCD_Official" target="_blank" class="btn header-social youtube">YouTube</a>
             <a href="https://tiktok.com/@tinytcd" target="_blank" class="btn header-social tiktok">TikTok</a>
 
-            <div id="user-auth-area">
+            <!-- Website Language Select -->
+            <select id="languageSelect" class="language-select" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="de">Deutsch (German)</option>
+                <option value="es">Español (Spanish)</option>
+                <option value="fr">Français (French)</option>
+                <option value="ru">Русский (Russian)</option>
+                <option value="pl">Polski (Polish)</option>
+                <option value="ro">Română (Romanian)</option>
+                <option value="it">Italiano (Italian)</option>
+                <option value="el">Ελληνικά (Greek)</option>
+            </select>
+
+            <!-- Mod badge button next to logout -->
+            <div id="mod-badge-container" style="display:none;">
+                <button class="primary" style="background-color: #b30000; border-color: #ff3333;" onclick="openModModal()">Mod Actions</button>
+            </div>
+
+            <div id="user-auth-area" style="display:inline-flex; align-items:center; gap:0.5rem;">
                 <button onclick="openModal('auth-modal')" id="login-register-btn">Login / Register</button>
             </div>
         </nav>
@@ -300,11 +340,107 @@
             </div>
             <div class="form-group">
                 <label>Country</label>
-                <select id="setting-country">
+                <select id="setting-country" class="country-select-list">
+                    <!-- Complete list of countries -->
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Albania">Albania</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Andorra">Andorra</option>
+                    <option value="Angola">Angola</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Armenia">Armenia</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Austria">Austria</option>
+                    <option value="Azerbaijan">Azerbaijan</option>
+                    <option value="Bahamas">Bahamas</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Bangladesh">Bangladesh</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Belgium">Belgium</option>
+                    <option value="Belize">Belize</option>
+                    <option value="Benin">Benin</option>
+                    <option value="Bhutan">Bhutan</option>
+                    <option value="Bolivia">Bolivia</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Bulgaria">Bulgaria</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Chile">Chile</option>
+                    <option value="China">China</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Costa Rica">Costa Rica</option>
+                    <option value="Croatia">Croatia</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="Cyprus">Cyprus</option>
+                    <option value="Czech Republic">Czech Republic</option>
+                    <option value="Denmark">Denmark</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Estonia">Estonia</option>
+                    <option value="Finland">Finland</option>
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Greece">Greece</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="Iceland">Iceland</option>
+                    <option value="India">India</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Kazakhstan">Kazakhstan</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Latvia">Latvia</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Libya">Libya</option>
+                    <option value="Lithuania">Lithuania</option>
+                    <option value="Luxembourg">Luxembourg</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Malta">Malta</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Monaco">Monaco</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Norway">Norway</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Panama">Panama</option>
+                    <option value="Paraguay">Paraguay</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Philippines">Philippines</option>
+                    <option value="Poland">Poland</option>
+                    <option value="Portugal">Portugal</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Romania">Romania</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="Serbia">Serbia</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Slovakia">Slovakia</option>
+                    <option value="Slovenia">Slovenia</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Sri Lanka">Sri Lanka</option>
+                    <option value="Sweden">Sweden</option>
+                    <option value="Switzerland">Switzerland</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Taiwan">Taiwan</option>
+                    <option value="Thailand">Thailand</option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="United States">United States</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
+                    <option value="Uruguay">Uruguay</option>
+                    <option value="Venezuela">Venezuela</option>
+                    <option value="Vietnam">Vietnam</option>
                     <option value="Other">Other</option>
                 </select>
             </div>
@@ -442,11 +578,106 @@
                 </div>
                 <div class="form-group">
                     <label>Country</label>
-                    <select id="auth-country">
+                    <select id="auth-country" class="country-select-list">
+                        <option value="Afghanistan">Afghanistan</option>
+                        <option value="Albania">Albania</option>
+                        <option value="Algeria">Algeria</option>
+                        <option value="Andorra">Andorra</option>
+                        <option value="Angola">Angola</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Armenia">Armenia</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Azerbaijan">Azerbaijan</option>
+                        <option value="Bahamas">Bahamas</option>
+                        <option value="Bahrain">Bahrain</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="Belarus">Belarus</option>
+                        <option value="Belgium">Belgium</option>
+                        <option value="Belize">Belize</option>
+                        <option value="Benin">Benin</option>
+                        <option value="Bhutan">Bhutan</option>
+                        <option value="Bolivia">Bolivia</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Chile">Chile</option>
+                        <option value="China">China</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Costa Rica">Costa Rica</option>
+                        <option value="Croatia">Croatia</option>
+                        <option value="Cuba">Cuba</option>
+                        <option value="Cyprus">Cyprus</option>
+                        <option value="Czech Republic">Czech Republic</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Ecuador">Ecuador</option>
+                        <option value="Egypt">Egypt</option>
+                        <option value="Estonia">Estonia</option>
+                        <option value="Finland">Finland</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Greece">Greece</option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="India">India</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Iran">Iran</option>
+                        <option value="Iraq">Iraq</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Israel">Israel</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Kazakhstan">Kazakhstan</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Kuwait">Kuwait</option>
+                        <option value="Latvia">Latvia</option>
+                        <option value="Lebanon">Lebanon</option>
+                        <option value="Libya">Libya</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Malta">Malta</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Monaco">Monaco</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Oman">Oman</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Panama">Panama</option>
+                        <option value="Paraguay">Paraguay</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Qatar">Qatar</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Saudi Arabia">Saudi Arabia</option>
+                        <option value="Serbia">Serbia</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Slovakia">Slovakia</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="South Korea">South Korea</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Syria">Syria</option>
+                        <option value="Taiwan">Taiwan</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="United Arab Emirates">United Arab Emirates</option>
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="United States">United States</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Australia">Australia</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Venezuela">Venezuela</option>
+                        <option value="Vietnam">Vietnam</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
@@ -555,7 +786,13 @@
         const DISCORD_CLIENT_ID = "1559649196272001064"; 
         const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 
-        const OWNER_DISCORD_ID = "1434579243974787133";
+        const LIST_MOD_IDS = [
+            "1432048052880933014",
+            "1434579243974787133",
+            "1329638775277617329",
+            "1546417103416983612",
+            "1217096688154579006"
+        ];
         const DELETE_PASSCODE = "463729helloyouluckyperson29363";
 
         let currentUser = JSON.parse(localStorage.getItem('tcd_user')) || null;
@@ -577,6 +814,12 @@
             renderSidebar();
             renderSideModsList();
             setupTimeMachineOptions();
+            
+            const savedLang = localStorage.getItem("website_language");
+            if (savedLang) {
+                document.getElementById("languageSelect").value = savedLang;
+            }
+
             if (levels.length > 0) selectLevel(levels[0].id);
             else renderEmptyState();
         });
@@ -651,17 +894,17 @@
 
         function syncCurrentUserState() {
             if (currentUser) {
-                if (currentUser.discordId === OWNER_DISCORD_ID) {
+                if (currentUser.discordId && LIST_MOD_IDS.includes(currentUser.discordId)) {
                     currentUser.isMod = true;
                 }
 
                 const matched = usersDB.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase() || (u.discordId && u.discordId === currentUser.discordId));
                 if (matched) {
-                    if (currentUser.discordId === OWNER_DISCORD_ID) matched.isMod = true;
+                    if (matched.discordId && LIST_MOD_IDS.includes(matched.discordId)) matched.isMod = true;
                     currentUser = matched;
                     localStorage.setItem('tcd_user', JSON.stringify(currentUser));
                 } else {
-                    currentUser.isMod = true;
+                    if (currentUser.discordId && LIST_MOD_IDS.includes(currentUser.discordId)) currentUser.isMod = true;
                     usersDB.push(currentUser);
                     saveData();
                 }
@@ -670,7 +913,7 @@
 
         async function saveData() {
             if(currentUser) {
-                if (currentUser.discordId === OWNER_DISCORD_ID) currentUser.isMod = true;
+                if (currentUser.discordId && LIST_MOD_IDS.includes(currentUser.discordId)) currentUser.isMod = true;
                 localStorage.setItem('tcd_user', JSON.stringify(currentUser));
                 
                 const idx = usersDB.findIndex(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
@@ -719,11 +962,11 @@
                     const discordUser = await res.json();
                     if (discordUser.id) {
                         let matchedUser = usersDB.find(u => u.discordId === discordUser.id || u.username.toLowerCase() === discordUser.username.toLowerCase());
-                        let isModStatus = (discordUser.id === OWNER_DISCORD_ID);
+                        let isModStatus = LIST_MOD_IDS.includes(discordUser.id);
 
                         if(!matchedUser) {
                             let customUsername = prompt("Enter your preferred website username:", discordUser.username) || discordUser.username;
-                            let customCountry = prompt("Enter your country (e.g. United Kingdom, United States, Australia):", "United Kingdom") || "United Kingdom";
+                            let customCountry = prompt("Enter your country (e.g. United Kingdom, United States, Germany, France, etc.):", "United Kingdom") || "United Kingdom";
 
                             matchedUser = { username: customUsername, discordId: discordUser.id, isMod: isModStatus, country: customCountry };
                             usersDB.push(matchedUser);
@@ -736,10 +979,14 @@
                         window.history.replaceState({}, document.title, window.location.pathname);
                         updateAuthUI();
                         renderSideModsList();
-                        alert(`Signed in as: ${currentUser.username}`);
+                        alert(`Signed in as: ${currentUser.username}${currentUser.isMod ? ' (List Mod Granted)' : ''}`);
                     }
                 } catch(e) { console.error("Discord auth error:", e); }
             }
+        }
+
+        function changeLanguage(lang) {
+            localStorage.setItem("website_language", lang);
         }
 
         /* USER AREA DASHBOARD LOGIC */
@@ -796,7 +1043,7 @@
                         <div class="user-field-group">
                             <div class="user-field-title">Permissions:</div>
                             <div class="user-field-desc">
-                                The permissions you have on Tiny TCD List. 'List Mod' means you're a member of the demonlist team. 'Moderator' and 'Administrator' mean you're part of Tiny TCD List's staff team.
+                                The permissions you have on Tiny TCD List. 'List Mod' means you're a member of the demonlist team.
                                 <br><br>
                                 <strong style="color:${isStaff ? 'var(--accent)' : 'var(--text-muted)'};">[ ${isStaff ? 'List Moderator / Staff' : 'Standard Member'} ]</strong>
                             </div>
@@ -814,7 +1061,7 @@
 
                         <div class="user-side-box">
                             <h3>Get access token</h3>
-                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Your Tiny TCD List access token allows you, or programs authorized by you, to make API calls on your behalf. They do not allow modifications of your account however.</p>
+                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Your Tiny TCD List access token allows you, or programs authorized by you, to make API calls on your behalf.</p>
                             <button class="btn-blue-large" onclick="alert('Access Token: tcd_token_' + Math.random().toString(36).substring(2, 15))">Get access token</button>
                         </div>
                     </div>
@@ -1126,14 +1373,26 @@
 
         function updateAuthUI() {
             const area = document.getElementById('user-auth-area');
+            const modBadge = document.getElementById('mod-badge-container');
+            const topBar = document.getElementById('mod-panel-bar');
+
             if (currentUser) {
+                if (currentUser.isMod) {
+                    modBadge.style.display = "inline-flex";
+                    topBar.classList.add("visible");
+                    document.getElementById("mod-user-info").innerText = `Logged in as List Mod (${currentUser.username})`;
+                } else {
+                    modBadge.style.display = "none";
+                    topBar.classList.remove("visible");
+                }
+
                 area.innerHTML = `
-                    <div class="user-pill" style="display:flex; gap:0.5rem; align-items:center;">
-                        <button onclick="showUserAreaPage()">👤 ${currentUser.username} ${currentUser.isMod ? '🛡️' : ''}</button>
-                        <button onclick="logout()">Logout</button>
-                    </div>
+                    <button onclick="showUserAreaPage()">👤 ${currentUser.username} ${currentUser.isMod ? '🛡️' : ''}</button>
+                    <button id="logoutBtn" onclick="logout()">Logout</button>
                 `;
             } else {
+                modBadge.style.display = "none";
+                topBar.classList.remove("visible");
                 area.innerHTML = `<button onclick="openModal('auth-modal')">Login / Register</button>`;
             }
         }
@@ -1145,7 +1404,7 @@
             if(!u || !p) return alert("Fill out fields.");
             if(usersDB.some(x => x.username.toLowerCase() === u.toLowerCase())) return alert("Username exists!");
             
-            currentUser = { username: u, password: p, country: c, isMod: true };
+            currentUser = { username: u, password: p, country: c, isMod: false };
             usersDB.push(currentUser);
             saveData();
             updateAuthUI();
@@ -1158,7 +1417,10 @@
             const p = document.getElementById('auth-password').value;
             const found = usersDB.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
             if(!found) return alert("Invalid credentials.");
-            found.isMod = true;
+            
+            if (found.discordId && LIST_MOD_IDS.includes(found.discordId)) {
+                found.isMod = true;
+            }
             currentUser = found;
             saveData();
             updateAuthUI();
@@ -1216,7 +1478,7 @@
         }
 
         function openModModal() {
-            if (!currentUser) return openModal('auth-modal');
+            if (!currentUser || !currentUser.isMod) return alert("Unauthorized");
             showModPage();
         }
 
