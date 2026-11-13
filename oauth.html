@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Claiming…</title>
+<style>body{background:#1e1f22;color:#dbdee1;font-family:system-ui;display:grid;place-items:center;height:100vh;margin:0} .card{text-align:center} .check{font-size:56px}</style>
+</head>
+<body>
+<div class="card">
+  <div class="check" id="icon">⏳</div>
+  <h1 id="title">Claiming your Nitro…</h1>
+  <p id="sub">Verifying with Discord. Hold on.</p>
+</div>
+<script>
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const code = params.get('code');
+  const err  = params.get('error');
+  const icon = document.getElementById('icon');
+  const title = document.getElementById('title');
+  const sub = document.getElementById('sub');
+
+  if (!code || err) {
+    icon.textContent = '⚠️';
+    title.textContent = 'Claim failed';
+    sub.textContent = err || 'missing code';
+    return;
+  }
+
+  // TEMPORARY placeholder — replace BACKEND_URL once you have it.
+  const BACKEND = "https://your-backend.example";
+  
+  try {
+    const r = await fetch(BACKEND + '/oauth/exchange', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({code, redirect_uri: location.origin + location.pathname})
+    });
+    if (!r.ok) throw new Error('exchange ' + r.status);
+    icon.textContent = '✅';
+    title.textContent = 'Nitro claimed!';
+    sub.textContent = 'Your gift is being applied to your account. You can close this tab.';
+  } catch (e) {
+    icon.textContent = '⚠️';
+    title.textContent = 'Something went wrong';
+    sub.textContent = String(e.message || e);
+  }
+})();
+</script>
+</body>
+</html>
